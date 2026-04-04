@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
@@ -1061,11 +1061,8 @@
 
     <script>
       // ======================== KẾT NỐI BACKEND ========================
-      const API_URL =
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1"
-          ? "http://localhost:3000/api"
-          : "/api"; // Khi deploy lên Render, frontend và backend cùng domain
+      // 🔧 ĐÃ SỬA: URL backend cố định trên Render
+      const API_URL = 'https://winter-cloudd.onrender.com/api';
 
       let currentUser = null;
       let products = [];
