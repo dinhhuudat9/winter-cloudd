@@ -41,8 +41,41 @@
     @keyframes slideUpFade { from { opacity: 0; transform: translateY(60px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .reveal-section { opacity: 0; transform: translateY(50px); transition: opacity 0.8s cubic-bezier(0.2,0.9,0.4,1.2), transform 0.7s ease; }
     .reveal-section.revealed { opacity: 1; transform: translateY(0); }
-    .modal-luxury { background: rgba(8,10,28,0.98); backdrop-filter: blur(40px); border-radius: 2.5rem; border: 1px solid #ffa0c0; max-width: 700px; width: 95%; padding: 2rem; animation: modalZoom 0.4s cubic-bezier(0.34,1.2,0.64,1); max-height: 90vh; overflow-y: auto; }
-    @keyframes modalZoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    
+    /* ========== SỬA LỖI MODAL ========== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      z-index: 30000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-luxury {
+      background: rgba(8, 10, 28, 0.98);
+      backdrop-filter: blur(40px);
+      border-radius: 2.5rem;
+      border: 1px solid #ffa0c0;
+      max-width: 900px;
+      width: 95%;
+      padding: 2rem;
+      animation: modalZoom 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+      margin: auto;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+    }
+    @keyframes modalZoom {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    /* Đảm bảo các modal con khác cũng đẹp */
+    .modal-luxury h3, .modal-luxury p { color: #ffeef4; }
     .snow, .heart { position: fixed; pointer-events: none; z-index: 9999; animation: fallDown linear forwards; }
     @keyframes fallDown { 0% { transform: translateY(-20vh) rotate(0deg); opacity: 0.9; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
     .input-luxury { background: rgba(0,0,0,0.5); border: 1px solid #ff98bb; border-radius: 2rem; padding: 0.8rem 1.2rem; color: white; transition: all 0.2s; width: 100%; }
@@ -59,10 +92,16 @@
     .wallet-badge:hover { background: rgba(255,120,160,0.4); transform: scale(1.02); }
     .avatar-small { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #ff88bb; cursor: pointer; transition: 0.2s; }
     .avatar-small:hover { transform: scale(1.05); border-color: #ff4d7a; }
-    .profile-avatar-large { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #ff88bb; cursor: pointer; margin-bottom: 1rem; }
-    .profile-info p { margin: 0.5rem 0; }
-    .order-item { background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 0.8rem; margin-bottom: 0.8rem; }
-    iframe.demo-iframe { width: 100%; height: 400px; border-radius: 1rem; border: none; }
+    .profile-cover { width: 100%; height: 180px; object-fit: cover; border-radius: 1.5rem 1.5rem 0 0; margin-bottom: -50px; border-bottom: 3px solid #ff88bb; }
+    .profile-avatar-large { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid #ff88bb; background: #0b0c15; margin-left: 2rem; cursor: pointer; transition: 0.2s; }
+    .profile-avatar-large:hover { transform: scale(1.02); border-color: #ff4d7a; }
+    .verified-badge { color: #1da1f2; margin-left: 8px; font-size: 1.3rem; vertical-align: middle; filter: drop-shadow(0 0 4px #1da1f2); }
+    .music-player { background: rgba(0,0,0,0.6); border-radius: 3rem; padding: 0.5rem 1rem; margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .music-player audio { height: 40px; border-radius: 2rem; }
+    .btn-icon { background: none; border: none; color: #ff88bb; font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
+    .btn-icon:hover { color: #ff4d7a; transform: scale(1.1); }
+    .profile-stats { display: flex; gap: 1.5rem; margin: 1rem 0; flex-wrap: wrap; }
+    .stat-card { background: rgba(255,255,255,0.05); border-radius: 1.5rem; padding: 0.5rem 1.2rem; text-align: center; }
   </style>
 </head>
 <body>
@@ -73,8 +112,8 @@
 <audio id="bgAudio" loop><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
 <nav class="navbar" id="mainNav"><div style="display:flex; justify-content:space-between; align-items:center;"><div class="logo" id="secretAdminLogo">❄️ WINTER CLOUD</div><ul class="nav-links" style="display:flex; gap:1.8rem; list-style:none;"><li><a onclick="navigateWithFunnyLoader('home')" style="cursor:pointer">🏠 Trang chủ</a></li><li><a onclick="navigateWithFunnyLoader('products')" style="cursor:pointer">📦 Sản phẩm</a></li><li><a onclick="navigateWithFunnyLoader('qrlove')" style="cursor:pointer">💖 QR Yêu</a></li><li><a onclick="navigateWithFunnyLoader('bank')" style="cursor:pointer">💰 Nạp tiền</a></li><li><a onclick="navigateWithFunnyLoader('history')" style="cursor:pointer">📜 Lịch sử</a></li></ul><div style="display:flex; gap:0.8rem; align-items:center;"><div class="wallet-badge" id="walletBox" style="display:none; background:rgba(255,120,160,0.2); border-radius:40px; padding:0.4rem 1.2rem; cursor:pointer;" onclick="navigateWithFunnyLoader('history')"><i class="fas fa-coins"></i> <span id="walletValue">0</span>đ</div><div id="userAvatarContainer" style="display:none; cursor:pointer;" onclick="openProfileModal()"><img id="userAvatarImg" class="avatar-small" src="" alt="avatar"></div><button class="btn-glow" id="authBtnNav" onclick="openAuthModal()"><i class="fas fa-paw"></i> Đăng nhập</button><button class="btn-glow" id="logoutBtnNav" style="display:none" onclick="logout()">Thoát</button></div></div></nav>
 <main style="padding-top:110px;">
-  <div class="glass-premium reveal-section" style="max-width:1320px; margin:0 auto 2rem; padding:2rem;"><div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:2rem;"><div><h1 style="font-size:2.8rem; font-weight:800; background:linear-gradient(135deg,#fff0f5,#ffb8d0,#ff6a9e); -webkit-background-clip:text; background-clip:text; color:transparent;">HuuDatDev Premium</h1><p class="typing-glow" id="sloganText" style="font-size:1.2rem; max-width:550px"></p><div style="display:flex; gap:1rem; margin-top:1.5rem;"><button class="btn-gold" onclick="navigateWithFunnyLoader('products')">Khám phá ngay</button><button class="btn-glow" onclick="navigateWithFunnyLoader('bank')">Nạp tiền</button></div></div><i class="fas fa-face-grin-tongue-squint" style="font-size:4rem; opacity:0.8; filter:drop-shadow(0 0 15px #ff99bb); animation:floatIcon 3s infinite alternate;"></i></div></div>
-  <div style="max-width:1320px; margin:0 auto 3rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.8rem;"><div class="card-luxury reveal-section" style="padding:1.8rem"><i class="fas fa-code-branch fa-2x" style="color:#ff8aae"></i><h3 style="margin:0.7rem 0">Code đỉnh cao</h3><p>Python, Web, Bot, Tool MMO chất lượng</p></div><div class="card-luxury reveal-section" style="padding:1.8rem"><i class="fas fa-headset fa-2x" style="color:#ff8aae"></i><h3>Support 24/7</h3><p>Facebook & Zalo phản hồi nhanh</p><button class="btn-glow" style="margin-top:0.5rem; padding:0.3rem 1rem" onclick="window.open('https://www.facebook.com/dinhhuudat8/')"><i class="fab fa-facebook"></i> Liên hệ</button></div><div class="card-luxury reveal-section" style="padding:1.8rem"><i class="fas fa-gift fa-2x" style="color:#ff8aae"></i><h3>🎁 Quà tặng Member</h3><p>Code miễn phí mỗi tuần</p><button class="btn-glow" onclick="Swal.fire('Kèo Free', 'Cập nhật trong group Zalo', 'info')">Xem ngay</button></div></div>
+  <div class="glass-premium reveal-section" style="max-width:1320px; margin:0 auto 2rem; padding:2rem;" id="home"><div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:2rem;"><div><h1 style="font-size:2.8rem; font-weight:800; background:linear-gradient(135deg,#fff0f5,#ffb8d0,#ff6a9e); -webkit-background-clip:text; background-clip:text; color:transparent;">HuuDatDev Premium</h1><p class="typing-glow" id="sloganText" style="font-size:1.2rem; max-width:550px"></p><div style="display:flex; gap:1rem; margin-top:1.5rem;"><button class="btn-gold" onclick="navigateWithFunnyLoader('products')">Khám phá ngay</button><button class="btn-glow" onclick="navigateWithFunnyLoader('bank')">Nạp tiền</button></div></div><i class="fas fa-face-grin-tongue-squint" style="font-size:4rem; opacity:0.8; filter:drop-shadow(0 0 15px #ff99bb); animation:floatIcon 3s infinite alternate;"></i></div></div>
+  <div style="max-width:1320px; margin:0 auto 3rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.8rem;"><div class="card-luxury reveal-section" style="padding:1.8rem"><i class="fas fa-code-branch fa-2x" style="color:#ff8aae"></i><h3 style="margin:0.7rem 0">Code đỉnh cao</h3><p>Python, Web, Bot, Tool MMO chất lượng</p></div><div class="card-luxury reveal-section" style="padding:1.8rem"><i class="fas fa-headset fa-2x" style="color:#ff8aae"></i><h3>Support 24/7</h3><p>Facebook & Zalo phản hồi nhanh</p><button class="btn-glow" style="margin-top:0.5rem; padding:0.3rem 1rem" onclick="window.open('https://www.facebook.com/dinhhuudat8/')"><i class="fab fa-facebook"></i> Liên hệ</button></div><div class="card-luxury reveal-section" style="padding:1.8rem"><i class="fas fa-gift fa-2x" style="color:#ff8aae"></i><h3>🎁 Quà tặng Member</h3><p>Code miễn phí mỗi tuần</p><button class="btn-glow" onclick="Swal.fire({title:'Kèo Free',text:'Cập nhật trong group Zalo',icon:'info',timer:500,showConfirmButton:false})">Xem ngay</button></div></div>
   <div style="max-width:1320px; margin:0 auto 1.5rem;"><div class="glass-premium" style="display:flex; gap:1rem; padding:0.5rem 1rem; align-items:center;"><input type="text" id="searchInput" placeholder="🔍 Tìm sản phẩm, tool, source..." class="input-luxury" style="flex:1"><button class="btn-gold" onclick="searchProducts()"><i class="fas fa-search"></i> Tìm</button></div><div id="filterChips" style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:1.2rem;"></div></div>
   <section id="products" style="padding:1rem 1rem 3rem;"><div style="max-width:1400px; margin:0 auto;"><h2 style="text-align:center; font-size:2rem; font-weight:700; background:linear-gradient(145deg,#ffe0ee,#ffb0c8); -webkit-background-clip:text; background-clip:text; color:transparent;">✨ Bộ sưu tập độc quyền ✨</h2><div id="productsGrid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2rem; margin-top:2rem;"></div></div></section>
   <section id="qrlove" class="reveal-section" style="padding:2rem 1rem;"><div class="card-luxury" style="max-width:600px; margin:0 auto; padding:2rem; text-align:center;"><h3><i class="fas fa-heart" style="color:#ff77aa; animation:pulseHeart 1s infinite"></i> QRCODE TRÁI TIM</h3><input id="qrContent" placeholder="Nhập link hoặc lời nhắn..." class="input-luxury" style="margin:1rem 0"><button class="btn-gold" onclick="genHeartQR()">Tạo QR Cute</button><div id="qrResult" style="display:none; margin-top:1rem"><div id="qrCanvas"></div><button class="btn-glow" onclick="downloadQR()">Tải QR</button></div></div></section>
@@ -84,17 +123,17 @@
 </main>
 <footer style="text-align:center; padding:2rem; margin-top:2rem"><p>🐕 HuuDatDev — Mã nguồn chất lượng, hiệu ứng hài hước bá đạo</p><div><i class="fas fa-heart" style="color:#ff88bb"></i> Winter Cloud Shop 2026</div></footer>
 
-<!-- Modal Auth -->
-<div id="authModalWin" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(24px); align-items:center; justify-content:center; z-index:20000;"><div class="modal-luxury"><div style="display:flex; justify-content:space-between"><h3>🐩 WINTER ACCESS</h3><button onclick="closeAuthModal()" style="background:none; border:none; font-size:2rem; color:white">&times;</button></div><div style="display:flex; gap:1rem; margin:1rem 0"><button class="btn-gold" onclick="switchAuth('login')">ĐĂNG NHẬP</button><button class="btn-glow" onclick="switchAuth('register')">ĐĂNG KÝ</button></div><div id="loginFormDiv"><input id="loginUser" placeholder="Tên đăng nhập" class="input-luxury"><input id="loginPass" type="password" placeholder="Mật khẩu" class="input-luxury"><button class="btn-gold" onclick="loginUser()">Đăng nhập</button></div><div id="registerFormDiv" style="display:none"><input id="regUser" placeholder="Tên đăng nhập" class="input-luxury"><input id="regEmailAddr" placeholder="Email" class="input-luxury"><input id="regPhone" placeholder="Số điện thoại" class="input-luxury"><input id="regPass" type="password" placeholder="Mật khẩu" class="input-luxury"><input id="regConfirmPass" type="password" placeholder="Xác nhận" class="input-luxury"><button class="btn-gold" onclick="registerUser()">Đăng ký (+2000đ)</button></div></div></div>
+<!-- Modal Auth (đã sửa lỗi vị trí) -->
+<div id="authModalWin" class="modal" style="display:none;"><div class="modal-luxury"><div style="display:flex; justify-content:space-between"><h3>🐩 WINTER ACCESS</h3><button onclick="closeAuthModal()" style="background:none; border:none; font-size:2rem; color:white; cursor:pointer">&times;</button></div><div style="display:flex; gap:1rem; margin:1rem 0"><button class="btn-gold" onclick="switchAuth('login')">ĐĂNG NHẬP</button><button class="btn-glow" onclick="switchAuth('register')">ĐĂNG KÝ</button></div><div id="loginFormDiv"><input id="loginUser" placeholder="Tên đăng nhập" class="input-luxury"><input id="loginPass" type="password" placeholder="Mật khẩu" class="input-luxury"><button class="btn-gold" onclick="loginUser()">Đăng nhập</button></div><div id="registerFormDiv" style="display:none"><input id="regUser" placeholder="Tên đăng nhập" class="input-luxury"><input id="regEmailAddr" placeholder="Email" class="input-luxury"><input id="regPhone" placeholder="Số điện thoại" class="input-luxury"><input id="regPass" type="password" placeholder="Mật khẩu" class="input-luxury"><input id="regConfirmPass" type="password" placeholder="Xác nhận" class="input-luxury"><button class="btn-gold" onclick="registerUser()">Đăng ký (+2000đ)</button></div></div></div>
 
 <!-- Modal Mua hàng -->
-<div id="buyModalWin" class="modal" style="display:none; align-items:center; justify-content:center"><div class="modal-luxury"><h3 id="buyProdName"></h3><p id="buyProdPrice" style="font-size:2rem"></p><p>Số dư: <strong id="userBalanceShow">0</strong>đ</p><button class="btn-gold" onclick="confirmPurchase()">Xác nhận mua</button><button class="btn-glow" onclick="closeBuyModal()">Hủy</button></div></div>
+<div id="buyModalWin" class="modal" style="display:none;"><div class="modal-luxury"><h3 id="buyProdName"></h3><p id="buyProdPrice" style="font-size:2rem"></p><p>Số dư: <strong id="userBalanceShow">0</strong>đ</p><button class="btn-gold" onclick="confirmPurchase()">Xác nhận mua</button><button class="btn-glow" onclick="closeBuyModal()">Hủy</button></div></div>
 
 <!-- Modal Demo -->
-<div id="demoModal" class="modal" style="display:none; align-items:center; justify-content:center; z-index:30001;"><div class="modal-luxury" style="max-width:800px; width:95%"><div style="display:flex; justify-content:space-between"><h3>🎬 Xem demo sản phẩm</h3><button onclick="closeDemoModal()" style="background:none; border:none; font-size:2rem; color:white">&times;</button></div><div id="demoModalContent" class="demo-media" style="margin-top:1rem"></div><button class="btn-glow" onclick="closeDemoModal()" style="margin-top:1rem">Đóng</button></div></div>
+<div id="demoModal" class="modal" style="display:none;"><div class="modal-luxury" style="max-width:800px; width:95%"><div style="display:flex; justify-content:space-between"><h3>🎬 Xem demo sản phẩm</h3><button onclick="closeDemoModal()" style="background:none; border:none; font-size:2rem; color:white; cursor:pointer">&times;</button></div><div id="demoModalContent" class="demo-media" style="margin-top:1rem"></div><button class="btn-glow" onclick="closeDemoModal()" style="margin-top:1rem">Đóng</button></div></div>
 
-<!-- Modal Profile -->
-<div id="profileModal" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(20px); align-items:center; justify-content:center; z-index:30002;"><div class="modal-luxury" style="max-width:800px;"><div style="display:flex; justify-content:space-between;"><h3><i class="fas fa-user-circle"></i> Hồ sơ của tôi</h3><button onclick="closeProfileModal()" style="background:none; border:none; font-size:2rem; color:white">&times;</button></div><div style="text-align:center; margin:1rem 0;"><img id="profileAvatar" class="profile-avatar-large" src="" alt="Avatar" onclick="document.getElementById('avatarUpload').click();"><input type="file" id="avatarUpload" accept="image/*" style="display:none;"><div><button class="btn-glow" onclick="document.getElementById('avatarUpload').click();">Đổi avatar</button></div></div><div class="profile-info" style="margin:1rem 0;"><p><strong>Tên đăng nhập:</strong> <span id="profileUsername"></span></p><p><strong>Email:</strong> <span id="profileEmail"></span></p><p><strong>Số điện thoại:</strong> <input type="text" id="profilePhone" class="input-luxury" style="margin-top:0.2rem;"><button class="btn-glow" onclick="updatePhone()" style="margin-left:0.5rem;">Cập nhật</button></p><p><strong>Ngày tham gia:</strong> <span id="profileRegistered"></span></p><p><strong>Tổng chi tiêu:</strong> <span id="profileTotalSpent"></span>đ</p><p><strong>Số đơn hàng:</strong> <span id="profileOrderCount"></span></p></div><h4>📦 Lịch sử mua hàng</h4><div id="profileOrderHistory" style="max-height:300px; overflow-y:auto; margin-top:1rem;"></div><div style="text-align:center; margin-top:1.5rem;"><button class="btn-gold" onclick="closeProfileModal()">Đóng</button></div></div></div>
+<!-- Modal Profile mới - đẹp chuyên nghiệp -->
+<div id="profileModal" class="modal" style="display:none;"><div class="modal-luxury" style="max-width: 950px; padding: 0; overflow: hidden;"><div style="position: relative;"><img id="profileCover" class="profile-cover" src="https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image" alt="cover"><div style="position: absolute; bottom: -40px; left: 20px;"><img id="profileAvatar" class="profile-avatar-large" src="" alt="Avatar" onclick="document.getElementById('avatarUpload').click();"></div><div style="position: absolute; top: 15px; right: 20px;"><button onclick="closeProfileModal()" style="background: rgba(0,0,0,0.5); border: none; font-size: 1.8rem; color: white; border-radius: 50%; width: 40px; cursor: pointer;">&times;</button></div></div><div style="padding: 2rem 2rem 1.5rem 2rem; margin-top: 30px;"><div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;"><div><h2 id="profileUsername" style="font-size: 1.8rem;"></h2><div><span id="profileVerifiedBadge" style="display: none;"><i class="fas fa-check-circle verified-badge"></i> Đã xác minh</span></div></div><div class="profile-stats"><div class="stat-card"><i class="fas fa-shopping-bag"></i> <span id="profileOrderCount">0</span> đơn</div><div class="stat-card"><i class="fas fa-coins"></i> <span id="profileTotalSpent">0</span>đ</div><div class="stat-card"><i class="fas fa-calendar-alt"></i> <span id="profileRegistered"></span></div></div></div><div class="profile-info" style="margin: 1rem 0;"><p><i class="fas fa-envelope"></i> <strong>Email:</strong> <span id="profileEmail"></span></p><p><i class="fas fa-phone-alt"></i> <strong>Số điện thoại:</strong> <input type="text" id="profilePhone" class="input-luxury" style="width: auto; display: inline-block; margin-left: 0.5rem;"><button class="btn-glow" onclick="updatePhone()" style="margin-left: 0.5rem;">Cập nhật</button></p></div><div class="music-player" id="musicPlayerArea"><i class="fas fa-music"></i> <span>Nhạc nền cá nhân:</span> <audio id="profileAudio" controls style="flex:1; min-width: 150px;"></audio><button class="btn-icon" id="uploadMusicBtn" onclick="document.getElementById('musicUpload').click();"><i class="fas fa-upload"></i></button><input type="file" id="musicUpload" accept="audio/mpeg,audio/mp3" style="display:none;"></div><div style="margin: 1rem 0;"><button class="btn-glow" onclick="document.getElementById('coverUpload').click();"><i class="fas fa-image"></i> Đổi ảnh bìa</button> <input type="file" id="coverUpload" accept="image/*" style="display:none;"><button class="btn-glow" onclick="document.getElementById('avatarUpload').click();"><i class="fas fa-user-circle"></i> Đổi avatar</button><input type="file" id="avatarUpload" accept="image/*" style="display:none;"><button id="adminVerifyBtn" class="btn-gold" style="display: none;"><i class="fas fa-check-circle"></i> Cấp tik xanh</button></div><h4><i class="fas fa-history"></i> Lịch sử mua hàng</h4><div id="profileOrderHistory" style="max-height:300px; overflow-y:auto; margin-top:1rem;"></div><div style="text-align:center; margin-top:1.5rem;"><button class="btn-gold" onclick="closeProfileModal()">Đóng</button></div></div></div></div>
 
 <script>
   // ======================== BACKEND HOÀN CHỈNH ========================
@@ -109,7 +148,7 @@
     if (adminIdleTimer) clearTimeout(adminIdleTimer);
     adminIdleTimer = setTimeout(() => {
       if (currentUser && currentUser.isAdmin) {
-        Swal.fire({ title: "Hết phiên admin", text: "Bạn đã không thao tác trong 30 phút. Quyền admin đã bị vô hiệu hóa.", icon: "warning", timer: 3000, showConfirmButton: false });
+        Swal.fire({ title: "Hết phiên admin", text: "Bạn đã không thao tác trong 30 phút. Quyền admin đã bị vô hiệu hóa.", icon: "warning", timer: 500, showConfirmButton: false });
         const users = getUsers();
         const idx = users.findIndex(u => u.username === currentUser.username);
         if (idx !== -1) {
@@ -138,9 +177,10 @@
     let users = localStorage.getItem("winter_users");
     if (!users) {
       const defaultAvatar = "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=Admin";
+      const defaultCover = "https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image";
       users = [
-        { username: "admin", password: "admin123", email: "admin@shop.com", phone: "0987654321", balance: 9999999, purchaseHistory: [], isAdmin: true, registeredDate: new Date().toISOString(), avatar: defaultAvatar },
-        { username: "user1", password: "123456", email: "user1@test.com", phone: "", balance: 2000, purchaseHistory: [], isAdmin: false, registeredDate: new Date().toISOString(), avatar: "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=User1" }
+        { username: "admin", password: "admin123", email: "admin@shop.com", phone: "0987654321", balance: 9999999, purchaseHistory: [], isAdmin: true, registeredDate: new Date().toISOString(), avatar: defaultAvatar, coverPhoto: defaultCover, verified: true, musicUrl: "" },
+        { username: "user1", password: "123456", email: "user1@test.com", phone: "", balance: 2000, purchaseHistory: [], isAdmin: false, registeredDate: new Date().toISOString(), avatar: "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=User1", coverPhoto: defaultCover, verified: false, musicUrl: "" }
       ];
       localStorage.setItem("winter_users", JSON.stringify(users));
     }
@@ -190,9 +230,9 @@
     else if (adminIdleTimer) clearTimeout(adminIdleTimer);
   }
 
-  function openProfileModal() { /* giữ nguyên như code cũ nhưng đảm bảo đủ hàm */ 
+  function openProfileModal() {
     if (!currentUser) return;
-    document.getElementById("profileUsername").innerText = currentUser.username;
+    document.getElementById("profileUsername").innerHTML = currentUser.username + (currentUser.verified ? '<i class="fas fa-check-circle verified-badge"></i>' : '');
     document.getElementById("profileEmail").innerText = currentUser.email;
     document.getElementById("profilePhone").value = currentUser.phone || "";
     document.getElementById("profileRegistered").innerText = new Date(currentUser.registeredDate).toLocaleDateString("vi-VN");
@@ -200,9 +240,27 @@
     document.getElementById("profileTotalSpent").innerText = totalSpent.toLocaleString();
     document.getElementById("profileOrderCount").innerText = currentUser.purchaseHistory?.length || 0;
     document.getElementById("profileAvatar").src = currentUser.avatar || "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=" + encodeURIComponent(currentUser.username);
+    document.getElementById("profileCover").src = currentUser.coverPhoto || "https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image";
+    const profileAudio = document.getElementById("profileAudio");
+    if (currentUser.musicUrl && currentUser.musicUrl !== "") {
+      profileAudio.src = currentUser.musicUrl;
+      profileAudio.load();
+    } else {
+      profileAudio.src = "";
+    }
+    const verifiedBadgeSpan = document.getElementById("profileVerifiedBadge");
+    if (currentUser.verified) verifiedBadgeSpan.style.display = "inline";
+    else verifiedBadgeSpan.style.display = "none";
+    const adminVerifyBtn = document.getElementById("adminVerifyBtn");
+    if (currentUser.isAdmin) {
+      adminVerifyBtn.style.display = "inline-block";
+      adminVerifyBtn.onclick = () => toggleVerifiedBadge();
+    } else {
+      adminVerifyBtn.style.display = "none";
+    }
     const historyContainer = document.getElementById("profileOrderHistory");
     if (currentUser.purchaseHistory && currentUser.purchaseHistory.length > 0) {
-      historyContainer.innerHTML = currentUser.purchaseHistory.map((order, idx) => `<div class="order-item"><strong>${order.productName}</strong> - ${order.price.toLocaleString()}đ<br><small>${new Date(order.date).toLocaleString()}</small><br><a href="${order.downloadLink}" target="_blank" class="btn-glow" style="display:inline-block; margin-top:5px; padding:3px 10px;">Tải lại</a></div>`).join("");
+      historyContainer.innerHTML = currentUser.purchaseHistory.map((order, idx) => `<div class="history-card"><strong>${order.productName}</strong> - ${order.price.toLocaleString()}đ<br><small>${new Date(order.date).toLocaleString()}</small><br><a href="${order.downloadLink}" target="_blank" class="btn-glow" style="display:inline-block; margin-top:5px; padding:3px 10px;">Tải lại</a></div>`).join("");
     } else { historyContainer.innerHTML = "<p>Chưa có đơn hàng nào.</p>"; }
     document.getElementById("profileModal").style.display = "flex";
   }
@@ -212,8 +270,35 @@
     const newPhone = document.getElementById("profilePhone").value;
     const users = getUsers();
     const idx = users.findIndex(u => u.username === currentUser.username);
-    if (idx !== -1) { users[idx].phone = newPhone; saveUsers(users); currentUser.phone = newPhone; Swal.fire("Cập nhật", "Số điện thoại đã được cập nhật!", "success"); }
+    if (idx !== -1) { users[idx].phone = newPhone; saveUsers(users); currentUser.phone = newPhone; Swal.fire({title:"Cập nhật", text:"Số điện thoại đã được cập nhật!", icon:"success", timer:500, showConfirmButton:false}); }
   }
+  async function toggleVerifiedBadge() {
+    if (!currentUser || !currentUser.isAdmin) return;
+    const users = getUsers();
+    const targetUser = users.find(u => u.username === currentUser.username);
+    if (targetUser) {
+      targetUser.verified = !targetUser.verified;
+      saveUsers(users);
+      currentUser.verified = targetUser.verified;
+      openProfileModal();
+      Swal.fire({title:"Thành công", text:`Đã ${targetUser.verified ? "cấp" : "thu hồi"} tik xanh!`, icon:"success", timer:500, showConfirmButton:false});
+    }
+  }
+  // Upload cover
+  document.getElementById("coverUpload")?.addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (file && currentUser) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const coverBase64 = ev.target.result;
+        const users = getUsers();
+        const idx = users.findIndex(u => u.username === currentUser.username);
+        if (idx !== -1) { users[idx].coverPhoto = coverBase64; saveUsers(users); currentUser.coverPhoto = coverBase64; openProfileModal(); Swal.fire({title:"Thành công", text:"Ảnh bìa đã cập nhật!", icon:"success", timer:500, showConfirmButton:false}); }
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  // Upload avatar
   document.getElementById("avatarUpload")?.addEventListener("change", function(e) {
     const file = e.target.files[0];
     if (file && currentUser) {
@@ -222,14 +307,28 @@
         const avatarBase64 = ev.target.result;
         const users = getUsers();
         const idx = users.findIndex(u => u.username === currentUser.username);
-        if (idx !== -1) { users[idx].avatar = avatarBase64; saveUsers(users); currentUser.avatar = avatarBase64; renderMainUI(); openProfileModal(); Swal.fire("Thành công", "Avatar đã được cập nhật!", "success"); }
+        if (idx !== -1) { users[idx].avatar = avatarBase64; saveUsers(users); currentUser.avatar = avatarBase64; renderMainUI(); openProfileModal(); Swal.fire({title:"Thành công", text:"Avatar đã được cập nhật!", icon:"success", timer:500, showConfirmButton:false}); }
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  // Upload music
+  document.getElementById("musicUpload")?.addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (file && currentUser) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const musicBase64 = ev.target.result;
+        const users = getUsers();
+        const idx = users.findIndex(u => u.username === currentUser.username);
+        if (idx !== -1) { users[idx].musicUrl = musicBase64; saveUsers(users); currentUser.musicUrl = musicBase64; openProfileModal(); Swal.fire({title:"Thành công", text:"Nhạc nền đã được cập nhật!", icon:"success", timer:500, showConfirmButton:false}); }
       };
       reader.readAsDataURL(file);
     }
   });
 
   async function deleteProd(id) {
-    if (!currentUser || !currentUser.isAdmin) return Swal.fire("Lỗi", "Bạn không có quyền admin", "error");
+    if (!currentUser || !currentUser.isAdmin) return Swal.fire({title:"Lỗi", text:"Bạn không có quyền admin", icon:"error", timer:500, showConfirmButton:false});
     const confirm = await Swal.fire({ title: "Xác nhận xóa?", text: "Sản phẩm sẽ bị xóa vĩnh viễn!", icon: "warning", showCancelButton: true, confirmButtonText: "Xóa" });
     if (!confirm.isConfirmed) return;
     const newProducts = products.filter(p => p.id != id);
@@ -238,7 +337,7 @@
     const keyword = document.getElementById("searchInput").value;
     renderProductsGrid(activeCat, keyword);
     refreshAdminList();
-    Swal.fire("Thành công", "Sản phẩm đã được xóa!", "success");
+    Swal.fire({title:"Thành công", text:"Sản phẩm đã được xóa!", icon:"success", timer:500, showConfirmButton:false});
   }
 
   async function loginUser() {
@@ -246,12 +345,12 @@
     const password = document.getElementById("loginPass").value;
     const users = getUsers();
     const user = users.find(u => u.username === username && u.password === password);
-    if (!user) return Swal.fire("Lỗi", "Sai tên đăng nhập hoặc mật khẩu", "error");
+    if (!user) return Swal.fire({title:"Lỗi", text:"Sai tên đăng nhập hoặc mật khẩu", icon:"error", timer:500, showConfirmButton:false});
     currentUser = JSON.parse(JSON.stringify(user));
     renderMainUI();
     closeAuthModal();
     canvasConfetti({ particleCount: 120, spread: 60 });
-    Swal.fire("Đăng nhập thành công", `Chào ${username}`, "success");
+    Swal.fire({title:"Đăng nhập thành công", text:`Chào ${username}`, icon:"success", timer:500, showConfirmButton:false});
   }
   async function registerUser() {
     const username = document.getElementById("regUser").value.trim();
@@ -259,28 +358,33 @@
     const confirm = document.getElementById("regConfirmPass").value;
     const email = document.getElementById("regEmailAddr").value;
     const phone = document.getElementById("regPhone").value;
-    if (password !== confirm) return Swal.fire("Lỗi", "Mật khẩu không khớp", "error");
-    if (password.length < 4) return Swal.fire("Lỗi", "Mật khẩu tối thiểu 4 ký tự", "error");
+    if (password !== confirm) return Swal.fire({title:"Lỗi", text:"Mật khẩu không khớp", icon:"error", timer:500, showConfirmButton:false});
+    if (password.length < 4) return Swal.fire({title:"Lỗi", text:"Mật khẩu tối thiểu 4 ký tự", icon:"error", timer:500, showConfirmButton:false});
     const users = getUsers();
-    if (users.find(u => u.username === username)) return Swal.fire("Lỗi", "Tên đăng nhập đã tồn tại", "error");
+    if (users.find(u => u.username === username)) return Swal.fire({title:"Lỗi", text:"Tên đăng nhập đã tồn tại", icon:"error", timer:500, showConfirmButton:false});
     const avatarDefault = `https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=${encodeURIComponent(username)}`;
-    const newUser = { username, password, email, phone, balance: 2000, purchaseHistory: [], isAdmin: false, registeredDate: new Date().toISOString(), avatar: avatarDefault };
+    const coverDefault = "https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image";
+    const newUser = { username, password, email, phone, balance: 2000, purchaseHistory: [], isAdmin: false, registeredDate: new Date().toISOString(), avatar: avatarDefault, coverPhoto: coverDefault, verified: false, musicUrl: "" };
     users.push(newUser);
     saveUsers(users);
     currentUser = JSON.parse(JSON.stringify(newUser));
     renderMainUI();
     closeAuthModal();
-    Swal.fire("Đăng ký thành công", "Nhận 2000đ", "success");
+    Swal.fire({title:"Đăng ký thành công", text:"Nhận 2000đ", icon:"success", timer:500, showConfirmButton:false});
   }
-  function logout() { currentUser = null; if (adminIdleTimer) clearTimeout(adminIdleTimer); renderMainUI(); Swal.fire("Đã đăng xuất", "", "info"); }
+  function logout() { currentUser = null; if (adminIdleTimer) clearTimeout(adminIdleTimer); renderMainUI(); Swal.fire({title:"Đã đăng xuất", text:"", icon:"info", timer:500, showConfirmButton:false}); }
   function openBuyModal(productId) {
-    if (!currentUser) { Swal.fire("Cần đăng nhập", "", "warning"); openAuthModal(); return; }
+    if (!currentUser) { Swal.fire({title:"Cần đăng nhập", text:"", icon:"warning", timer:500, showConfirmButton:false}); openAuthModal(); return; }
     const prod = products.find(p => p.id === productId);
     if (prod) { currentBuyingProduct = prod; document.getElementById("buyProdName").innerText = prod.name; document.getElementById("buyProdPrice").innerHTML = prod.price.toLocaleString() + "đ"; document.getElementById("userBalanceShow").innerText = currentUser.balance; document.getElementById("buyModalWin").style.display = "flex"; }
   }
   async function confirmPurchase() {
     if (!currentBuyingProduct) return;
-    if (currentUser.balance < currentBuyingProduct.price) return Swal.fire("Lỗi", "Số dư không đủ", "error");
+    if (currentUser.balance < currentBuyingProduct.price) {
+      Swal.fire({title:"Lỗi", text:"Số dư không đủ. Vui lòng nạp thêm!", icon:"error", timer:500, showConfirmButton:false});
+      closeBuyModal();
+      return;
+    }
     const users = getUsers();
     const idx = users.findIndex(u => u.username === currentUser.username);
     if (idx === -1) return;
@@ -290,34 +394,22 @@
     currentUser = JSON.parse(JSON.stringify(users[idx]));
     renderMainUI();
     canvasConfetti({ particleCount: 180, spread: 80, colors: ["#ff88bb", "#ff4d7a"] });
-    const result = await Swal.fire({
-      title: "Mua thành công!",
-      html: `Bạn đã mua <strong>${currentBuyingProduct.name}</strong> với giá <strong>${currentBuyingProduct.price.toLocaleString()}đ</strong><br>Link tải sẽ có trong mục <strong>Lịch sử</strong>.`,
-      icon: "success",
-      showConfirmButton: true,
-      confirmButtonText: "Tải ngay",
-      showCancelButton: true,
-      cancelButtonText: "Ở lại"
-    });
+    Swal.fire({ title: "Mua thành công!", html: `Bạn đã mua <strong>${currentBuyingProduct.name}</strong> với giá <strong>${currentBuyingProduct.price.toLocaleString()}đ</strong><br>Link tải sẽ có trong mục <strong>Lịch sử</strong>.`, icon: "success", timer: 500, showConfirmButton: false });
     closeBuyModal();
-    if (result.isConfirmed) {
-      if (currentBuyingProduct.downloadLink && currentBuyingProduct.downloadLink.trim() !== "") window.open(currentBuyingProduct.downloadLink, "_blank");
-      else Swal.fire("Thông báo", "Sản phẩm này chưa có link tải. Vui lòng liên hệ admin.", "warning");
-      document.getElementById("history").scrollIntoView({ behavior: "smooth" });
-    } else { document.getElementById("history").scrollIntoView({ behavior: "smooth" }); }
+    setTimeout(() => { document.getElementById("history").scrollIntoView({ behavior: "smooth" }); }, 100);
   }
   function closeBuyModal() { document.getElementById("buyModalWin").style.display = "none"; currentBuyingProduct = null; }
   async function sendDepositReq() {
-    if (!currentUser) return Swal.fire("Cần đăng nhập", "", "warning");
+    if (!currentUser) return Swal.fire({title:"Cần đăng nhập", text:"", icon:"warning", timer:500, showConfirmButton:false});
     const amount = parseInt(document.getElementById("depositAmountInput").value);
-    if (!amount || amount <= 0) return Swal.fire("Số tiền không hợp lệ", "", "error");
+    if (!amount || amount <= 0) return Swal.fire({title:"Số tiền không hợp lệ", text:"", icon:"error", timer:500, showConfirmButton:false});
     const transactionId = "DEP_" + Date.now() + "_" + Math.floor(Math.random()*1000);
     const newDeposit = { id: transactionId, username: currentUser.username, amount, status: "pending", createdAt: new Date().toISOString() };
     const deposits = getDeposits();
     deposits.push(newDeposit);
     saveDeposits(deposits);
     Swal.fire({ title: `Chuyển khoản ${amount.toLocaleString()}đ`, html: `<img src="https://img.vietqr.io/image/BIDV-8826353645-compact.png" width="200"/><br/><strong>Mã GD: ${transactionId}</strong><br/>Nội dung: NAP ${transactionId}<br/><small>Admin sẽ xác nhận sau khi bạn chuyển khoản</small>`, confirmButtonText: "Tôi đã chuyển", allowOutsideClick: false }).then(() => {
-      Swal.fire("Đã gửi yêu cầu", "Vui lòng chờ admin xác nhận", "info");
+      Swal.fire({title:"Đã gửi yêu cầu", text:"Vui lòng chờ admin xác nhận", icon:"info", timer:500, showConfirmButton:false});
       if (currentUser && currentUser.isAdmin) loadPendingDeposits();
     });
   }
@@ -325,15 +417,15 @@
     if (!currentUser || !currentUser.isAdmin) return;
     const deposits = getDeposits();
     const deposit = deposits.find(d => d.id === transactionId && d.status === "pending");
-    if (!deposit) return Swal.fire("Lỗi", "Không tìm thấy giao dịch", "error");
+    if (!deposit) return Swal.fire({title:"Lỗi", text:"Không tìm thấy giao dịch", icon:"error", timer:500, showConfirmButton:false});
     const users = getUsers();
     const userIdx = users.findIndex(u => u.username === deposit.username);
-    if (userIdx === -1) return Swal.fire("Lỗi", "Không tìm thấy người dùng", "error");
+    if (userIdx === -1) return Swal.fire({title:"Lỗi", text:"Không tìm thấy người dùng", icon:"error", timer:500, showConfirmButton:false});
     users[userIdx].balance += deposit.amount;
     saveUsers(users);
     deposit.status = "completed";
     saveDeposits(deposits);
-    Swal.fire("Thành công", `Đã cộng ${deposit.amount.toLocaleString()}đ cho ${deposit.username}`, "success");
+    Swal.fire({title:"Thành công", text:`Đã cộng ${deposit.amount.toLocaleString()}đ cho ${deposit.username}`, icon:"success", timer:500, showConfirmButton:false});
     if (currentUser.username === deposit.username) { currentUser = JSON.parse(JSON.stringify(users[userIdx])); renderMainUI(); }
     loadPendingDeposits();
   }
@@ -347,10 +439,10 @@
     container.innerHTML = pending.map(tx => `<div class="card-luxury" style="padding:1rem; margin-bottom:1rem;"><div><strong>Người dùng:</strong> ${tx.username}</div><div><strong>Số tiền:</strong> ${tx.amount.toLocaleString()}đ</div><div><strong>Mã GD:</strong> ${tx.id}</div><div><strong>Ngày tạo:</strong> ${new Date(tx.createdAt).toLocaleString()}</div><button class="btn-gold" onclick="confirmDeposit('${tx.id}')" style="margin-top:0.5rem;">✅ Xác nhận đã nhận tiền</button></div>`).join("");
   }
   async function addNewProduct() {
-    if (!currentUser || !currentUser.isAdmin) return Swal.fire("Cấm", "Bạn không phải admin", "error");
+    if (!currentUser || !currentUser.isAdmin) return Swal.fire({title:"Cấm", text:"Bạn không phải admin", icon:"error", timer:500, showConfirmButton:false});
     const name = document.getElementById("prodName").value;
     const price = parseInt(document.getElementById("prodPrice").value);
-    if (!name || !price) return Swal.fire("Thiếu thông tin", "", "warning");
+    if (!name || !price) return Swal.fire({title:"Thiếu thông tin", text:"", icon:"warning", timer:500, showConfirmButton:false});
     let demoUrl = document.getElementById("prodDemoLink").value.trim();
     const newId = Date.now().toString();
     const newProduct = { id: newId, name, price, category: document.getElementById("prodCategory").value, icon: document.getElementById("prodIcon").value, desc: document.getElementById("prodDesc").value, downloadLink: document.getElementById("prodDownloadLink").value, demoUrl };
@@ -360,7 +452,7 @@
     const keyword = document.getElementById("searchInput").value;
     renderProductsGrid(activeCat, keyword);
     refreshAdminList();
-    Swal.fire("Thành công", "Đã thêm sản phẩm (demo chỉ hỗ trợ link ảnh/video/youtube)", "success");
+    Swal.fire({title:"Thành công", text:"Đã thêm sản phẩm", icon:"success", timer:500, showConfirmButton:false});
     document.getElementById("prodName").value = ""; document.getElementById("prodPrice").value = ""; document.getElementById("prodDesc").value = ""; document.getElementById("prodDownloadLink").value = ""; document.getElementById("prodDemoLink").value = "";
   }
   async function refreshAdminList() {
@@ -372,7 +464,7 @@
   function setFilterCat(cat) { document.querySelectorAll(".chip").forEach(c => c.classList.remove("active")); const activeChip = document.querySelector(`.chip[data-cat="${cat}"]`); if (activeChip) activeChip.classList.add("active"); renderProductsGrid(cat, document.getElementById("searchInput").value); }
   function showDemo(productId) {
     const prod = products.find(p => p.id === productId);
-    if (!prod || !prod.demoUrl || prod.demoUrl.trim() === "") { Swal.fire("Thông báo", "Sản phẩm này chưa có demo.", "info"); return; }
+    if (!prod || !prod.demoUrl || prod.demoUrl.trim() === "") { Swal.fire({title:"Thông báo", text:"Sản phẩm này chưa có demo.", icon:"info", timer:500, showConfirmButton:false}); return; }
     const demoContainer = document.getElementById("demoModalContent");
     let url = prod.demoUrl;
     let html = "";
@@ -389,9 +481,9 @@
     document.getElementById("demoModal").style.display = "flex";
   }
   function closeDemoModal() { document.getElementById("demoModal").style.display = "none"; }
-  function genHeartQR() { const text = document.getElementById("qrContent").value; if (!text) return Swal.fire("Lỗi", "Nhập nội dung", "error"); document.getElementById("qrCanvas").innerHTML = ""; new QRCode(document.getElementById("qrCanvas"), { text, width: 200, height: 200 }); document.getElementById("qrResult").style.display = "block"; }
+  function genHeartQR() { const text = document.getElementById("qrContent").value; if (!text) return Swal.fire({title:"Lỗi", text:"Nhập nội dung", icon:"error", timer:500, showConfirmButton:false}); document.getElementById("qrCanvas").innerHTML = ""; new QRCode(document.getElementById("qrCanvas"), { text, width: 200, height: 200 }); document.getElementById("qrResult").style.display = "block"; }
   function downloadQR() { const canvas = document.querySelector("#qrCanvas canvas"); if (canvas) { const a = document.createElement("a"); a.download = "heart_qr.png"; a.href = canvas.toDataURL(); a.click(); } }
-  function downloadItem(link) { if (link && link.trim() !== "") window.open(link, "_blank"); else Swal.fire("Lỗi", "Link tải không hợp lệ", "error"); }
+  function downloadItem(link) { if (link && link.trim() !== "") window.open(link, "_blank"); else Swal.fire({title:"Lỗi", text:"Link tải không hợp lệ", icon:"error", timer:500, showConfirmButton:false}); }
 
   // Loader & UI
   const funnyMessages = [{ icon:"😂", text:"Đang tải... chờ xíu cưng ơi!", sub:"Tốc độ rùa bò =))"},{ icon:"🤣", text:"Loading... đừng có gấp!", sub:"Sắp xong rồi nha ba..."},{ icon:"😜", text:"Trời ơi, đợi tí đi má!", sub:"Mạng như con chuột chạy"}];
@@ -417,9 +509,9 @@
             if(currentUser) currentUser.isAdmin = true;
             else { const users = getUsers(); const adminUser = users.find(u => u.username === "admin"); if(adminUser) currentUser = JSON.parse(JSON.stringify(adminUser)); }
             renderMainUI();
-            Swal.fire("Thành công", "Đã mở chế độ Admin!", "success");
+            Swal.fire({title:"Thành công", text:"Đã mở chế độ Admin!", icon:"success", timer:500, showConfirmButton:false});
             document.getElementById("adminPanel").scrollIntoView({ behavior:"smooth" });
-          } else if(result.isConfirmed) Swal.fire("Sai mật khẩu", "", "error");
+          } else if(result.isConfirmed) Swal.fire({title:"Sai mật khẩu", text:"", icon:"error", timer:500, showConfirmButton:false});
         });
       }
     });
@@ -475,6 +567,7 @@
   window.openProfileModal = openProfileModal;
   window.closeProfileModal = closeProfileModal;
   window.updatePhone = updatePhone;
+  window.toggleVerifiedBadge = toggleVerifiedBadge;
 </script>
 </body>
 </html>
