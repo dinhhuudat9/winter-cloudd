@@ -1,691 +1,3419 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>😂 WINTER CLOUD | HuuDatDev — Nhạc nền tùy chỉnh</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/canvas-confetti.min.js"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: "Inter", "Space Grotesk", sans-serif; background: #0b0c15; color: #f0f3ff; overflow-x: hidden; scroll-behavior: smooth; }
-    .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 30% 20%, #1e1b3a, #02020c); z-index: -3; }
-    .bg-glow::before { content: ""; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: radial-gradient(circle at 40% 50%, rgba(255,100,150,0.2), rgba(0,150,255,0.1), transparent); animation: aurora 16s infinite alternate; z-index: -2; }
-    @keyframes aurora { 0% { opacity: 0.3; transform: translate(-10%, -10%) scale(1); } 100% { opacity: 0.8; transform: translate(10%, 10%) scale(1.2); } }
-    .particle-3d { position: fixed; background: linear-gradient(135deg, #ffb7d2, #ff6a9e); border-radius: 50%; filter: blur(2px); pointer-events: none; z-index: -1; animation: float3d linear infinite; opacity: 0.4; }
-    @keyframes float3d { 0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; } 20% { opacity: 0.7; } 80% { opacity: 0.5; } 100% { transform: translateY(-20vh) translateX(40px) rotate(360deg); opacity: 0; } }
-    .glass-premium { background: rgba(20, 22, 45, 0.55); backdrop-filter: blur(18px); border: 1px solid rgba(255, 130, 180, 0.5); border-radius: 2rem; box-shadow: 0 25px 45px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08); }
-    .card-luxury { background: linear-gradient(145deg, rgba(25,28,55,0.8), rgba(16,18,38,0.9)); backdrop-filter: blur(16px); border: 1px solid rgba(255,140,180,0.4); border-radius: 2rem; transition: all 0.4s cubic-bezier(0.2,0.8,0.4,1.2); }
-    .card-luxury:hover { transform: translateY(-12px) rotateX(4deg) scale(1.02); border-color: #ff8aae; box-shadow: 0 40px 60px -20px rgba(255,80,130,0.5); }
-    .btn-gold { background: linear-gradient(115deg, #ff3d6c, #ff926b); border: none; border-radius: 3rem; padding: 0.8rem 2rem; font-weight: 700; color: white; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 25px -5px #ff3d6c80; }
-    .btn-glow { background: transparent; border: 1.5px solid rgba(255,140,180,0.8); border-radius: 3rem; padding: 0.75rem 1.8rem; font-weight: 600; color: #ffe0ec; transition: 0.25s; cursor: pointer; backdrop-filter: blur(8px); }
-    .btn-glow:hover { background: rgba(255,140,180,0.25); transform: translateY(-3px); }
-    .navbar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1300px; background: rgba(10,12,28,0.7); backdrop-filter: blur(24px); border-radius: 80px; padding: 0.6rem 2rem; z-index: 1000; border: 1px solid rgba(255,140,170,0.4); transition: all 0.4s; }
-    .navbar.scrolled { background: rgba(6,8,22,0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.3); top: 12px; }
-    .logo { font-family: "Space Grotesk", monospace; font-weight: 800; font-size: 1.6rem; background: linear-gradient(135deg, #fff5f9, #ffb8d0, #ff6a9e); -webkit-background-clip: text; background-clip: text; color: transparent; cursor: pointer; }
-    .funny-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(25px); z-index: 20000; display: flex; justify-content: center; align-items: center; flex-direction: column; visibility: hidden; opacity: 0; transition: visibility 0.2s, opacity 0.3s ease; }
-    .funny-loader.active { visibility: visible; opacity: 1; }
-    .loader-card { text-align: center; background: rgba(30,25,55,0.85); backdrop-filter: blur(30px); border-radius: 3rem; padding: 2rem 2.5rem; border: 2px solid #ffb347; box-shadow: 0 0 50px #ffb347, inset 0 0 20px rgba(255,180,70,0.3); animation: shakeFun 0.3s infinite alternate; }
-    @keyframes shakeFun { 0% { transform: translateY(0px) rotate(0deg); } 100% { transform: translateY(-8px) rotate(2deg); } }
-    .funny-icon { font-size: 5.5rem; filter: drop-shadow(0 0 15px #ffb347); animation: spinFun 0.5s infinite alternate; }
-    @keyframes spinFun { 0% { transform: scale(1) rotate(-5deg); } 100% { transform: scale(1.1) rotate(5deg); } }
-    .funny-text { font-size: 1.6rem; font-weight: bold; background: linear-gradient(135deg, #ffe6b0, #ffb347); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .progress-bar-funny { width: 300px; height: 12px; background: #ffffff30; border-radius: 20px; overflow: hidden; margin: 1rem auto; }
-    .progress-fill-funny { width: 0%; height: 100%; background: repeating-linear-gradient(45deg, #ffb347, #ff8c00, #ffb347); transition: width 0.05s linear; }
-    .chip { background: rgba(255,200,220,0.1); border-radius: 50px; padding: 0.5rem 1.5rem; font-weight: 500; transition: all 0.3s; cursor: pointer; border: 1px solid rgba(255,130,170,0.5); backdrop-filter: blur(4px); }
-    .chip.active, .chip:hover { background: linear-gradient(125deg, #ff6a9e, #ff4d7a); border-color: transparent; color: white; box-shadow: 0 8px 18px #ff4d7a60; transform: translateY(-3px); }
-    .product-item { animation: slideUpFade 0.6s cubic-bezier(0.2,0.9,0.4,1.2) backwards; }
-    @keyframes slideUpFade { from { opacity: 0; transform: translateY(60px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    .reveal-section { opacity: 0; transform: translateY(50px); transition: opacity 0.8s cubic-bezier(0.2,0.9,0.4,1.2), transform 0.7s ease; }
-    .reveal-section.revealed { opacity: 1; transform: translateY(0); }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(16px); z-index: 30000; align-items: center; justify-content: center; }
-    .modal-luxury { background: rgba(8, 10, 28, 0.98); backdrop-filter: blur(40px); border-radius: 2.5rem; border: 1px solid #ffa0c0; max-width: 900px; width: 95%; padding: 2rem; animation: modalZoom 0.4s cubic-bezier(0.34, 1.2, 0.64, 1); max-height: 90vh; overflow-y: auto; margin: auto; box-shadow: 0 30px 50px rgba(0,0,0,0.5); }
-    @keyframes modalZoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .snow, .heart { position: fixed; pointer-events: none; z-index: 9999; animation: fallDown linear forwards; }
-    @keyframes fallDown { 0% { transform: translateY(-20vh) rotate(0deg); opacity: 0.9; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
-    .input-luxury { background: rgba(0,0,0,0.5); border: 1px solid #ff98bb; border-radius: 2rem; padding: 0.8rem 1.2rem; color: white; transition: all 0.2s; width: 100%; }
-    .input-luxury:focus { border-color: #ff6a9e; outline: none; box-shadow: 0 0 18px #ff6a9e; }
-    .history-card { background: rgba(255,220,240,0.06); border-radius: 1.5rem; padding: 1rem 1.5rem; margin-bottom: 1rem; border-left: 4px solid #ff77aa; transition: all 0.3s; animation: slideLeft 0.5s backwards; }
-    @keyframes slideLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
-    .typing-glow { border-right: 2px solid #ff88bb; white-space: nowrap; overflow: hidden; animation: blinkCursor 0.8s step-end infinite, textGlow 2s infinite alternate; }
-    @keyframes textGlow { 0% { text-shadow: 0 0 2px #ff88bb; } 100% { text-shadow: 0 0 12px #ff4d7a; } }
-    @keyframes blinkCursor { from, to { border-color: transparent; } 50% { border-color: #ff88bb; } }
-    @media (max-width: 768px) { .nav-links { display: none !important; } .typing-glow { white-space: normal; border-right: none; } }
-    .demo-media { margin-top: 1rem; text-align: center; max-height: 400px; overflow: auto; }
-    .demo-media img, .demo-media video { max-width: 100%; max-height: 350px; border-radius: 1rem; border: 1px solid #ff88bb; }
-    .wallet-badge { transition: all 0.2s; cursor: pointer; }
-    .wallet-badge:hover { background: rgba(255,120,160,0.4); transform: scale(1.02); }
-    .avatar-small { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #ff88bb; cursor: pointer; transition: 0.2s; }
-    .avatar-small:hover { transform: scale(1.05); border-color: #ff4d7a; }
-    .profile-cover { width: 100%; height: 180px; object-fit: cover; border-radius: 1.5rem 1.5rem 0 0; margin-bottom: -50px; border-bottom: 3px solid #ff88bb; }
-    .profile-avatar-large { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid #ff88bb; background: #0b0c15; margin-left: 2rem; cursor: pointer; transition: 0.2s; }
-    .profile-avatar-large:hover { transform: scale(1.02); border-color: #ff4d7a; }
-    .verified-badge { color: #1da1f2; margin-left: 8px; font-size: 1.3rem; vertical-align: middle; filter: drop-shadow(0 0 4px #1da1f2); }
-    .music-player { background: rgba(0,0,0,0.6); border-radius: 3rem; padding: 0.5rem 1rem; margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .music-player audio { height: 40px; border-radius: 2rem; }
-    .btn-icon { background: none; border: none; color: #ff88bb; font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
-    .btn-icon:hover { color: #ff4d7a; transform: scale(1.1); }
-    .profile-stats { display: flex; gap: 1.5rem; margin: 1rem 0; flex-wrap: wrap; }
-    .stat-card { background: rgba(255,255,255,0.05); border-radius: 1.5rem; padding: 0.5rem 1.2rem; text-align: center; }
-    .user-row { background: rgba(255,255,255,0.05); border-radius: 1.5rem; padding: 1rem; margin-bottom: 1rem; transition: 0.2s; }
-    .user-row:hover { background: rgba(255,120,160,0.2); }
-    .admin-table { overflow-x: auto; }
-    #bgMusicControl { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border-radius: 60px; padding: 8px 20px; z-index: 10000; display: flex; gap: 12px; align-items: center; border: 1px solid #ff8aae; }
-    #bgMusicControl span { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; }
-    .user-avatar-badge { display: flex; align-items: center; gap: 6px; cursor: pointer; }
-    .navbar-verified-icon { color: #1da1f2; font-size: 1rem; filter: drop-shadow(0 0 2px #1da1f2); display: none; }
-  </style>
-</head>
-<body>
-<div class="bg-glow"></div>
-<div id="particleContainer" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:-1;"></div>
-<div id="funnyLoader" class="funny-loader"><div class="loader-card"><div class="funny-icon" id="loaderFunIcon">😂</div><div class="funny-text" id="loaderFunText">Đang tải ... chờ xíu cưng ơi!</div><div class="progress-bar-funny"><div class="progress-fill-funny" id="loaderProgressFill"></div></div><div class="sub-text" id="loaderSubText">⚡ tốc độ ánh sáng =))</div></div></div>
-
-<!-- Thanh điều khiển nhạc nền động -->
-<div id="bgMusicControl">
-  <i class="fas fa-music" style="color:#ffb7c7"></i>
-  <span id="bgMusicName">🎵 Nhạc nền hài hước</span>
-  <i id="playPauseIcon" class="fas fa-play" style="cursor:pointer"></i>
-</div>
-<audio id="bgAudio" loop style="display:none;"></audio>
-
-<nav class="navbar" id="mainNav"><div style="display:flex; justify-content:space-between; align-items:center;"><div class="logo" id="secretAdminLogo">❄️ WINTER CLOUD</div><ul class="nav-links" style="display:flex; gap:1.8rem; list-style:none;"><li><a onclick="navigateWithFunnyLoader('home')" style="cursor:pointer">🏠 Trang chủ</a></li><li><a onclick="navigateWithFunnyLoader('products')" style="cursor:pointer">📦 Sản phẩm</a></li><li><a onclick="navigateWithFunnyLoader('qrlove')" style="cursor:pointer">💖 QR Yêu</a></li><li><a onclick="navigateWithFunnyLoader('bank')" style="cursor:pointer">💰 Nạp tiền</a></li><li><a onclick="navigateWithFunnyLoader('history')" style="cursor:pointer">📜 Lịch sử</a></li></ul><div style="display:flex; gap:0.8rem; align-items:center;"><div class="wallet-badge" id="walletBox" style="display:none; background:rgba(255,120,160,0.2); border-radius:40px; padding:0.4rem 1.2rem; cursor:pointer;" onclick="navigateWithFunnyLoader('history')"><i class="fas fa-coins"></i> <span id="walletValue">0</span>đ</div><div id="userAvatarContainer" style="display:none; cursor:pointer;" onclick="openProfileModal()" class="user-avatar-badge"><img id="userAvatarImg" class="avatar-small" src="" alt="avatar"><i id="navbarVerifiedBadge" class="fas fa-check-circle navbar-verified-icon"></i></div><button class="btn-glow" id="authBtnNav" onclick="openAuthModal()"><i class="fas fa-paw"></i> Đăng nhập</button><button class="btn-glow" id="logoutBtnNav" style="display:none" onclick="logout()">Thoát</button></div></div></nav>
-<main style="padding-top:110px;">
-  <div class="glass-premium reveal-section" style="max-width:1320px; margin:0 auto 2rem; padding:2rem;" id="home"><div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:2rem;"><div><h1 style="font-size:2.8rem; font-weight:800; background:linear-gradient(135deg,#fff0f5,#ffb8d0,#ff6a9e); -webkit-background-clip:text; background-clip:text; color:transparent;">HuuDatDev Premium</h1><p class="typing-glow" id="sloganText" style="font-size:1.2rem; max-width:550px"></p><div style="display:flex; gap:1rem; margin-top:1.5rem;"><button class="btn-gold" onclick="navigateWithFunnyLoader('products')">Khám phá ngay</button><button class="btn-glow" onclick="navigateWithFunnyLoader('bank')">Nạp tiền</button></div></div><i class="fas fa-face-grin-tongue-squint" style="font-size:4rem; opacity:0.8; filter:drop-shadow(0 0 15px #ff99bb); animation:floatIcon 3s infinite alternate;"></i></div></div>
-  <div style="max-width:1320px; margin:0 auto 3rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.8rem;"><div class="card-luxury reveal-section" style="padding:1.8rem"><i class="fas fa-code-branch fa-2x" style="color:#ff8aae"></i><h3 style="margin:0.7rem 0">Code đỉnh cao</h3><p>Python, Web, Bot, Tool MMO chất lượng</p></div><div class="card-luxury reveal-section" style="padding:1.8rem"><i class="fas fa-headset fa-2x" style="color:#ff8aae"></i><h3>Support 24/7</h3><p>Facebook & Zalo phản hồi nhanh</p><button class="btn-glow" style="margin-top:0.5rem; padding:0.3rem 1rem" onclick="window.open('https://www.facebook.com/dinhhuudat8/')"><i class="fab fa-facebook"></i> Liên hệ</button></div><div class="card-luxury reveal-section" style="padding:1.8rem"><i class="fas fa-gift fa-2x" style="color:#ff8aae"></i><h3>🎁 Quà tặng Member</h3><p>Code miễn phí mỗi tuần</p><button class="btn-glow" onclick="Swal.fire({title:'Kèo Free',text:'Cập nhật trong group Zalo',icon:'info',timer:500,showConfirmButton:false})">Xem ngay</button></div></div>
-  <div style="max-width:1320px; margin:0 auto 1.5rem;"><div class="glass-premium" style="display:flex; gap:1rem; padding:0.5rem 1rem; align-items:center;"><input type="text" id="searchInput" placeholder="🔍 Tìm sản phẩm, tool, source..." class="input-luxury" style="flex:1"><button class="btn-gold" onclick="searchProducts()"><i class="fas fa-search"></i> Tìm</button></div><div id="filterChips" style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:1.2rem;"></div></div>
-  <section id="products" style="padding:1rem 1rem 3rem;"><div style="max-width:1400px; margin:0 auto;"><h2 style="text-align:center; font-size:2rem; font-weight:700; background:linear-gradient(145deg,#ffe0ee,#ffb0c8); -webkit-background-clip:text; background-clip:text; color:transparent;">✨ Bộ sưu tập độc quyền ✨</h2><div id="productsGrid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2rem; margin-top:2rem;"></div></div></section>
-  <section id="qrlove" class="reveal-section" style="padding:2rem 1rem;"><div class="card-luxury" style="max-width:600px; margin:0 auto; padding:2rem; text-align:center;"><h3><i class="fas fa-heart" style="color:#ff77aa; animation:pulseHeart 1s infinite"></i> QRCODE TRÁI TIM</h3><input id="qrContent" placeholder="Nhập link hoặc lời nhắn..." class="input-luxury" style="margin:1rem 0"><button class="btn-gold" onclick="genHeartQR()">Tạo QR Cute</button><div id="qrResult" style="display:none; margin-top:1rem"><div id="qrCanvas"></div><button class="btn-glow" onclick="downloadQR()">Tải QR</button></div></div></section>
-  <section id="bank" class="reveal-section" style="padding:2rem 1rem;"><div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; max-width:1100px; margin:auto;"><div class="card-luxury" style="padding:2rem"><h3>🏦 THÔNG TIN NẠP</h3><p>Ngân hàng: BIDV<br>Chủ TK: ĐINH HỮU ĐẠT<br>Số TK: 8826353645<br>Nội dung: NAP + MÃ GD</p></div><div class="card-luxury" style="padding:2rem"><img src="https://img.vietqr.io/image/BIDV-8826353645-compact.png" width="140"><input id="depositAmountInput" placeholder="Số tiền (VNĐ)" class="input-luxury" type="number"><input id="depositPhoneInput" placeholder="Số điện thoại" class="input-luxury"><button class="btn-gold" onclick="sendDepositReq()">Gửi yêu cầu nạp</button></div></div></section>
-  <section id="history" class="reveal-section" style="padding:2rem 1rem;"><div class="glass-premium" style="max-width:1000px; margin:auto; padding:2rem"><h3>📜 LỊCH SỬ MUA HÀNG</h3><div id="historyList"></div></div></section>
-  <section id="adminPanel" style="display:none; padding:2rem" class="reveal-section"><div class="glass-premium" style="padding:2rem; max-width:1200px; margin:auto"><h3>👑 ADMIN PANEL</h3>
-    <div style="margin-bottom:2rem"><h4>➕ Thêm sản phẩm mới</h4><div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem"><input id="prodName" placeholder="Tên sản phẩm" class="input-luxury"><input id="prodPrice" placeholder="Giá (VNĐ)" type="number" class="input-luxury"><select id="prodCategory" class="input-luxury"><option>python</option><option>website</option><option>love</option><option>qrlove</option></select><input id="prodIcon" placeholder="Icon (fas fa-code)" value="fas fa-code" class="input-luxury"><textarea id="prodDesc" placeholder="Mô tả" class="input-luxury"></textarea><input id="prodDownloadLink" placeholder="Link tải (trực tiếp)" class="input-luxury"><input id="prodDemoLink" placeholder="Link demo (video/ảnh/youtube)" class="input-luxury"></div><button class="btn-gold" onclick="addNewProduct()" style="margin-top:1rem">➕ Thêm sản phẩm</button><button class="btn-glow" onclick="refreshAdminList()" style="margin-top:1rem">📋 Kiểm tra sản phẩm</button><div id="adminProductList" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem; margin-top:1rem;"></div></div>
-    <hr style="margin:2rem 0; border-color:#ff88bb">
-    <div><h4>💸 Xác nhận nạp tiền thủ công</h4><div id="pendingDepositsList" style="max-height:400px; overflow-y:auto;"></div></div>
-    <hr style="margin:2rem 0; border-color:#ff88bb">
-    <div><h4>👥 QUẢN LÝ NGƯỜI DÙNG (Cấp tik xanh, chỉnh sửa số dư)</h4><div id="userManageList" class="admin-table"></div></div>
-    <hr style="margin:2rem 0; border-color:#ff88bb">
-    <!-- Quản lý nhạc nền -->
-    <div><h4>🎵 QUẢN LÝ NHẠC NỀN (Admin tự upload)</h4>
-      <div style="display:flex; flex-wrap:wrap; gap:1rem; align-items:center;">
-        <input type="file" id="bgMusicUpload" accept="audio/mpeg,audio/mp3" class="input-luxury" style="flex:1;">
-        <button class="btn-gold" onclick="uploadBackgroundMusic()">📤 Upload làm nhạc nền</button>
-        <button class="btn-glow" onclick="resetBackgroundMusic()">🔄 Reset về mặc định</button>
-      </div>
-      <p id="bgMusicStatus" style="margin-top:10px; font-size:0.9rem; color:#ffbbdd;"></p>
-    </div>
-  </div></section>
-</main>
-<footer style="text-align:center; padding:2rem; margin-top:2rem"><p>🐕 HuuDatDev — Mã nguồn chất lượng, hiệu ứng hài hước bá đạo</p><div><i class="fas fa-heart" style="color:#ff88bb"></i> Winter Cloud Shop 2026</div></footer>
-
-<!-- Modal Auth -->
-<div id="authModalWin" class="modal" style="display:none;"><div class="modal-luxury"><div style="display:flex; justify-content:space-between"><h3>🐩 WINTER ACCESS</h3><button onclick="closeAuthModal()" style="background:none; border:none; font-size:2rem; color:white; cursor:pointer">&times;</button></div><div style="display:flex; gap:1rem; margin:1rem 0"><button class="btn-gold" onclick="switchAuth('login')">ĐĂNG NHẬP</button><button class="btn-glow" onclick="switchAuth('register')">ĐĂNG KÝ</button></div><div id="loginFormDiv"><input id="loginUser" placeholder="Tên đăng nhập" class="input-luxury"><input id="loginPass" type="password" placeholder="Mật khẩu" class="input-luxury"><button class="btn-gold" onclick="loginUser()">Đăng nhập</button></div><div id="registerFormDiv" style="display:none"><input id="regUser" placeholder="Tên đăng nhập" class="input-luxury"><input id="regEmailAddr" placeholder="Email" class="input-luxury"><input id="regPhone" placeholder="Số điện thoại" class="input-luxury"><input id="regPass" type="password" placeholder="Mật khẩu" class="input-luxury"><input id="regConfirmPass" type="password" placeholder="Xác nhận" class="input-luxury"><button class="btn-gold" onclick="registerUser()">Đăng ký (+2000đ)</button></div></div></div>
-
-<!-- Modal Mua hàng -->
-<div id="buyModalWin" class="modal" style="display:none;"><div class="modal-luxury"><h3 id="buyProdName"></h3><p id="buyProdPrice" style="font-size:2rem"></p><p>Số dư: <strong id="userBalanceShow">0</strong>đ</p><button class="btn-gold" onclick="confirmPurchase()">Xác nhận mua</button><button class="btn-glow" onclick="closeBuyModal()">Hủy</button></div></div>
-
-<!-- Modal Demo -->
-<div id="demoModal" class="modal" style="display:none;"><div class="modal-luxury" style="max-width:800px; width:95%"><div style="display:flex; justify-content:space-between"><h3>🎬 Xem demo sản phẩm</h3><button onclick="closeDemoModal()" style="background:none; border:none; font-size:2rem; color:white; cursor:pointer">&times;</button></div><div id="demoModalContent" class="demo-media" style="margin-top:1rem"></div><button class="btn-glow" onclick="closeDemoModal()" style="margin-top:1rem">Đóng</button></div></div>
-
-<!-- Modal Profile -->
-<div id="profileModal" class="modal" style="display:none;"><div class="modal-luxury" style="max-width: 950px; padding: 0; overflow: hidden;"><div style="position: relative;"><img id="profileCover" class="profile-cover" src="https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image" alt="cover"><div style="position: absolute; bottom: -40px; left: 20px;"><img id="profileAvatar" class="profile-avatar-large" src="" alt="Avatar" onclick="document.getElementById('avatarUpload').click();"></div><div style="position: absolute; top: 15px; right: 20px;"><button onclick="closeProfileModal()" style="background: rgba(0,0,0,0.5); border: none; font-size: 1.8rem; color: white; border-radius: 50%; width: 40px; cursor: pointer;">&times;</button></div></div><div style="padding: 2rem 2rem 1.5rem 2rem; margin-top: 30px;"><div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;"><div><h2 id="profileUsername" style="font-size: 1.8rem;"></h2><div><span id="profileVerifiedBadge" style="display: none;"><i class="fas fa-check-circle verified-badge"></i> Đã xác minh</span></div></div><div class="profile-stats"><div class="stat-card"><i class="fas fa-shopping-bag"></i> <span id="profileOrderCount">0</span> đơn</div><div class="stat-card"><i class="fas fa-coins"></i> <span id="profileTotalSpent">0</span>đ</div><div class="stat-card"><i class="fas fa-calendar-alt"></i> <span id="profileRegistered"></span></div></div></div><div class="profile-info" style="margin: 1rem 0;"><p><i class="fas fa-envelope"></i> <strong>Email:</strong> <span id="profileEmail"></span></p><p><i class="fas fa-phone-alt"></i> <strong>Số điện thoại:</strong> <input type="text" id="profilePhone" class="input-luxury" style="width: auto; display: inline-block; margin-left: 0.5rem;"><button class="btn-glow" onclick="updatePhone()" style="margin-left: 0.5rem;">Cập nhật</button></p></div><div class="music-player" id="musicPlayerArea"><i class="fas fa-music"></i> <span>Nhạc nền cá nhân:</span> <audio id="profileAudio" controls style="flex:1; min-width: 150px;"></audio><button class="btn-icon" id="uploadMusicBtn" onclick="document.getElementById('musicUpload').click();"><i class="fas fa-upload"></i></button><input type="file" id="musicUpload" accept="audio/mpeg,audio/mp3" style="display:none;"></div><div style="margin: 1rem 0;"><button class="btn-glow" onclick="document.getElementById('coverUpload').click();"><i class="fas fa-image"></i> Đổi ảnh bìa</button> <input type="file" id="coverUpload" accept="image/*" style="display:none;"><button class="btn-glow" onclick="document.getElementById('avatarUpload').click();"><i class="fas fa-user-circle"></i> Đổi avatar</button><input type="file" id="avatarUpload" accept="image/*" style="display:none;"><button id="adminVerifyBtn" class="btn-gold" style="display: none;"><i class="fas fa-check-circle"></i> Cấp tik xanh (cho chính bạn)</button></div><h4><i class="fas fa-history"></i> Lịch sử mua hàng</h4><div id="profileOrderHistory" style="max-height:300px; overflow-y:auto; margin-top:1rem;"></div><div style="text-align:center; margin-top:1.5rem;"><button class="btn-gold" onclick="closeProfileModal()">Đóng</button></div></div></div></div>
-
-<script>
-  // ======================== NHẠC NỀN TỦY CHỈNH ========================
-  let bgAudio = document.getElementById("bgAudio");
-  let playPauseIcon = document.getElementById("playPauseIcon");
-  let bgMusicNameSpan = document.getElementById("bgMusicName");
-  const DEFAULT_MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-  const DEFAULT_MUSIC_NAME = "🎵 Nhạc nền hài hước (mặc định)";
-
-  function loadBgMusicFromStorage() {
-    let stored = localStorage.getItem("bg_music_data");
-    let storedName = localStorage.getItem("bg_music_name");
-    if (stored && storedName) {
-      bgAudio.src = stored;
-      bgMusicNameSpan.innerText = storedName;
-      bgAudio.play().catch(e => console.log("Autoplay bị chặn, cần tương tác"));
-    } else {
-      bgAudio.src = DEFAULT_MUSIC_URL;
-      bgMusicNameSpan.innerText = DEFAULT_MUSIC_NAME;
-      bgAudio.play().catch(e => console.log("Autoplay bị chặn"));
-    }
-    bgAudio.onplaying = () => { playPauseIcon.className = "fas fa-pause"; };
-    bgAudio.onpause = () => { playPauseIcon.className = "fas fa-play"; };
-  }
-
-  function saveBgMusicToStorage(base64Data, fileName) {
-    try {
-      localStorage.setItem("bg_music_data", base64Data);
-      localStorage.setItem("bg_music_name", fileName);
-      loadBgMusicFromStorage();
-      document.getElementById("bgMusicStatus").innerHTML = `✅ Đã cập nhật nhạc nền: ${fileName}`;
-      Swal.fire({title:"Thành công", text:`Nhạc nền đã được cập nhật: ${fileName}`, icon:"success", timer:500, showConfirmButton:false});
-    } catch(e) {
-      Swal.fire({title:"Lỗi", text:"File quá lớn, không thể lưu vào trình duyệt! Hãy thử file nhỏ hơn (<5MB).", icon:"error", timer:500, showConfirmButton:false});
-    }
-  }
-
-  function uploadBackgroundMusic() {
-    if (!currentUser || !currentUser.isAdmin) {
-      Swal.fire({title:"Cần quyền admin", text:"Chỉ admin mới có thể thay đổi nhạc nền toàn bộ website.", icon:"warning", timer:500, showConfirmButton:false});
-      return;
-    }
-    const fileInput = document.getElementById("bgMusicUpload");
-    const file = fileInput.files[0];
-    if (!file) return Swal.fire({title:"Chọn file", text:"Hãy chọn file MP3 để upload", icon:"info", timer:500, showConfirmButton:false});
-    if (!file.type.includes("audio")) return Swal.fire({title:"Sai định dạng", text:"Chỉ chấp nhận file MP3", icon:"error", timer:500, showConfirmButton:false});
-    if (file.size > 5 * 1024 * 1024) return Swal.fire({title:"File quá lớn", text:"Dung lượng tối đa 5MB", icon:"error", timer:500, showConfirmButton:false});
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const base64 = e.target.result;
-      saveBgMusicToStorage(base64, file.name);
-    };
-    reader.readAsDataURL(file);
-    fileInput.value = "";
-  }
-
-  function resetBackgroundMusic() {
-    if (!currentUser || !currentUser.isAdmin) {
-      Swal.fire({title:"Cần quyền admin", text:"Chỉ admin mới có thể reset nhạc nền.", icon:"warning", timer:500, showConfirmButton:false});
-      return;
-    }
-    localStorage.removeItem("bg_music_data");
-    localStorage.removeItem("bg_music_name");
-    loadBgMusicFromStorage();
-    document.getElementById("bgMusicStatus").innerHTML = "🔄 Đã reset về nhạc nền mặc định.";
-    Swal.fire({title:"Reset thành công", text:"Nhạc nền đã về bản gốc.", icon:"success", timer:500, showConfirmButton:false});
-  }
-
-  if(playPauseIcon) {
-    playPauseIcon.addEventListener("click", () => {
-      if(bgAudio.paused) {
-        bgAudio.play();
-        playPauseIcon.classList.remove("fa-play");
-        playPauseIcon.classList.add("fa-pause");
-      } else {
-        bgAudio.pause();
-        playPauseIcon.classList.remove("fa-pause");
-        playPauseIcon.classList.add("fa-play");
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>😂 WINTER CLOUD | HuuDatDev — Nhạc nền tùy chỉnh + Game</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/canvas-confetti.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-    });
-  }
-
-  // ======================== BACKEND HOÀN CHỈNH ========================
-  let products = [];
-  let currentUser = null;
-  let currentBuyingProduct = null;
-  let adminIdleTimer = null;
-  const ADMIN_IDLE_TIMEOUT = 30 * 60 * 1000;
-
-  function resetAdminIdleTimer() {
-    if (!currentUser || !currentUser.isAdmin) return;
-    if (adminIdleTimer) clearTimeout(adminIdleTimer);
-    adminIdleTimer = setTimeout(() => {
-      if (currentUser && currentUser.isAdmin) {
-        Swal.fire({ title: "Hết phiên admin", text: "Bạn đã không thao tác trong 30 phút. Quyền admin đã bị vô hiệu hóa.", icon: "warning", timer: 500, showConfirmButton: false });
-        const users = getUsers();
-        const idx = users.findIndex(u => u.username === currentUser.username);
-        if (idx !== -1) {
-          users[idx].isAdmin = false;
-          saveUsers(users);
-          currentUser.isAdmin = false;
-          renderMainUI();
+      body {
+        font-family: "Inter", "Space Grotesk", sans-serif;
+        background: #0b0c15;
+        color: #f0f3ff;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+      .bg-glow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 30% 20%, #1e1b3a, #02020c);
+        z-index: -3;
+      }
+      .bg-glow::before {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        top: -50%;
+        left: -50%;
+        background: radial-gradient(
+          circle at 40% 50%,
+          rgba(255, 100, 150, 0.2),
+          rgba(0, 150, 255, 0.1),
+          transparent
+        );
+        animation: aurora 16s infinite alternate;
+        z-index: -2;
+      }
+      @keyframes aurora {
+        0% {
+          opacity: 0.3;
+          transform: translate(-10%, -10%) scale(1);
+        }
+        100% {
+          opacity: 0.8;
+          transform: translate(10%, 10%) scale(1.2);
         }
       }
-    }, ADMIN_IDLE_TIMEOUT);
-  }
-  function attachIdleEvents() { ['mousemove','click','keydown','scroll','touchstart'].forEach(ev => window.addEventListener(ev, () => resetAdminIdleTimer())); }
+      .particle-3d {
+        position: fixed;
+        background: linear-gradient(135deg, #ffb7d2, #ff6a9e);
+        border-radius: 50%;
+        filter: blur(2px);
+        pointer-events: none;
+        z-index: -1;
+        animation: float3d linear infinite;
+        opacity: 0.4;
+      }
+      @keyframes float3d {
+        0% {
+          transform: translateY(100vh) translateX(0) rotate(0deg);
+          opacity: 0;
+        }
+        20% {
+          opacity: 0.7;
+        }
+        80% {
+          opacity: 0.5;
+        }
+        100% {
+          transform: translateY(-20vh) translateX(40px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+      .glass-premium {
+        background: rgba(20, 22, 45, 0.55);
+        backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 130, 180, 0.5);
+        border-radius: 2rem;
+        box-shadow:
+          0 25px 45px -12px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+      .card-luxury {
+        background: linear-gradient(
+          145deg,
+          rgba(25, 28, 55, 0.8),
+          rgba(16, 18, 38, 0.9)
+        );
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 140, 180, 0.4);
+        border-radius: 2rem;
+        transition: all 0.4s cubic-bezier(0.2, 0.8, 0.4, 1.2);
+      }
+      .card-luxury:hover {
+        transform: translateY(-12px) rotateX(4deg) scale(1.02);
+        border-color: #ff8aae;
+        box-shadow: 0 40px 60px -20px rgba(255, 80, 130, 0.5);
+      }
+      .btn-gold {
+        background: linear-gradient(115deg, #ff3d6c, #ff926b);
+        border: none;
+        border-radius: 3rem;
+        padding: 0.8rem 2rem;
+        font-weight: 700;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px -5px #ff3d6c80;
+      }
+      .btn-glow {
+        background: transparent;
+        border: 1.5px solid rgba(255, 140, 180, 0.8);
+        border-radius: 3rem;
+        padding: 0.75rem 1.8rem;
+        font-weight: 600;
+        color: #ffe0ec;
+        transition: 0.25s;
+        cursor: pointer;
+        backdrop-filter: blur(8px);
+      }
+      .btn-glow:hover {
+        background: rgba(255, 140, 180, 0.25);
+        transform: translateY(-3px);
+      }
+      .navbar {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 1300px;
+        background: rgba(10, 12, 28, 0.7);
+        backdrop-filter: blur(24px);
+        border-radius: 80px;
+        padding: 0.6rem 2rem;
+        z-index: 1000;
+        border: 1px solid rgba(255, 140, 170, 0.4);
+        transition: all 0.4s;
+      }
+      .navbar.scrolled {
+        background: rgba(6, 8, 22, 0.9);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        top: 12px;
+      }
+      .logo {
+        font-family: "Space Grotesk", monospace;
+        font-weight: 800;
+        font-size: 1.6rem;
+        background: linear-gradient(135deg, #fff5f9, #ffb8d0, #ff6a9e);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        cursor: pointer;
+      }
+      .funny-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(25px);
+        z-index: 20000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        visibility: hidden;
+        opacity: 0;
+        transition:
+          visibility 0.2s,
+          opacity 0.3s ease;
+      }
+      .funny-loader.active {
+        visibility: visible;
+        opacity: 1;
+      }
+      .loader-card {
+        text-align: center;
+        background: rgba(30, 25, 55, 0.85);
+        backdrop-filter: blur(30px);
+        border-radius: 3rem;
+        padding: 2rem 2.5rem;
+        border: 2px solid #ffb347;
+        box-shadow:
+          0 0 50px #ffb347,
+          inset 0 0 20px rgba(255, 180, 70, 0.3);
+        animation: shakeFun 0.3s infinite alternate;
+      }
+      @keyframes shakeFun {
+        0% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-8px) rotate(2deg);
+        }
+      }
+      .funny-icon {
+        font-size: 5.5rem;
+        filter: drop-shadow(0 0 15px #ffb347);
+        animation: spinFun 0.5s infinite alternate;
+      }
+      @keyframes spinFun {
+        0% {
+          transform: scale(1) rotate(-5deg);
+        }
+        100% {
+          transform: scale(1.1) rotate(5deg);
+        }
+      }
+      .funny-text {
+        font-size: 1.6rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, #ffe6b0, #ffb347);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .progress-bar-funny {
+        width: 300px;
+        height: 12px;
+        background: #ffffff30;
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 1rem auto;
+      }
+      .progress-fill-funny {
+        width: 0%;
+        height: 100%;
+        background: repeating-linear-gradient(45deg, #ffb347, #ff8c00, #ffb347);
+        transition: width 0.05s linear;
+      }
+      .chip {
+        background: rgba(255, 200, 220, 0.1);
+        border-radius: 50px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s;
+        cursor: pointer;
+        border: 1px solid rgba(255, 130, 170, 0.5);
+        backdrop-filter: blur(4px);
+      }
+      .chip.active,
+      .chip:hover {
+        background: linear-gradient(125deg, #ff6a9e, #ff4d7a);
+        border-color: transparent;
+        color: white;
+        box-shadow: 0 8px 18px #ff4d7a60;
+        transform: translateY(-3px);
+      }
+      .product-item {
+        animation: slideUpFade 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.2) backwards;
+      }
+      @keyframes slideUpFade {
+        from {
+          opacity: 0;
+          transform: translateY(60px) scale(0.96);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .reveal-section {
+        opacity: 0;
+        transform: translateY(50px);
+        transition:
+          opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2),
+          transform 0.7s ease;
+      }
+      .reveal-section.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(16px);
+        z-index: 30000;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-luxury {
+        background: rgba(8, 10, 28, 0.98);
+        backdrop-filter: blur(40px);
+        border-radius: 2.5rem;
+        border: 1px solid #ffa0c0;
+        max-width: 900px;
+        width: 95%;
+        padding: 2rem;
+        animation: modalZoom 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+        max-height: 90vh;
+        overflow-y: auto;
+        margin: auto;
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
+      }
+      @keyframes modalZoom {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .snow,
+      .heart {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        animation: fallDown linear forwards;
+      }
+      @keyframes fallDown {
+        0% {
+          transform: translateY(-20vh) rotate(0deg);
+          opacity: 0.9;
+        }
+        100% {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+      .input-luxury {
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid #ff98bb;
+        border-radius: 2rem;
+        padding: 0.8rem 1.2rem;
+        color: white;
+        transition: all 0.2s;
+        width: 100%;
+      }
+      .input-luxury:focus {
+        border-color: #ff6a9e;
+        outline: none;
+        box-shadow: 0 0 18px #ff6a9e;
+      }
+      .history-card {
+        background: rgba(255, 220, 240, 0.06);
+        border-radius: 1.5rem;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1rem;
+        border-left: 4px solid #ff77aa;
+        transition: all 0.3s;
+        animation: slideLeft 0.5s backwards;
+      }
+      @keyframes slideLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .typing-glow {
+        border-right: 2px solid #ff88bb;
+        white-space: nowrap;
+        overflow: hidden;
+        animation:
+          blinkCursor 0.8s step-end infinite,
+          textGlow 2s infinite alternate;
+      }
+      @keyframes textGlow {
+        0% {
+          text-shadow: 0 0 2px #ff88bb;
+        }
+        100% {
+          text-shadow: 0 0 12px #ff4d7a;
+        }
+      }
+      @keyframes blinkCursor {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: #ff88bb;
+        }
+      }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none !important;
+        }
+        .typing-glow {
+          white-space: normal;
+          border-right: none;
+        }
+      }
+      .demo-media {
+        margin-top: 1rem;
+        text-align: center;
+        max-height: 400px;
+        overflow: auto;
+      }
+      .demo-media img,
+      .demo-media video {
+        max-width: 100%;
+        max-height: 350px;
+        border-radius: 1rem;
+        border: 1px solid #ff88bb;
+      }
+      .wallet-badge {
+        transition: all 0.2s;
+        cursor: pointer;
+      }
+      .wallet-badge:hover {
+        background: rgba(255, 120, 160, 0.4);
+        transform: scale(1.02);
+      }
+      .avatar-small {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ff88bb;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .avatar-small:hover {
+        transform: scale(1.05);
+        border-color: #ff4d7a;
+      }
+      .profile-cover {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 1.5rem 1.5rem 0 0;
+        margin-bottom: -50px;
+        border-bottom: 3px solid #ff88bb;
+      }
+      .profile-avatar-large {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #ff88bb;
+        background: #0b0c15;
+        margin-left: 2rem;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .profile-avatar-large:hover {
+        transform: scale(1.02);
+        border-color: #ff4d7a;
+      }
+      .verified-badge {
+        color: #1da1f2;
+        margin-left: 8px;
+        font-size: 1.3rem;
+        vertical-align: middle;
+        filter: drop-shadow(0 0 4px #1da1f2);
+      }
+      .music-player {
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 3rem;
+        padding: 0.5rem 1rem;
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .music-player audio {
+        height: 40px;
+        border-radius: 2rem;
+      }
+      .btn-icon {
+        background: none;
+        border: none;
+        color: #ff88bb;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .btn-icon:hover {
+        color: #ff4d7a;
+        transform: scale(1.1);
+      }
+      .profile-stats {
+        display: flex;
+        gap: 1.5rem;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+      }
+      .stat-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 1.5rem;
+        padding: 0.5rem 1.2rem;
+        text-align: center;
+      }
+      .user-row {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 1.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        transition: 0.2s;
+      }
+      .user-row:hover {
+        background: rgba(255, 120, 160, 0.2);
+      }
+      .admin-table {
+        overflow-x: auto;
+      }
+      #bgMusicControl {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(12px);
+        border-radius: 60px;
+        padding: 8px 20px;
+        z-index: 10000;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid #ff8aae;
+      }
+      #bgMusicControl span {
+        max-width: 180px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.85rem;
+      }
+      .user-avatar-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+      .navbar-verified-icon {
+        color: #1da1f2;
+        font-size: 1rem;
+        filter: drop-shadow(0 0 2px #1da1f2);
+        display: none;
+      }
+      .game-card {
+        cursor: pointer;
+        text-align: center;
+        padding: 1.5rem;
+        transition: 0.3s;
+      }
+      .game-card i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #ff8aae;
+      }
+      .game-canvas {
+        background: #0a0c1a;
+        border-radius: 1.5rem;
+        display: block;
+        margin: 0 auto;
+        box-shadow: 0 0 20px rgba(255, 100, 150, 0.3);
+      }
+      .game-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+    <div
+      id="particleContainer"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      "
+    ></div>
+    <div id="funnyLoader" class="funny-loader">
+      <div class="loader-card">
+        <div class="funny-icon" id="loaderFunIcon">😂</div>
+        <div class="funny-text" id="loaderFunText">
+          Đang tải ... chờ xíu cưng ơi!
+        </div>
+        <div class="progress-bar-funny">
+          <div class="progress-fill-funny" id="loaderProgressFill"></div>
+        </div>
+        <div class="sub-text" id="loaderSubText">⚡ tốc độ ánh sáng =))</div>
+      </div>
+    </div>
 
-  function loadDataFromStorage() {
-    const storedProducts = localStorage.getItem("winter_products");
-    if (storedProducts) {
-      products = JSON.parse(storedProducts);
-    } else {
-      products = [
-        { id: "1", name: "Code Tool Auto Like FB", price: 50000, category: "python", icon: "fab fa-python", desc: "Tool tăng like facebook tự động", downloadLink: "https://drive.google.com/uc?export=download&id=1abc", demoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
-        { id: "2", name: "Website Bán Hàng MMO", price: 199000, category: "website", icon: "fas fa-globe", desc: "Full code PHP + MySQL", downloadLink: "https://github.com/example/project/archive/main.zip", demoUrl: "https://via.placeholder.com/800x400?text=Demo+Website" },
-        { id: "3", name: "Thiệp Tình Yêu 3D", price: 25000, category: "love", icon: "fas fa-heart", desc: "Gửi người ấy", downloadLink: "https://example.com/love.zip", demoUrl: "https://cdn.pixabay.com/video/2023/02/07/149847-792662592_large.mp4" }
-      ];
-      localStorage.setItem("winter_products", JSON.stringify(products));
-    }
-    let users = localStorage.getItem("winter_users");
-    if (!users) {
-      const defaultAvatar = "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=Admin";
-      const defaultCover = "https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image";
-      users = [
-        { username: "admin", password: "admin123", email: "admin@shop.com", phone: "0987654321", balance: 9999999, purchaseHistory: [], isAdmin: true, registeredDate: new Date().toISOString(), avatar: defaultAvatar, coverPhoto: defaultCover, verified: true, musicUrl: "" },
-        { username: "user1", password: "123456", email: "user1@test.com", phone: "", balance: 2000, purchaseHistory: [], isAdmin: false, registeredDate: new Date().toISOString(), avatar: "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=User1", coverPhoto: defaultCover, verified: false, musicUrl: "" }
-      ];
-      localStorage.setItem("winter_users", JSON.stringify(users));
-    }
-    if (!localStorage.getItem("winter_deposits")) localStorage.setItem("winter_deposits", "[]");
-  }
-  function saveProducts() { localStorage.setItem("winter_products", JSON.stringify(products)); }
-  function getUsers() { return JSON.parse(localStorage.getItem("winter_users") || "[]"); }
-  function saveUsers(users) { localStorage.setItem("winter_users", JSON.stringify(users)); }
-  function getDeposits() { return JSON.parse(localStorage.getItem("winter_deposits") || "[]"); }
-  function saveDeposits(deposits) { localStorage.setItem("winter_deposits", JSON.stringify(deposits)); }
+    <!-- Thanh điều khiển nhạc nền động -->
+    <div id="bgMusicControl">
+      <i class="fas fa-music" style="color: #ffb7c7"></i>
+      <span id="bgMusicName">🎵 Nhạc nền hài hước</span>
+      <i id="playPauseIcon" class="fas fa-play" style="cursor: pointer"></i>
+    </div>
+    <audio id="bgAudio" loop style="display: none"></audio>
 
-  function renderProductsGrid(filterCat = "all", keyword = "") {
-    let filtered = products.filter(p => filterCat === "all" || p.category === filterCat);
-    if (keyword) filtered = filtered.filter(p => p.name.toLowerCase().includes(keyword.toLowerCase()) || (p.desc && p.desc.toLowerCase().includes(keyword.toLowerCase())));
-    const grid = document.getElementById("productsGrid");
-    if (!grid) return;
-    grid.innerHTML = filtered.map((p, idx) => `<div class="card-luxury product-item" style="padding:1.5rem; animation-delay:${idx*0.05}s"><i class="${p.icon}" style="font-size:2rem; color:#ff8aae"></i><h3 style="margin:10px 0">${p.name}</h3><p>${p.desc || ""}</p><div style="font-size:1.8rem; font-weight:800; margin:12px 0;">${p.price.toLocaleString()}đ</div><div style="display: flex; gap: 0.5rem;"><button class="btn-gold" style="flex:1;" onclick="openBuyModal('${p.id}')">Mua ngay</button>${p.demoUrl && p.demoUrl.trim() !== "" ? `<button class="btn-glow" style="flex:1;" onclick="showDemo('${p.id}')">Xem demo</button>` : '<button class="btn-glow" disabled style="opacity:0.5">Chưa có demo</button>'}</div></div>`).join("");
-  }
+    <nav class="navbar" id="mainNav">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div class="logo" id="secretAdminLogo">Dat Dev ヾ(•ω•`)o</div>
+        <ul
+          class="nav-links"
+          style="display: flex; gap: 1.8rem; list-style: none"
+        >
+          <li>
+            <a
+              onclick="navigateWithFunnyLoader('home')"
+              style="cursor: pointer"
+            >
+              Trang chủ 💦</a
+            >
+          </li>
+          <li>
+            <a
+              onclick="navigateWithFunnyLoader('products')"
+              style="cursor: pointer"
+              >Sản phẩm 🛒</a
+            >
+          </li>
+          <li>
+            <a
+              onclick="navigateWithFunnyLoader('games')"
+              style="cursor: pointer"
+              >Game Zone 🖥️</a
+            >
+          </li>
+          <li>
+            <a
+              onclick="navigateWithFunnyLoader('qrlove')"
+              style="cursor: pointer"
+              >QR Yêu 💌</a
+            >
+          </li>
+          <li>
+            <a onclick="navigateWithFunnyLoader('bank')" style="cursor: pointer"
+              >Nạp tiền 🏛️</a
+            >
+          </li>
+          <li>
+            <a
+              onclick="navigateWithFunnyLoader('history')"
+              style="cursor: pointer"
+              >Lịch sử 💨</a
+            >
+          </li>
+        </ul>
+        <div style="display: flex; gap: 0.8rem; align-items: center">
+          <div
+            class="wallet-badge"
+            id="walletBox"
+            style="
+              display: none;
+              background: rgba(255, 120, 160, 0.2);
+              border-radius: 40px;
+              padding: 0.4rem 1.2rem;
+              cursor: pointer;
+            "
+            onclick="navigateWithFunnyLoader('history')"
+          >
+            <i class="fas fa-coins"></i> <span id="walletValue">0</span>đ
+          </div>
+          <div
+            id="userAvatarContainer"
+            style="display: none; cursor: pointer"
+            onclick="openProfileModal()"
+            class="user-avatar-badge"
+          >
+            <img
+              id="userAvatarImg"
+              class="avatar-small"
+              src=""
+              alt="avatar"
+            /><i
+              id="navbarVerifiedBadge"
+              class="fas fa-check-circle navbar-verified-icon"
+            ></i>
+          </div>
+          <button class="btn-glow" id="authBtnNav" onclick="openAuthModal()">
+            <i class="fas fa-paw"></i> Đăng nhập</button
+          ><button
+            class="btn-glow"
+            id="logoutBtnNav"
+            style="display: none"
+            onclick="logout()"
+          >
+            Thoát
+          </button>
+        </div>
+      </div>
+    </nav>
+    <main style="padding-top: 110px">
+      <div
+        class="glass-premium reveal-section"
+        style="max-width: 1320px; margin: 0 auto 2rem; padding: 2rem"
+        id="home"
+      >
+        <div
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+          "
+        >
+          <div>
+            <h1
+              style="
+                font-size: 2.8rem;
+                font-weight: 800;
+                background: linear-gradient(135deg, #fff0f5, #ffb8d0, #ff6a9e);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+              "
+            >
+              HuuDatDev Shop Code <->
+            </h1>
+            <p
+              class="typing-glow"
+              id="sloganText"
+              style="font-size: 1.2rem; max-width: 550px"
+            ></p>
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem">
+              <button
+                class="btn-gold"
+                onclick="navigateWithFunnyLoader('products')"
+              >
+                Khám phá ngay 🎶</button
+              ><button
+                class="btn-glow"
+                onclick="navigateWithFunnyLoader('bank')"
+              >
+                Nạp tiền 💢
+              </button>
+            </div>
+          </div>
+          <i
+            class="fas fa-face-grin-tongue-squint"
+            style="
+              font-size: 4rem;
+              opacity: 0.8;
+              filter: drop-shadow(0 0 15px #ff99bb);
+              animation: floatIcon 3s infinite alternate;
+            "
+          ></i>
+        </div>
+      </div>
+      <div
+        style="
+          max-width: 1320px;
+          margin: 0 auto 3rem;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.8rem;
+        "
+      >
+        <div class="card-luxury reveal-section" style="padding: 1.8rem">
+          <i class="fas fa-code-branch fa-2x" style="color: #ff8aae"></i>
+          <h3 style="margin: 0.7rem 0">Mã Nguồn Chất Lượng</h3>
+          <p>Python, Web, Khóa Học LTrinh , .... chất lượng</p>
+        </div>
+        <div class="card-luxury reveal-section" style="padding: 1.8rem">
+          <i class="fas fa-headset fa-2x" style="color: #ff8aae"></i>
+          <h3>Support 24/7</h3>
+          <p>Facebook & Zalo phản hồi nhanh</p>
+          <button
+            class="btn-glow"
+            style="margin-top: 0.5rem; padding: 0.3rem 1rem"
+            onclick="window.open('https://www.facebook.com/dinhhuudat8/')"
+          >
+            <i class="fab fa-facebook"></i> Liên hệ
+          </button>
+        </div>
+        <div class="card-luxury reveal-section" style="padding: 1.8rem">
+          <i class="fas fa-gift fa-2x" style="color: #ff8aae"></i>
+          <h3>🎁 Free 2000 đ khi đăng kí</h3>
+          <p>Share code ^_~</p>
+          <button
+            class="btn-glow"
+            onclick="
+              Swal.fire({
+                title: 'Kèo Free',
+                text: 'Cập nhật trong group Zalo',
+                icon: 'info',
+                timer: 500,
+                showConfirmButton: false,
+              })
+            "
+          >
+            Xem ngay
+          </button>
+        </div>
+      </div>
 
-  async function renderHistoryUI() {
-    if (!currentUser) return;
-    const historyDiv = document.getElementById("historyList");
-    if (!historyDiv) return;
-    const history = currentUser.purchaseHistory || [];
-    historyDiv.innerHTML = history.map((h, idx) => `<div class="history-card" style="animation-delay:${idx*0.05}s"><div><strong>${h.productName}</strong> - ${h.price.toLocaleString()}đ<br><small>${new Date(h.date).toLocaleString()}</small></div><button class="btn-glow" onclick="downloadItem('${h.downloadLink}')">Tải xuống</button></div>`).join("");
-  }
+      <!-- GAME ZONE MỚI -->
+      <section id="games" class="reveal-section" style="padding: 2rem 1rem">
+        <div style="max-width: 1400px; margin: auto">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2rem;
+              font-weight: 700;
+              background: linear-gradient(145deg, #ffe0ee, #ffb0c8);
+              -webkit-background-clip: text;
+              background-clip: text;
+              color: transparent;
+            "
+          >
+            🎮 CHƠI GAME NHẬN XU 🎮
+          </h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+              gap: 2rem;
+              margin-top: 2rem;
+            "
+          >
+            <div class="card-luxury game-card" onclick="openGame('flappy')">
+              <i class="fas fa-dove"></i>
+              <h3>Flappy Bird</h3>
+              <p>Vượt ống, ghi điểm cao</p>
+              <span
+                class="btn-glow"
+                style="display: inline-block; margin-top: 10px"
+                >Chơi ngay</span
+              >
+            </div>
+            <div class="card-luxury game-card" onclick="openGame('clicker')">
+              <i class="fas fa-tachometer-alt"></i>
+              <h3>Click Speed</h3>
+              <p>Click nhanh trong 5s</p>
+              <span
+                class="btn-glow"
+                style="display: inline-block; margin-top: 10px"
+                >Chơi ngay</span
+              >
+            </div>
+            <div class="card-luxury game-card" onclick="openGame('memory')">
+              <i class="fas fa-brain"></i>
+              <h3>Memory Cards</h3>
+              <p>Lật cặp thẻ, rèn trí nhớ</p>
+              <span
+                class="btn-glow"
+                style="display: inline-block; margin-top: 10px"
+                >Chơi ngay</span
+              >
+            </div>
+            <div class="card-luxury game-card" onclick="openGame('snake')">
+              <i class="fas fa-snake"></i>
+              <h3>Snake Game</h3>
+              <p>Rắn săn mồi cổ điển</p>
+              <span
+                class="btn-glow"
+                style="display: inline-block; margin-top: 10px"
+                >Chơi ngay</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
 
-  function renderUserManageList() {
-    if (!currentUser || !currentUser.isAdmin) return;
-    const users = getUsers();
-    const container = document.getElementById("userManageList");
-    if (!container) return;
-    if (users.length === 0) { container.innerHTML = "<p>Chưa có người dùng</p>"; return; }
-    container.innerHTML = `<div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; text-align:left;">
-      <thead><tr style="border-bottom:1px solid #ff88bb;"><th>Username</th><th>Email</th><th>Số dư</th><th>Tik Xanh</th><th>Thao tác</th><tr></thead>
-      <tbody>${users.map(u => `
+      <div style="max-width: 1320px; margin: 0 auto 1.5rem">
+        <div
+          class="glass-premium"
+          style="
+            display: flex;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            align-items: center;
+          "
+        >
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Tìm sản phẩm, tool, source..."
+            class="input-luxury"
+            style="flex: 1"
+          /><button class="btn-gold" onclick="searchProducts()">
+            <i class="fas fa-search"></i> Tìm
+          </button>
+        </div>
+        <div
+          id="filterChips"
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 1.2rem;
+          "
+        ></div>
+      </div>
+      <section id="products" style="padding: 1rem 1rem 3rem">
+        <div style="max-width: 1400px; margin: 0 auto">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2rem;
+              font-weight: 700;
+              background: linear-gradient(145deg, #ffe0ee, #ffb0c8);
+              -webkit-background-clip: text;
+              background-clip: text;
+              color: transparent;
+            "
+          >
+            ヾ(•ω•`)o Nơi các mặt hàng chất (●'◡'●)
+          </h2>
+          <div
+            id="productsGrid"
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+              gap: 2rem;
+              margin-top: 2rem;
+            "
+          ></div>
+        </div>
+      </section>
+      <section id="qrlove" class="reveal-section" style="padding: 2rem 1rem">
+        <div
+          class="card-luxury"
+          style="
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+          "
+        >
+          <h3>
+            <i
+              class="fas fa-heart"
+              style="color: #ff77aa; animation: pulseHeart 1s infinite"
+            ></i>
+            QRCODE TRÁI TIM
+          </h3>
+          <input
+            id="qrContent"
+            placeholder="Nhập link hoặc lời nhắn..."
+            class="input-luxury"
+            style="margin: 1rem 0"
+          /><button class="btn-gold" onclick="genHeartQR()">Tạo QR Cute</button>
+          <div id="qrResult" style="display: none; margin-top: 1rem">
+            <div id="qrCanvas"></div>
+            <button class="btn-glow" onclick="downloadQR()">Tải QR</button>
+          </div>
+        </div>
+      </section>
+      <section id="bank" class="reveal-section" style="padding: 2rem 1rem">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1100px;
+            margin: auto;
+          "
+        >
+          <div class="card-luxury" style="padding: 2rem">
+            <h3>🏦 THÔNG TIN NẠP</h3>
+            <p>
+              Ngân hàng: BIDV<br />Chủ TK: ĐINH HỮU ĐẠT<br />Số TK:
+              8826353645<br />Nội dung: NAP + MÃ GD <br />
+              Nhận Làm các dịch vụ về xã hội ib ngay ^_^
+            </p>
+          </div>
+          <div class="card-luxury" style="padding: 2rem">
+            <img
+              src="https://img.vietqr.io/image/BIDV-8826353645-compact.png"
+              width="140"
+            /><input
+              id="depositAmountInput"
+              placeholder="Số tiền (VNĐ)"
+              class="input-luxury"
+              type="number"
+            /><input
+              id="depositPhoneInput"
+              placeholder="Số điện thoại"
+              class="input-luxury"
+            /><button class="btn-gold" onclick="sendDepositReq()">
+              Gửi yêu cầu nạp
+            </button>
+          </div>
+        </div>
+      </section>
+      <section id="history" class="reveal-section" style="padding: 2rem 1rem">
+        <div
+          class="glass-premium"
+          style="max-width: 1000px; margin: auto; padding: 2rem"
+        >
+          <h3>ヾ(•ω•`)o LỊCH SỬ MUA HÀNG</h3>
+          <div id="historyList"></div>
+        </div>
+      </section>
+      <section
+        id="adminPanel"
+        style="display: none; padding: 2rem"
+        class="reveal-section"
+      >
+        <div
+          class="glass-premium"
+          style="padding: 2rem; max-width: 1200px; margin: auto"
+        >
+          <h3>👑 ADMIN PANEL</h3>
+          <div style="margin-bottom: 2rem">
+            <h4>➕ Thêm sản phẩm mới</h4>
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem"
+            >
+              <input
+                id="prodName"
+                placeholder="Tên sản phẩm"
+                class="input-luxury"
+              /><input
+                id="prodPrice"
+                placeholder="Giá (VNĐ)"
+                type="number"
+                class="input-luxury"
+              /><select id="prodCategory" class="input-luxury">
+                <option>python</option>
+                <option>website</option>
+                <option>love</option>
+                <option>qrlove</option></select
+              ><input
+                id="prodIcon"
+                placeholder="Icon (fas fa-code)"
+                value="fas fa-code"
+                class="input-luxury"
+              /><textarea
+                id="prodDesc"
+                placeholder="Mô tả"
+                class="input-luxury"
+              ></textarea
+              ><input
+                id="prodDownloadLink"
+                placeholder="Link tải (trực tiếp)"
+                class="input-luxury"
+              /><input
+                id="prodDemoLink"
+                placeholder="Link demo (video/ảnh/youtube)"
+                class="input-luxury"
+              />
+            </div>
+            <button
+              class="btn-gold"
+              onclick="addNewProduct()"
+              style="margin-top: 1rem"
+            >
+              ➕ Thêm sản phẩm</button
+            ><button
+              class="btn-glow"
+              onclick="refreshAdminList()"
+              style="margin-top: 1rem"
+            >
+              📋 Kiểm tra sản phẩm
+            </button>
+            <div
+              id="adminProductList"
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+              "
+            ></div>
+          </div>
+          <hr style="margin: 2rem 0; border-color: #ff88bb" />
+          <div>
+            <h4>💸 Xác nhận nạp tiền thủ công</h4>
+            <div
+              id="pendingDepositsList"
+              style="max-height: 400px; overflow-y: auto"
+            ></div>
+          </div>
+          <hr style="margin: 2rem 0; border-color: #ff88bb" />
+          <div>
+            <h4>👥 QUẢN LÝ NGƯỜI DÙNG (Cấp tik xanh, chỉnh sửa số dư)</h4>
+            <div id="userManageList" class="admin-table"></div>
+          </div>
+          <hr style="margin: 2rem 0; border-color: #ff88bb" />
+          <div>
+            <h4>🎵 QUẢN LÝ NHẠC NỀN (Admin tự upload)</h4>
+            <div
+              style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                align-items: center;
+              "
+            >
+              <input
+                type="file"
+                id="bgMusicUpload"
+                accept="audio/mpeg,audio/mp3"
+                class="input-luxury"
+                style="flex: 1"
+              />
+              <button class="btn-gold" onclick="uploadBackgroundMusic()">
+                📤 Upload làm nhạc nền
+              </button>
+              <button class="btn-glow" onclick="resetBackgroundMusic()">
+                🔄 Reset về mặc định
+              </button>
+            </div>
+            <p
+              id="bgMusicStatus"
+              style="margin-top: 10px; font-size: 0.9rem; color: #ffbbdd"
+            ></p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer style="text-align: center; padding: 2rem; margin-top: 2rem">
+      <p>
+        (●'◡'●) HuuDatDev — Mã nguồn chất lượng, Khóa học chất lượng và đem đến
+        những dịch vụ tạo web , lập trình theo yêu cầu...
+      </p>
+      <div>
+        <i class="fas fa-heart" style="color: #ff88bb"></i> Huu Dat Dev Shop
+        2026
+      </div>
+    </footer>
+
+    <!-- Modal Auth -->
+    <div id="authModalWin" class="modal" style="display: none">
+      <div class="modal-luxury">
+        <div style="display: flex; justify-content: space-between">
+          <h3>🐩 WINTER ACCESS</h3>
+          <button
+            onclick="closeAuthModal()"
+            style="
+              background: none;
+              border: none;
+              font-size: 2rem;
+              color: white;
+              cursor: pointer;
+            "
+          >
+            &times;
+          </button>
+        </div>
+        <div style="display: flex; gap: 1rem; margin: 1rem 0">
+          <button class="btn-gold" onclick="switchAuth('login')">
+            ĐĂNG NHẬP</button
+          ><button class="btn-glow" onclick="switchAuth('register')">
+            ĐĂNG KÝ
+          </button>
+        </div>
+        <div id="loginFormDiv">
+          <input
+            id="loginUser"
+            placeholder="Tên đăng nhập"
+            class="input-luxury"
+          /><input
+            id="loginPass"
+            type="password"
+            placeholder="Mật khẩu"
+            class="input-luxury"
+          /><button class="btn-gold" onclick="loginUser()">Đăng nhập</button>
+        </div>
+        <div id="registerFormDiv" style="display: none">
+          <input
+            id="regUser"
+            placeholder="Tên đăng nhập"
+            class="input-luxury"
+          /><input
+            id="regEmailAddr"
+            placeholder="Email"
+            class="input-luxury"
+          /><input
+            id="regPhone"
+            placeholder="Số điện thoại"
+            class="input-luxury"
+          /><input
+            id="regPass"
+            type="password"
+            placeholder="Mật khẩu"
+            class="input-luxury"
+          /><input
+            id="regConfirmPass"
+            type="password"
+            placeholder="Xác nhận"
+            class="input-luxury"
+          /><button class="btn-gold" onclick="registerUser()">
+            Đăng ký (+2000đ)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Mua hàng -->
+    <div id="buyModalWin" class="modal" style="display: none">
+      <div class="modal-luxury">
+        <h3 id="buyProdName"></h3>
+        <p id="buyProdPrice" style="font-size: 2rem"></p>
+        <p>Số dư: <strong id="userBalanceShow">0</strong>đ</p>
+        <button class="btn-gold" onclick="confirmPurchase()">
+          Xác nhận mua</button
+        ><button class="btn-glow" onclick="closeBuyModal()">Hủy</button>
+      </div>
+    </div>
+
+    <!-- Modal Demo -->
+    <div id="demoModal" class="modal" style="display: none">
+      <div class="modal-luxury" style="max-width: 800px; width: 95%">
+        <div style="display: flex; justify-content: space-between">
+          <h3>🎬 Xem demo sản phẩm</h3>
+          <button
+            onclick="closeDemoModal()"
+            style="
+              background: none;
+              border: none;
+              font-size: 2rem;
+              color: white;
+              cursor: pointer;
+            "
+          >
+            &times;
+          </button>
+        </div>
+        <div
+          id="demoModalContent"
+          class="demo-media"
+          style="margin-top: 1rem"
+        ></div>
+        <button
+          class="btn-glow"
+          onclick="closeDemoModal()"
+          style="margin-top: 1rem"
+        >
+          Đóng
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Profile -->
+    <div id="profileModal" class="modal" style="display: none">
+      <div
+        class="modal-luxury"
+        style="max-width: 950px; padding: 0; overflow: hidden"
+      >
+        <div style="position: relative">
+          <img
+            id="profileCover"
+            class="profile-cover"
+            src="https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image"
+            alt="cover"
+          />
+          <div style="position: absolute; bottom: -40px; left: 20px">
+            <img
+              id="profileAvatar"
+              class="profile-avatar-large"
+              src=""
+              alt="Avatar"
+              onclick="document.getElementById('avatarUpload').click()"
+            />
+          </div>
+          <div style="position: absolute; top: 15px; right: 20px">
+            <button
+              onclick="closeProfileModal()"
+              style="
+                background: rgba(0, 0, 0, 0.5);
+                border: none;
+                font-size: 1.8rem;
+                color: white;
+                border-radius: 50%;
+                width: 40px;
+                cursor: pointer;
+              "
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+        <div style="padding: 2rem 2rem 1.5rem 2rem; margin-top: 30px">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+            "
+          >
+            <div>
+              <h2 id="profileUsername" style="font-size: 1.8rem"></h2>
+              <div>
+                <span id="profileVerifiedBadge" style="display: none"
+                  ><i class="fas fa-check-circle verified-badge"></i> Đã xác
+                  minh</span
+                >
+              </div>
+            </div>
+            <div class="profile-stats">
+              <div class="stat-card">
+                <i class="fas fa-shopping-bag"></i>
+                <span id="profileOrderCount">0</span> đơn
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-coins"></i>
+                <span id="profileTotalSpent">0</span>đ
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-calendar-alt"></i>
+                <span id="profileRegistered"></span>
+              </div>
+            </div>
+          </div>
+          <div class="profile-info" style="margin: 1rem 0">
+            <p>
+              <i class="fas fa-envelope"></i> <strong>Email:</strong>
+              <span id="profileEmail"></span>
+            </p>
+            <p>
+              <i class="fas fa-phone-alt"></i> <strong>Số điện thoại:</strong>
+              <input
+                type="text"
+                id="profilePhone"
+                class="input-luxury"
+                style="width: auto; display: inline-block; margin-left: 0.5rem"
+              /><button
+                class="btn-glow"
+                onclick="updatePhone()"
+                style="margin-left: 0.5rem"
+              >
+                Cập nhật
+              </button>
+            </p>
+          </div>
+          <div class="music-player" id="musicPlayerArea">
+            <i class="fas fa-music"></i> <span>Nhạc nền cá nhân:</span>
+            <audio
+              id="profileAudio"
+              controls
+              style="flex: 1; min-width: 150px"
+            ></audio
+            ><button
+              class="btn-icon"
+              id="uploadMusicBtn"
+              onclick="document.getElementById('musicUpload').click()"
+            >
+              <i class="fas fa-upload"></i></button
+            ><input
+              type="file"
+              id="musicUpload"
+              accept="audio/mpeg,audio/mp3"
+              style="display: none"
+            />
+          </div>
+          <div style="margin: 1rem 0">
+            <button
+              class="btn-glow"
+              onclick="document.getElementById('coverUpload').click()"
+            >
+              <i class="fas fa-image"></i> Đổi ảnh bìa
+            </button>
+            <input
+              type="file"
+              id="coverUpload"
+              accept="image/*"
+              style="display: none"
+            /><button
+              class="btn-glow"
+              onclick="document.getElementById('avatarUpload').click()"
+            >
+              <i class="fas fa-user-circle"></i> Đổi avatar</button
+            ><input
+              type="file"
+              id="avatarUpload"
+              accept="image/*"
+              style="display: none"
+            /><button
+              id="adminVerifyBtn"
+              class="btn-gold"
+              style="display: none"
+            >
+              <i class="fas fa-check-circle"></i> Cấp tik xanh (cho chính bạn)
+            </button>
+          </div>
+          <h4><i class="fas fa-history"></i> Lịch sử mua hàng</h4>
+          <div
+            id="profileOrderHistory"
+            style="max-height: 300px; overflow-y: auto; margin-top: 1rem"
+          ></div>
+          <div style="text-align: center; margin-top: 1.5rem">
+            <button class="btn-gold" onclick="closeProfileModal()">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Game -->
+    <div id="gameModal" class="modal">
+      <div class="modal-luxury" style="max-width: 750px">
+        <div class="game-header">
+          <h2 id="gameTitle"></h2>
+          <button
+            onclick="closeGameModal()"
+            style="
+              background: none;
+              border: none;
+              font-size: 2rem;
+              color: white;
+              cursor: pointer;
+            "
+          >
+            &times;
+          </button>
+        </div>
+        <div id="gameContainer"></div>
+        <div
+          id="gameRewardMsg"
+          style="margin-top: 1rem; text-align: center"
+        ></div>
+      </div>
+    </div>
+
+    <script>
+      // ======================== NHẠC NỀN TỦY CHỈNH ========================
+      let bgAudio = document.getElementById("bgAudio");
+      let playPauseIcon = document.getElementById("playPauseIcon");
+      let bgMusicNameSpan = document.getElementById("bgMusicName");
+      const DEFAULT_MUSIC_URL =
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+      const DEFAULT_MUSIC_NAME = "🎵 Nhạc nền hài hước (mặc định)";
+
+      function loadBgMusicFromStorage() {
+        let stored = localStorage.getItem("bg_music_data");
+        let storedName = localStorage.getItem("bg_music_name");
+        if (stored && storedName) {
+          bgAudio.src = stored;
+          bgMusicNameSpan.innerText = storedName;
+          bgAudio
+            .play()
+            .catch((e) => console.log("Autoplay bị chặn, cần tương tác"));
+        } else {
+          bgAudio.src = DEFAULT_MUSIC_URL;
+          bgMusicNameSpan.innerText = DEFAULT_MUSIC_NAME;
+          bgAudio.play().catch((e) => console.log("Autoplay bị chặn"));
+        }
+        bgAudio.onplaying = () => {
+          playPauseIcon.className = "fas fa-pause";
+        };
+        bgAudio.onpause = () => {
+          playPauseIcon.className = "fas fa-play";
+        };
+      }
+
+      function saveBgMusicToStorage(base64Data, fileName) {
+        try {
+          localStorage.setItem("bg_music_data", base64Data);
+          localStorage.setItem("bg_music_name", fileName);
+          loadBgMusicFromStorage();
+          document.getElementById("bgMusicStatus").innerHTML =
+            `✅ Đã cập nhật nhạc nền: ${fileName}`;
+          Swal.fire({
+            title: "Thành công",
+            text: `Nhạc nền đã được cập nhật: ${fileName}`,
+            icon: "success",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        } catch (e) {
+          Swal.fire({
+            title: "Lỗi",
+            text: "File quá lớn, không thể lưu vào trình duyệt! Hãy thử file nhỏ hơn (<5MB).",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        }
+      }
+
+      function uploadBackgroundMusic() {
+        if (!currentUser || !currentUser.isAdmin) {
+          Swal.fire({
+            title: "Cần quyền admin",
+            text: "Chỉ admin mới có thể thay đổi nhạc nền toàn bộ website.",
+            icon: "warning",
+            timer: 500,
+            showConfirmButton: false,
+          });
+          return;
+        }
+        const fileInput = document.getElementById("bgMusicUpload");
+        const file = fileInput.files[0];
+        if (!file)
+          return Swal.fire({
+            title: "Chọn file",
+            text: "Hãy chọn file MP3 để upload",
+            icon: "info",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        if (!file.type.includes("audio"))
+          return Swal.fire({
+            title: "Sai định dạng",
+            text: "Chỉ chấp nhận file MP3",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        if (file.size > 5 * 1024 * 1024)
+          return Swal.fire({
+            title: "File quá lớn",
+            text: "Dung lượng tối đa 5MB",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const base64 = e.target.result;
+          saveBgMusicToStorage(base64, file.name);
+        };
+        reader.readAsDataURL(file);
+        fileInput.value = "";
+      }
+
+      function resetBackgroundMusic() {
+        if (!currentUser || !currentUser.isAdmin) {
+          Swal.fire({
+            title: "Cần quyền admin",
+            text: "Chỉ admin mới có thể reset nhạc nền.",
+            icon: "warning",
+            timer: 500,
+            showConfirmButton: false,
+          });
+          return;
+        }
+        localStorage.removeItem("bg_music_data");
+        localStorage.removeItem("bg_music_name");
+        loadBgMusicFromStorage();
+        document.getElementById("bgMusicStatus").innerHTML =
+          "🔄 Đã reset về nhạc nền mặc định.";
+        Swal.fire({
+          title: "Reset thành công",
+          text: "Nhạc nền đã về bản gốc.",
+          icon: "success",
+          timer: 500,
+          showConfirmButton: false,
+        });
+      }
+
+      if (playPauseIcon) {
+        playPauseIcon.addEventListener("click", () => {
+          if (bgAudio.paused) {
+            bgAudio.play();
+            playPauseIcon.classList.remove("fa-play");
+            playPauseIcon.classList.add("fa-pause");
+          } else {
+            bgAudio.pause();
+            playPauseIcon.classList.remove("fa-pause");
+            playPauseIcon.classList.add("fa-play");
+          }
+        });
+      }
+
+      // ======================== BACKEND HOÀN CHỈNH ========================
+      let products = [];
+      let currentUser = null;
+      let currentBuyingProduct = null;
+      let adminIdleTimer = null;
+      const ADMIN_IDLE_TIMEOUT = 30 * 60 * 1000;
+
+      function resetAdminIdleTimer() {
+        if (!currentUser || !currentUser.isAdmin) return;
+        if (adminIdleTimer) clearTimeout(adminIdleTimer);
+        adminIdleTimer = setTimeout(() => {
+          if (currentUser && currentUser.isAdmin) {
+            Swal.fire({
+              title: "Hết phiên admin",
+              text: "Bạn đã không thao tác trong 30 phút. Quyền admin đã bị vô hiệu hóa.",
+              icon: "warning",
+              timer: 500,
+              showConfirmButton: false,
+            });
+            const users = getUsers();
+            const idx = users.findIndex(
+              (u) => u.username === currentUser.username,
+            );
+            if (idx !== -1) {
+              users[idx].isAdmin = false;
+              saveUsers(users);
+              currentUser.isAdmin = false;
+              renderMainUI();
+            }
+          }
+        }, ADMIN_IDLE_TIMEOUT);
+      }
+      function attachIdleEvents() {
+        ["mousemove", "click", "keydown", "scroll", "touchstart"].forEach(
+          (ev) => window.addEventListener(ev, () => resetAdminIdleTimer()),
+        );
+      }
+
+      function loadDataFromStorage() {
+        const storedProducts = localStorage.getItem("winter_products");
+        if (storedProducts) {
+          products = JSON.parse(storedProducts);
+        } else {
+          products = [
+            {
+              id: "1",
+              name: "Code Tool Auto Like FB",
+              price: 50000,
+              category: "python",
+              icon: "fab fa-python",
+              desc: "Tool tăng like facebook tự động",
+              downloadLink:
+                "https://drive.google.com/uc?export=download&id=1abc",
+              demoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            },
+            {
+              id: "2",
+              name: "Website Bán Hàng MMO",
+              price: 199000,
+              category: "website",
+              icon: "fas fa-globe",
+              desc: "Full code PHP + MySQL",
+              downloadLink:
+                "https://github.com/example/project/archive/main.zip",
+              demoUrl: "https://via.placeholder.com/800x400?text=Demo+Website",
+            },
+            {
+              id: "3",
+              name: "Thiệp Tình Yêu 3D",
+              price: 25000,
+              category: "love",
+              icon: "fas fa-heart",
+              desc: "Gửi người ấy",
+              downloadLink: "https://example.com/love.zip",
+              demoUrl:
+                "https://cdn.pixabay.com/video/2023/02/07/149847-792662592_large.mp4",
+            },
+          ];
+          localStorage.setItem("winter_products", JSON.stringify(products));
+        }
+        let users = localStorage.getItem("winter_users");
+        if (!users) {
+          const defaultAvatar =
+            "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=Admin";
+          const defaultCover =
+            "https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image";
+          users = [
+            {
+              username: "admin",
+              password: "admin123",
+              email: "admin@shop.com",
+              phone: "0987654321",
+              balance: 9999999,
+              purchaseHistory: [],
+              isAdmin: true,
+              registeredDate: new Date().toISOString(),
+              avatar: defaultAvatar,
+              coverPhoto: defaultCover,
+              verified: true,
+              musicUrl: "",
+            },
+            {
+              username: "user1",
+              password: "123456",
+              email: "user1@test.com",
+              phone: "",
+              balance: 2000,
+              purchaseHistory: [],
+              isAdmin: false,
+              registeredDate: new Date().toISOString(),
+              avatar:
+                "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=User1",
+              coverPhoto: defaultCover,
+              verified: false,
+              musicUrl: "",
+            },
+          ];
+          localStorage.setItem("winter_users", JSON.stringify(users));
+        }
+        if (!localStorage.getItem("winter_deposits"))
+          localStorage.setItem("winter_deposits", "[]");
+      }
+      function saveProducts() {
+        localStorage.setItem("winter_products", JSON.stringify(products));
+      }
+      function getUsers() {
+        return JSON.parse(localStorage.getItem("winter_users") || "[]");
+      }
+      function saveUsers(users) {
+        localStorage.setItem("winter_users", JSON.stringify(users));
+      }
+      function getDeposits() {
+        return JSON.parse(localStorage.getItem("winter_deposits") || "[]");
+      }
+      function saveDeposits(deposits) {
+        localStorage.setItem("winter_deposits", JSON.stringify(deposits));
+      }
+
+      function renderProductsGrid(filterCat = "all", keyword = "") {
+        let filtered = products.filter(
+          (p) => filterCat === "all" || p.category === filterCat,
+        );
+        if (keyword)
+          filtered = filtered.filter(
+            (p) =>
+              p.name.toLowerCase().includes(keyword.toLowerCase()) ||
+              (p.desc && p.desc.toLowerCase().includes(keyword.toLowerCase())),
+          );
+        const grid = document.getElementById("productsGrid");
+        if (!grid) return;
+        grid.innerHTML = filtered
+          .map(
+            (p, idx) =>
+              `<div class="card-luxury product-item" style="padding:1.5rem; animation-delay:${idx * 0.05}s"><i class="${p.icon}" style="font-size:2rem; color:#ff8aae"></i><h3 style="margin:10px 0">${p.name}</h3><p>${p.desc || ""}</p><div style="font-size:1.8rem; font-weight:800; margin:12px 0;">${p.price.toLocaleString()}đ</div><div style="display: flex; gap: 0.5rem;"><button class="btn-gold" style="flex:1;" onclick="openBuyModal('${p.id}')">Mua ngay</button>${p.demoUrl && p.demoUrl.trim() !== "" ? `<button class="btn-glow" style="flex:1;" onclick="showDemo('${p.id}')">Xem demo</button>` : '<button class="btn-glow" disabled style="opacity:0.5">Chưa có demo</button>'}</div></div>`,
+          )
+          .join("");
+      }
+
+      async function renderHistoryUI() {
+        if (!currentUser) return;
+        const historyDiv = document.getElementById("historyList");
+        if (!historyDiv) return;
+        const history = currentUser.purchaseHistory || [];
+        historyDiv.innerHTML = history
+          .map(
+            (h, idx) =>
+              `<div class="history-card" style="animation-delay:${idx * 0.05}s"><div><strong>${h.productName}</strong> - ${h.price.toLocaleString()}đ<br><small>${new Date(h.date).toLocaleString()}</small></div><button class="btn-glow" onclick="downloadItem('${h.downloadLink}')">Tải xuống</button></div>`,
+          )
+          .join("");
+      }
+
+      function renderUserManageList() {
+        if (!currentUser || !currentUser.isAdmin) return;
+        const users = getUsers();
+        const container = document.getElementById("userManageList");
+        if (!container) return;
+        if (users.length === 0) {
+          container.innerHTML = "<p>Chưa có người dùng</p>";
+          return;
+        }
+        container.innerHTML = `<div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; text-align:left;">
+      <thead><tr style="border-bottom:1px solid #ff88bb;"><th>Username</th><th>Email</th><th>Số dư</th><th>Tik Xanh</th><th>Thao tác</th></tr></thead>
+      <tbody>${users
+        .map(
+          (u) => `
         <tr style="border-bottom:1px solid rgba(255,136,187,0.3);">
-          <td style="padding:10px;">${u.username} ${u.isAdmin ? '<span class="verified-badge">👑</span>' : ''}</td>
-          <td>${u.email || ''}</td>
+          <td style="padding:10px;">${u.username} ${u.isAdmin ? '<span class="verified-badge">👑</span>' : ""}</td>
+          <td>${u.email || ""}</td>
           <td><input type="number" id="balance_${u.username}" value="${u.balance}" style="width:100px; background:rgba(0,0,0,0.5); border:1px solid #ff98bb; border-radius:1rem; padding:5px; color:white;"></td>
           <td>${u.verified ? '<i class="fas fa-check-circle" style="color:#1da1f2;"></i> Đã cấp' : '<span style="opacity:0.6;">Chưa cấp</span>'}</td>
           <td>
             <button class="btn-glow" style="padding:5px 10px; margin-right:5px;" onclick="updateUserBalance('${u.username}')">Cập nhật số dư</button>
-            <button class="btn-glow" style="padding:5px 10px;" onclick="toggleUserVerify('${u.username}')">${u.verified ? 'Thu hồi tik xanh' : 'Cấp tik xanh'}</button>
+            <button class="btn-glow" style="padding:5px 10px;" onclick="toggleUserVerify('${u.username}')">${u.verified ? "Thu hồi tik xanh" : "Cấp tik xanh"}</button>
           </td>
-         </tr>
-      `).join('')}</tbody></table></div>`;
-  }
-
-  function updateUserBalance(username) {
-    if (!currentUser || !currentUser.isAdmin) return;
-    const inputEl = document.getElementById(`balance_${username}`);
-    if (!inputEl) return;
-    const newBalance = parseInt(inputEl.value);
-    if (isNaN(newBalance)) return Swal.fire({title:"Lỗi", text:"Số dư không hợp lệ", icon:"error", timer:500, showConfirmButton:false});
-    const users = getUsers();
-    const idx = users.findIndex(u => u.username === username);
-    if (idx !== -1) {
-      users[idx].balance = newBalance;
-      saveUsers(users);
-      if (currentUser.username === username) currentUser.balance = newBalance;
-      renderMainUI();
-      renderUserManageList();
-      Swal.fire({title:"Thành công", text:`Đã cập nhật số dư của ${username} thành ${newBalance.toLocaleString()}đ`, icon:"success", timer:500, showConfirmButton:false});
-    }
-  }
-
-  function toggleUserVerify(username) {
-    if (!currentUser || !currentUser.isAdmin) return;
-    const users = getUsers();
-    const idx = users.findIndex(u => u.username === username);
-    if (idx !== -1) {
-      users[idx].verified = !users[idx].verified;
-      saveUsers(users);
-      if (currentUser.username === username) currentUser.verified = users[idx].verified;
-      renderUserManageList();
-      if (currentUser.username === username) renderMainUI();
-      Swal.fire({title:"Thành công", text:`Đã ${users[idx].verified ? "cấp" : "thu hồi"} tik xanh cho ${username}`, icon:"success", timer:500, showConfirmButton:false});
-    }
-  }
-
-  function renderMainUI() {
-    if (currentUser) {
-      document.getElementById("walletBox").style.display = "flex";
-      document.getElementById("walletValue").innerText = currentUser.balance;
-      document.getElementById("authBtnNav").style.display = "none";
-      document.getElementById("logoutBtnNav").style.display = "flex";
-      document.getElementById("userAvatarContainer").style.display = "flex";
-      const avatarImg = document.getElementById("userAvatarImg");
-      avatarImg.src = currentUser.avatar || "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=40&fontsize=0.33&bold=true&name=" + encodeURIComponent(currentUser.username);
-      // Hiển thị tick xanh trên navbar nếu user đã verified
-      const navbarBadge = document.getElementById("navbarVerifiedBadge");
-      if (navbarBadge) {
-        navbarBadge.style.display = currentUser.verified ? "inline-block" : "none";
+        </tr>
+      `,
+        )
+        .join("")}</tbody></table></div>`;
       }
-      renderHistoryUI();
-    } else {
-      document.getElementById("walletBox").style.display = "none";
-      document.getElementById("authBtnNav").style.display = "flex";
-      document.getElementById("logoutBtnNav").style.display = "none";
-      document.getElementById("userAvatarContainer").style.display = "none";
-    }
-    const adminPanel = document.getElementById("adminPanel");
-    if (adminPanel) adminPanel.style.display = (currentUser && currentUser.isAdmin) ? "block" : "none";
-    if (currentUser && currentUser.isAdmin) { refreshAdminList(); loadPendingDeposits(); renderUserManageList(); resetAdminIdleTimer(); }
-    else if (adminIdleTimer) clearTimeout(adminIdleTimer);
-  }
 
-  function openProfileModal() {
-    if (!currentUser) return;
-    document.getElementById("profileUsername").innerHTML = currentUser.username + (currentUser.verified ? '<i class="fas fa-check-circle verified-badge"></i>' : '');
-    document.getElementById("profileEmail").innerText = currentUser.email;
-    document.getElementById("profilePhone").value = currentUser.phone || "";
-    document.getElementById("profileRegistered").innerText = new Date(currentUser.registeredDate).toLocaleDateString("vi-VN");
-    const totalSpent = (currentUser.purchaseHistory || []).reduce((sum, item) => sum + item.price, 0);
-    document.getElementById("profileTotalSpent").innerText = totalSpent.toLocaleString();
-    document.getElementById("profileOrderCount").innerText = currentUser.purchaseHistory?.length || 0;
-    document.getElementById("profileAvatar").src = currentUser.avatar || "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=" + encodeURIComponent(currentUser.username);
-    document.getElementById("profileCover").src = currentUser.coverPhoto || "https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image";
-    const profileAudio = document.getElementById("profileAudio");
-    if (currentUser.musicUrl && currentUser.musicUrl !== "") {
-      profileAudio.src = currentUser.musicUrl;
-      profileAudio.load();
-    } else { profileAudio.src = ""; }
-    const verifiedBadgeSpan = document.getElementById("profileVerifiedBadge");
-    verifiedBadgeSpan.style.display = currentUser.verified ? "inline" : "none";
-    const adminVerifyBtn = document.getElementById("adminVerifyBtn");
-    if (currentUser.isAdmin) {
-      adminVerifyBtn.style.display = "inline-block";
-      adminVerifyBtn.onclick = () => toggleUserVerify(currentUser.username);
-    } else { adminVerifyBtn.style.display = "none"; }
-    const historyContainer = document.getElementById("profileOrderHistory");
-    if (currentUser.purchaseHistory && currentUser.purchaseHistory.length > 0) {
-      historyContainer.innerHTML = currentUser.purchaseHistory.map((order, idx) => `<div class="history-card"><strong>${order.productName}</strong> - ${order.price.toLocaleString()}đ<br><small>${new Date(order.date).toLocaleString()}</small><br><a href="${order.downloadLink}" target="_blank" class="btn-glow" style="display:inline-block; margin-top:5px; padding:3px 10px;">Tải lại</a></div>`).join("");
-    } else { historyContainer.innerHTML = "<p>Chưa có đơn hàng nào.</p>"; }
-    document.getElementById("profileModal").style.display = "flex";
-  }
-  function closeProfileModal() { document.getElementById("profileModal").style.display = "none"; }
-  function updatePhone() {
-    if (!currentUser) return;
-    const newPhone = document.getElementById("profilePhone").value;
-    const users = getUsers();
-    const idx = users.findIndex(u => u.username === currentUser.username);
-    if (idx !== -1) { users[idx].phone = newPhone; saveUsers(users); currentUser.phone = newPhone; Swal.fire({title:"Cập nhật", text:"Số điện thoại đã được cập nhật!", icon:"success", timer:500, showConfirmButton:false}); }
-  }
-  document.getElementById("coverUpload")?.addEventListener("change", function(e) {
-    const file = e.target.files[0];
-    if (file && currentUser) {
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const coverBase64 = ev.target.result;
+      function updateUserBalance(username) {
+        if (!currentUser || !currentUser.isAdmin) return;
+        const inputEl = document.getElementById(`balance_${username}`);
+        if (!inputEl) return;
+        const newBalance = parseInt(inputEl.value);
+        if (isNaN(newBalance))
+          return Swal.fire({
+            title: "Lỗi",
+            text: "Số dư không hợp lệ",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
         const users = getUsers();
-        const idx = users.findIndex(u => u.username === currentUser.username);
-        if (idx !== -1) { users[idx].coverPhoto = coverBase64; saveUsers(users); currentUser.coverPhoto = coverBase64; openProfileModal(); Swal.fire({title:"Thành công", text:"Ảnh bìa đã cập nhật!", icon:"success", timer:500, showConfirmButton:false}); }
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-  document.getElementById("avatarUpload")?.addEventListener("change", function(e) {
-    const file = e.target.files[0];
-    if (file && currentUser) {
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const avatarBase64 = ev.target.result;
+        const idx = users.findIndex((u) => u.username === username);
+        if (idx !== -1) {
+          users[idx].balance = newBalance;
+          saveUsers(users);
+          if (currentUser.username === username)
+            currentUser.balance = newBalance;
+          renderMainUI();
+          renderUserManageList();
+          Swal.fire({
+            title: "Thành công",
+            text: `Đã cập nhật số dư của ${username} thành ${newBalance.toLocaleString()}đ`,
+            icon: "success",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        }
+      }
+
+      function toggleUserVerify(username) {
+        if (!currentUser || !currentUser.isAdmin) return;
         const users = getUsers();
-        const idx = users.findIndex(u => u.username === currentUser.username);
-        if (idx !== -1) { users[idx].avatar = avatarBase64; saveUsers(users); currentUser.avatar = avatarBase64; renderMainUI(); openProfileModal(); Swal.fire({title:"Thành công", text:"Avatar đã được cập nhật!", icon:"success", timer:500, showConfirmButton:false}); }
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-  document.getElementById("musicUpload")?.addEventListener("change", function(e) {
-    const file = e.target.files[0];
-    if (file && currentUser) {
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const musicBase64 = ev.target.result;
+        const idx = users.findIndex((u) => u.username === username);
+        if (idx !== -1) {
+          users[idx].verified = !users[idx].verified;
+          saveUsers(users);
+          if (currentUser.username === username)
+            currentUser.verified = users[idx].verified;
+          renderUserManageList();
+          if (currentUser.username === username) renderMainUI();
+          Swal.fire({
+            title: "Thành công",
+            text: `Đã ${users[idx].verified ? "cấp" : "thu hồi"} tik xanh cho ${username}`,
+            icon: "success",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        }
+      }
+
+      function renderMainUI() {
+        if (currentUser) {
+          document.getElementById("walletBox").style.display = "flex";
+          document.getElementById("walletValue").innerText =
+            currentUser.balance;
+          document.getElementById("authBtnNav").style.display = "none";
+          document.getElementById("logoutBtnNav").style.display = "flex";
+          document.getElementById("userAvatarContainer").style.display = "flex";
+          const avatarImg = document.getElementById("userAvatarImg");
+          avatarImg.src =
+            currentUser.avatar ||
+            "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=40&fontsize=0.33&bold=true&name=" +
+              encodeURIComponent(currentUser.username);
+          const navbarBadge = document.getElementById("navbarVerifiedBadge");
+          if (navbarBadge)
+            navbarBadge.style.display = currentUser.verified
+              ? "inline-block"
+              : "none";
+          renderHistoryUI();
+        } else {
+          document.getElementById("walletBox").style.display = "none";
+          document.getElementById("authBtnNav").style.display = "flex";
+          document.getElementById("logoutBtnNav").style.display = "none";
+          document.getElementById("userAvatarContainer").style.display = "none";
+        }
+        const adminPanel = document.getElementById("adminPanel");
+        if (adminPanel)
+          adminPanel.style.display =
+            currentUser && currentUser.isAdmin ? "block" : "none";
+        if (currentUser && currentUser.isAdmin) {
+          refreshAdminList();
+          loadPendingDeposits();
+          renderUserManageList();
+          resetAdminIdleTimer();
+        } else if (adminIdleTimer) clearTimeout(adminIdleTimer);
+      }
+
+      function openProfileModal() {
+        if (!currentUser) return;
+        document.getElementById("profileUsername").innerHTML =
+          currentUser.username +
+          (currentUser.verified
+            ? '<i class="fas fa-check-circle verified-badge"></i>'
+            : "");
+        document.getElementById("profileEmail").innerText = currentUser.email;
+        document.getElementById("profilePhone").value = currentUser.phone || "";
+        document.getElementById("profileRegistered").innerText = new Date(
+          currentUser.registeredDate,
+        ).toLocaleDateString("vi-VN");
+        const totalSpent = (currentUser.purchaseHistory || []).reduce(
+          (sum, item) => sum + item.price,
+          0,
+        );
+        document.getElementById("profileTotalSpent").innerText =
+          totalSpent.toLocaleString();
+        document.getElementById("profileOrderCount").innerText =
+          currentUser.purchaseHistory?.length || 0;
+        document.getElementById("profileAvatar").src =
+          currentUser.avatar ||
+          "https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=" +
+            encodeURIComponent(currentUser.username);
+        document.getElementById("profileCover").src =
+          currentUser.coverPhoto ||
+          "https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image";
+        const profileAudio = document.getElementById("profileAudio");
+        if (currentUser.musicUrl && currentUser.musicUrl !== "") {
+          profileAudio.src = currentUser.musicUrl;
+          profileAudio.load();
+        } else {
+          profileAudio.src = "";
+        }
+        const verifiedBadgeSpan = document.getElementById(
+          "profileVerifiedBadge",
+        );
+        verifiedBadgeSpan.style.display = currentUser.verified
+          ? "inline"
+          : "none";
+        const adminVerifyBtn = document.getElementById("adminVerifyBtn");
+        if (currentUser.isAdmin) {
+          adminVerifyBtn.style.display = "inline-block";
+          adminVerifyBtn.onclick = () => toggleUserVerify(currentUser.username);
+        } else {
+          adminVerifyBtn.style.display = "none";
+        }
+        const historyContainer = document.getElementById("profileOrderHistory");
+        if (
+          currentUser.purchaseHistory &&
+          currentUser.purchaseHistory.length > 0
+        ) {
+          historyContainer.innerHTML = currentUser.purchaseHistory
+            .map(
+              (order, idx) =>
+                `<div class="history-card"><strong>${order.productName}</strong> - ${order.price.toLocaleString()}đ<br><small>${new Date(order.date).toLocaleString()}</small><br><a href="${order.downloadLink}" target="_blank" class="btn-glow" style="display:inline-block; margin-top:5px; padding:3px 10px;">Tải lại</a></div>`,
+            )
+            .join("");
+        } else {
+          historyContainer.innerHTML = "<p>Chưa có đơn hàng nào.</p>";
+        }
+        document.getElementById("profileModal").style.display = "flex";
+      }
+      function closeProfileModal() {
+        document.getElementById("profileModal").style.display = "none";
+      }
+      function updatePhone() {
+        if (!currentUser) return;
+        const newPhone = document.getElementById("profilePhone").value;
         const users = getUsers();
-        const idx = users.findIndex(u => u.username === currentUser.username);
-        if (idx !== -1) { users[idx].musicUrl = musicBase64; saveUsers(users); currentUser.musicUrl = musicBase64; openProfileModal(); Swal.fire({title:"Thành công", text:"Nhạc nền đã được cập nhật!", icon:"success", timer:500, showConfirmButton:false}); }
-      };
-      reader.readAsDataURL(file);
-    }
-  });
+        const idx = users.findIndex((u) => u.username === currentUser.username);
+        if (idx !== -1) {
+          users[idx].phone = newPhone;
+          saveUsers(users);
+          currentUser.phone = newPhone;
+          Swal.fire({
+            title: "Cập nhật",
+            text: "Số điện thoại đã được cập nhật!",
+            icon: "success",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        }
+      }
+      document
+        .getElementById("coverUpload")
+        ?.addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file && currentUser) {
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+              const coverBase64 = ev.target.result;
+              const users = getUsers();
+              const idx = users.findIndex(
+                (u) => u.username === currentUser.username,
+              );
+              if (idx !== -1) {
+                users[idx].coverPhoto = coverBase64;
+                saveUsers(users);
+                currentUser.coverPhoto = coverBase64;
+                openProfileModal();
+                Swal.fire({
+                  title: "Thành công",
+                  text: "Ảnh bìa đã cập nhật!",
+                  icon: "success",
+                  timer: 500,
+                  showConfirmButton: false,
+                });
+              }
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      document
+        .getElementById("avatarUpload")
+        ?.addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file && currentUser) {
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+              const avatarBase64 = ev.target.result;
+              const users = getUsers();
+              const idx = users.findIndex(
+                (u) => u.username === currentUser.username,
+              );
+              if (idx !== -1) {
+                users[idx].avatar = avatarBase64;
+                saveUsers(users);
+                currentUser.avatar = avatarBase64;
+                renderMainUI();
+                openProfileModal();
+                Swal.fire({
+                  title: "Thành công",
+                  text: "Avatar đã được cập nhật!",
+                  icon: "success",
+                  timer: 500,
+                  showConfirmButton: false,
+                });
+              }
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      document
+        .getElementById("musicUpload")
+        ?.addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file && currentUser) {
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+              const musicBase64 = ev.target.result;
+              const users = getUsers();
+              const idx = users.findIndex(
+                (u) => u.username === currentUser.username,
+              );
+              if (idx !== -1) {
+                users[idx].musicUrl = musicBase64;
+                saveUsers(users);
+                currentUser.musicUrl = musicBase64;
+                openProfileModal();
+                Swal.fire({
+                  title: "Thành công",
+                  text: "Nhạc nền đã được cập nhật!",
+                  icon: "success",
+                  timer: 500,
+                  showConfirmButton: false,
+                });
+              }
+            };
+            reader.readAsDataURL(file);
+          }
+        });
 
-  async function deleteProd(id) {
-    if (!currentUser || !currentUser.isAdmin) return Swal.fire({title:"Lỗi", text:"Bạn không có quyền admin", icon:"error", timer:500, showConfirmButton:false});
-    const confirm = await Swal.fire({ title: "Xác nhận xóa?", text: "Sản phẩm sẽ bị xóa vĩnh viễn!", icon: "warning", showCancelButton: true, confirmButtonText: "Xóa" });
-    if (!confirm.isConfirmed) return;
-    products = products.filter(p => p.id != id); saveProducts();
-    const activeCat = document.querySelector(".chip.active")?.getAttribute("data-cat") || "all";
-    const keyword = document.getElementById("searchInput").value;
-    renderProductsGrid(activeCat, keyword);
-    refreshAdminList();
-    Swal.fire({title:"Thành công", text:"Sản phẩm đã được xóa!", icon:"success", timer:500, showConfirmButton:false});
-  }
-
-  async function loginUser() {
-    const username = document.getElementById("loginUser").value.trim();
-    const password = document.getElementById("loginPass").value;
-    const users = getUsers();
-    const user = users.find(u => u.username === username && u.password === password);
-    if (!user) return Swal.fire({title:"Lỗi", text:"Sai tên đăng nhập hoặc mật khẩu", icon:"error", timer:500, showConfirmButton:false});
-    currentUser = JSON.parse(JSON.stringify(user));
-    renderMainUI();
-    closeAuthModal();
-    canvasConfetti({ particleCount: 120, spread: 60 });
-    Swal.fire({title:"Đăng nhập thành công", text:`Chào ${username}`, icon:"success", timer:500, showConfirmButton:false});
-  }
-  async function registerUser() {
-    const username = document.getElementById("regUser").value.trim();
-    const password = document.getElementById("regPass").value;
-    const confirm = document.getElementById("regConfirmPass").value;
-    const email = document.getElementById("regEmailAddr").value;
-    const phone = document.getElementById("regPhone").value;
-    if (password !== confirm) return Swal.fire({title:"Lỗi", text:"Mật khẩu không khớp", icon:"error", timer:500, showConfirmButton:false});
-    if (password.length < 4) return Swal.fire({title:"Lỗi", text:"Mật khẩu tối thiểu 4 ký tự", icon:"error", timer:500, showConfirmButton:false});
-    const users = getUsers();
-    if (users.find(u => u.username === username)) return Swal.fire({title:"Lỗi", text:"Tên đăng nhập đã tồn tại", icon:"error", timer:500, showConfirmButton:false});
-    const avatarDefault = `https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=${encodeURIComponent(username)}`;
-    const coverDefault = "https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image";
-    const newUser = { username, password, email, phone, balance: 2000, purchaseHistory: [], isAdmin: false, registeredDate: new Date().toISOString(), avatar: avatarDefault, coverPhoto: coverDefault, verified: false, musicUrl: "" };
-    users.push(newUser);
-    saveUsers(users);
-    currentUser = JSON.parse(JSON.stringify(newUser));
-    renderMainUI();
-    closeAuthModal();
-    Swal.fire({title:"Đăng ký thành công", text:"Nhận 2000đ", icon:"success", timer:500, showConfirmButton:false});
-  }
-  function logout() { currentUser = null; if (adminIdleTimer) clearTimeout(adminIdleTimer); renderMainUI(); Swal.fire({title:"Đã đăng xuất", text:"", icon:"info", timer:500, showConfirmButton:false}); }
-  function openBuyModal(productId) {
-    if (!currentUser) { Swal.fire({title:"Cần đăng nhập", text:"", icon:"warning", timer:500, showConfirmButton:false}); openAuthModal(); return; }
-    const prod = products.find(p => p.id === productId);
-    if (prod) { currentBuyingProduct = prod; document.getElementById("buyProdName").innerText = prod.name; document.getElementById("buyProdPrice").innerHTML = prod.price.toLocaleString() + "đ"; document.getElementById("userBalanceShow").innerText = currentUser.balance; document.getElementById("buyModalWin").style.display = "flex"; }
-  }
-  async function confirmPurchase() {
-    if (!currentBuyingProduct) return;
-    if (currentUser.balance < currentBuyingProduct.price) {
-      Swal.fire({title:"Lỗi", text:"Số dư không đủ. Vui lòng nạp thêm!", icon:"error", timer:500, showConfirmButton:false});
-      closeBuyModal();
-      return;
-    }
-    const users = getUsers();
-    const idx = users.findIndex(u => u.username === currentUser.username);
-    if (idx === -1) return;
-    users[idx].balance -= currentBuyingProduct.price;
-    users[idx].purchaseHistory.push({ productName: currentBuyingProduct.name, price: currentBuyingProduct.price, date: new Date().toISOString(), downloadLink: currentBuyingProduct.downloadLink });
-    saveUsers(users);
-    currentUser = JSON.parse(JSON.stringify(users[idx]));
-    renderMainUI();
-    canvasConfetti({ particleCount: 180, spread: 80, colors: ["#ff88bb", "#ff4d7a"] });
-    Swal.fire({ title: "Mua thành công!", html: `Bạn đã mua <strong>${currentBuyingProduct.name}</strong> với giá <strong>${currentBuyingProduct.price.toLocaleString()}đ</strong><br>Link tải sẽ có trong mục <strong>Lịch sử</strong>.`, icon: "success", timer: 500, showConfirmButton: false });
-    closeBuyModal();
-    setTimeout(() => { document.getElementById("history").scrollIntoView({ behavior: "smooth" }); }, 100);
-  }
-  function closeBuyModal() { document.getElementById("buyModalWin").style.display = "none"; currentBuyingProduct = null; }
-  async function sendDepositReq() {
-    if (!currentUser) return Swal.fire({title:"Cần đăng nhập", text:"", icon:"warning", timer:500, showConfirmButton:false});
-    const amount = parseInt(document.getElementById("depositAmountInput").value);
-    if (!amount || amount <= 0) return Swal.fire({title:"Số tiền không hợp lệ", text:"", icon:"error", timer:500, showConfirmButton:false});
-    const transactionId = "DEP_" + Date.now() + "_" + Math.floor(Math.random()*1000);
-    const newDeposit = { id: transactionId, username: currentUser.username, amount, status: "pending", createdAt: new Date().toISOString() };
-    const deposits = getDeposits();
-    deposits.push(newDeposit);
-    saveDeposits(deposits);
-    Swal.fire({ title: `Chuyển khoản ${amount.toLocaleString()}đ`, html: `<img src="https://img.vietqr.io/image/BIDV-8826353645-compact.png" width="200"/><br/><strong>Mã GD: ${transactionId}</strong><br/>Nội dung: NAP ${transactionId}<br/><small>Admin sẽ xác nhận sau khi bạn chuyển khoản</small>`, confirmButtonText: "Tôi đã chuyển", allowOutsideClick: false }).then(() => {
-      Swal.fire({title:"Đã gửi yêu cầu", text:"Vui lòng chờ admin xác nhận", icon:"info", timer:500, showConfirmButton:false});
-      if (currentUser && currentUser.isAdmin) loadPendingDeposits();
-    });
-  }
-  async function confirmDeposit(transactionId) {
-    if (!currentUser || !currentUser.isAdmin) return;
-    const deposits = getDeposits();
-    const deposit = deposits.find(d => d.id === transactionId && d.status === "pending");
-    if (!deposit) return Swal.fire({title:"Lỗi", text:"Không tìm thấy giao dịch", icon:"error", timer:500, showConfirmButton:false});
-    const users = getUsers();
-    const userIdx = users.findIndex(u => u.username === deposit.username);
-    if (userIdx === -1) return Swal.fire({title:"Lỗi", text:"Không tìm thấy người dùng", icon:"error", timer:500, showConfirmButton:false});
-    users[userIdx].balance += deposit.amount;
-    saveUsers(users);
-    deposit.status = "completed";
-    saveDeposits(deposits);
-    Swal.fire({title:"Thành công", text:`Đã cộng ${deposit.amount.toLocaleString()}đ cho ${deposit.username}`, icon:"success", timer:500, showConfirmButton:false});
-    if (currentUser.username === deposit.username) { currentUser = JSON.parse(JSON.stringify(users[userIdx])); renderMainUI(); }
-    loadPendingDeposits();
-    renderUserManageList();
-  }
-  async function loadPendingDeposits() {
-    if (!currentUser || !currentUser.isAdmin) return;
-    const deposits = getDeposits();
-    const pending = deposits.filter(d => d.status === "pending");
-    const container = document.getElementById("pendingDepositsList");
-    if (!container) return;
-    if (pending.length === 0) { container.innerHTML = '<div class="card-luxury" style="padding:1rem">✅ Không có giao dịch nào đang chờ.</div>'; return; }
-    container.innerHTML = pending.map(tx => `<div class="card-luxury" style="padding:1rem; margin-bottom:1rem;"><div><strong>Người dùng:</strong> ${tx.username}</div><div><strong>Số tiền:</strong> ${tx.amount.toLocaleString()}đ</div><div><strong>Mã GD:</strong> ${tx.id}</div><div><strong>Ngày tạo:</strong> ${new Date(tx.createdAt).toLocaleString()}</div><button class="btn-gold" onclick="confirmDeposit('${tx.id}')" style="margin-top:0.5rem;">✅ Xác nhận đã nhận tiền</button></div>`).join("");
-  }
-  async function addNewProduct() {
-    if (!currentUser || !currentUser.isAdmin) return Swal.fire({title:"Cấm", text:"Bạn không phải admin", icon:"error", timer:500, showConfirmButton:false});
-    const name = document.getElementById("prodName").value;
-    const price = parseInt(document.getElementById("prodPrice").value);
-    if (!name || !price) return Swal.fire({title:"Thiếu thông tin", text:"", icon:"warning", timer:500, showConfirmButton:false});
-    const newId = Date.now().toString();
-    const newProduct = { id: newId, name, price, category: document.getElementById("prodCategory").value, icon: document.getElementById("prodIcon").value, desc: document.getElementById("prodDesc").value, downloadLink: document.getElementById("prodDownloadLink").value, demoUrl: document.getElementById("prodDemoLink").value.trim() };
-    products.push(newProduct);
-    saveProducts();
-    const activeCat = document.querySelector(".chip.active")?.getAttribute("data-cat") || "all";
-    const keyword = document.getElementById("searchInput").value;
-    renderProductsGrid(activeCat, keyword);
-    refreshAdminList();
-    Swal.fire({title:"Thành công", text:"Đã thêm sản phẩm", icon:"success", timer:500, showConfirmButton:false});
-    document.getElementById("prodName").value = ""; document.getElementById("prodPrice").value = ""; document.getElementById("prodDesc").value = ""; document.getElementById("prodDownloadLink").value = ""; document.getElementById("prodDemoLink").value = "";
-  }
-  async function refreshAdminList() {
-    if (!currentUser || !currentUser.isAdmin) return;
-    const container = document.getElementById("adminProductList");
-    if (container) container.innerHTML = products.map(p => `<div class="card-luxury" style="padding:1rem"><b>${p.name}</b> - ${p.price}đ<br>Demo: ${p.demoUrl ? "✅" : "❌"}<br><button class="btn-glow" onclick="deleteProd('${p.id}')">Xóa</button></div>`).join("");
-  }
-  function searchProducts() { const kw = document.getElementById("searchInput").value; const activeCat = document.querySelector(".chip.active")?.getAttribute("data-cat") || "all"; renderProductsGrid(activeCat, kw); }
-  function setFilterCat(cat) { document.querySelectorAll(".chip").forEach(c => c.classList.remove("active")); const activeChip = document.querySelector(`.chip[data-cat="${cat}"]`); if (activeChip) activeChip.classList.add("active"); renderProductsGrid(cat, document.getElementById("searchInput").value); }
-  function showDemo(productId) {
-    const prod = products.find(p => p.id === productId);
-    if (!prod || !prod.demoUrl || prod.demoUrl.trim() === "") { Swal.fire({title:"Thông báo", text:"Sản phẩm này chưa có demo.", icon:"info", timer:500, showConfirmButton:false}); return; }
-    const demoContainer = document.getElementById("demoModalContent");
-    let url = prod.demoUrl;
-    let html = "";
-    if (url.match(/\.(mp4|webm|ogg)$/i)) html = `<video controls src="${url}" style="max-width:100%; max-height:350px;"></video>`;
-    else if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) html = `<img src="${url}" alt="Demo" style="max-width:100%; max-height:350px;">`;
-    else if (url.includes("youtube.com/watch?v=") || url.includes("youtu.be/")) {
-      let videoId = "";
-      if (url.includes("youtube.com/watch?v=")) videoId = url.split("v=")[1].split("&")[0];
-      else if (url.includes("youtu.be/")) videoId = url.split("youtu.be/")[1].split("?")[0];
-      if (videoId) html = `<iframe width="100%" height="350" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-      else html = `<iframe src="${url}" style="width:100%; height:350px;"></iframe>`;
-    } else html = `<iframe src="${url}" style="width:100%; height:400px;"></iframe>`;
-    demoContainer.innerHTML = html;
-    document.getElementById("demoModal").style.display = "flex";
-  }
-  function closeDemoModal() { document.getElementById("demoModal").style.display = "none"; }
-  function genHeartQR() { const text = document.getElementById("qrContent").value; if (!text) return Swal.fire({title:"Lỗi", text:"Nhập nội dung", icon:"error", timer:500, showConfirmButton:false}); document.getElementById("qrCanvas").innerHTML = ""; new QRCode(document.getElementById("qrCanvas"), { text, width: 200, height: 200 }); document.getElementById("qrResult").style.display = "block"; }
-  function downloadQR() { const canvas = document.querySelector("#qrCanvas canvas"); if (canvas) { const a = document.createElement("a"); a.download = "heart_qr.png"; a.href = canvas.toDataURL(); a.click(); } }
-  function downloadItem(link) { if (link && link.trim() !== "") window.open(link, "_blank"); else Swal.fire({title:"Lỗi", text:"Link tải không hợp lệ", icon:"error", timer:500, showConfirmButton:false}); }
-
-  // Loader & UI
-  const funnyMessages = [{ icon:"😂", text:"Đang tải... chờ xíu cưng ơi!", sub:"Tốc độ rùa bò =))"},{ icon:"🤣", text:"Loading... đừng có gấp!", sub:"Sắp xong rồi nha ba..."},{ icon:"😜", text:"Trời ơi, đợi tí đi má!", sub:"Mạng như con chuột chạy"}];
-  async function navigateWithFunnyLoader(sectionId) {
-    const loader = document.getElementById("funnyLoader"); const iconEl = document.getElementById("loaderFunIcon"); const textEl = document.getElementById("loaderFunText"); const subEl = document.getElementById("loaderSubText"); const progressFill = document.getElementById("loaderProgressFill"); const randomMsg = funnyMessages[Math.floor(Math.random()*funnyMessages.length)]; if(iconEl) iconEl.innerHTML = randomMsg.icon; if(textEl) textEl.innerHTML = randomMsg.text; if(subEl) subEl.innerHTML = randomMsg.sub; if(loader) loader.classList.add("active"); let width = 0; const interval = setInterval(()=>{ width+=10; if(progressFill) progressFill.style.width = width+"%"; if(width>=100) clearInterval(interval); },60); await new Promise(resolve=>setTimeout(resolve,650)); const target = document.getElementById(sectionId); if(target) target.scrollIntoView({ behavior:"smooth", block:"start" }); setTimeout(()=>{ if(loader) loader.classList.remove("active"); if(progressFill) progressFill.style.width = "0%"; },300);
-  }
-  function openAuthModal() { document.getElementById("authModalWin").style.display = "flex"; }
-  function closeAuthModal() { document.getElementById("authModalWin").style.display = "none"; }
-  function switchAuth(type) { document.getElementById("loginFormDiv").style.display = type === "login" ? "block" : "none"; document.getElementById("registerFormDiv").style.display = type === "register" ? "block" : "none"; }
-
-  let logoClickCount = 0, logoClickTimeout = null;
-  function setupSecretAdminTrigger() {
-    const logoElement = document.getElementById("secretAdminLogo");
-    if(!logoElement) return;
-    logoElement.addEventListener("click", (e) => {
-      e.stopPropagation(); logoClickCount++;
-      if(logoClickTimeout) clearTimeout(logoClickTimeout);
-      logoClickTimeout = setTimeout(()=>{ logoClickCount = 0; },2000);
-      if(logoClickCount >= 3) {
-        logoClickCount = 0;
-        Swal.fire({ title:"Xác thực Admin", input:"password", inputPlaceholder:"Nhập mật khẩu admin", showCancelButton:true, confirmButtonText:"Xác nhận" }).then((result) => {
-          if(result.isConfirmed && result.value === "admin123") {
-            if(currentUser) currentUser.isAdmin = true;
-            else { const users = getUsers(); const adminUser = users.find(u => u.username === "admin"); if(adminUser) currentUser = JSON.parse(JSON.stringify(adminUser)); }
-            renderMainUI();
-            Swal.fire({title:"Thành công", text:"Đã mở chế độ Admin!", icon:"success", timer:500, showConfirmButton:false});
-            document.getElementById("adminPanel").scrollIntoView({ behavior:"smooth" });
-          } else if(result.isConfirmed) Swal.fire({title:"Sai mật khẩu", text:"", icon:"error", timer:500, showConfirmButton:false});
+      async function deleteProd(id) {
+        if (!currentUser || !currentUser.isAdmin)
+          return Swal.fire({
+            title: "Lỗi",
+            text: "Bạn không có quyền admin",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        const confirm = await Swal.fire({
+          title: "Xác nhận xóa?",
+          text: "Sản phẩm sẽ bị xóa vĩnh viễn!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Xóa",
+        });
+        if (!confirm.isConfirmed) return;
+        products = products.filter((p) => p.id != id);
+        saveProducts();
+        const activeCat =
+          document.querySelector(".chip.active")?.getAttribute("data-cat") ||
+          "all";
+        const keyword = document.getElementById("searchInput").value;
+        renderProductsGrid(activeCat, keyword);
+        refreshAdminList();
+        Swal.fire({
+          title: "Thành công",
+          text: "Sản phẩm đã được xóa!",
+          icon: "success",
+          timer: 500,
+          showConfirmButton: false,
         });
       }
-    });
-  }
 
-  function renderFilters() { const cats = ["all","python","website","love","qrlove"]; const container = document.getElementById("filterChips"); if(container) container.innerHTML = cats.map(cat => `<div class="chip ${cat==="all"?"active":""}" data-cat="${cat}" onclick="setFilterCat('${cat}')">${cat.toUpperCase()}</div>`).join(""); }
-  const slogan = "✦ Nơi hội tụ code xịn, hiệu ứng hài hước bá đạo ✦";
-  let idxChar = 0;
-  function typeSlogan() { const sloganEl = document.getElementById("sloganText"); if(sloganEl && idxChar < slogan.length) { sloganEl.innerHTML += slogan.charAt(idxChar); idxChar++; setTimeout(typeSlogan,45); } }
-  const revealSections = document.querySelectorAll(".reveal-section");
-  const checkReveal = () => { revealSections.forEach(el => { const rect = el.getBoundingClientRect(); if(rect.top < window.innerHeight-100) el.classList.add("revealed"); }); };
-  for(let i=0;i<70;i++) { let p = document.createElement("div"); p.classList.add("particle-3d"); let size = Math.random()*6+2; p.style.width = size+"px"; p.style.height = size+"px"; p.style.left = Math.random()*100+"%"; p.style.animationDuration = Math.random()*12+6+"s"; p.style.animationDelay = Math.random()*8+"s"; document.getElementById("particleContainer").appendChild(p); }
-  setInterval(() => { const type = Math.random()>0.6?"heart":"snow"; const el = document.createElement("i"); el.className = type==="heart"?"fas fa-heart heart":"fas fa-snowflake snow"; el.style.left = Math.random()*100+"%"; el.style.fontSize = Math.random()*20+10+"px"; el.style.color = type==="heart"?"#ff88bb":"#bbddff"; el.style.animationDuration = Math.random()*5+4+"s"; document.body.appendChild(el); setTimeout(()=>el.remove(),6000); },800);
-  window.addEventListener("scroll", () => { const nav = document.getElementById("mainNav"); if(nav) nav.classList.toggle("scrolled", window.scrollY>60); checkReveal(); });
-  async function init() {
-    loadDataFromStorage();
-    renderFilters();
-    renderProductsGrid();
-    setupSecretAdminTrigger();
-    currentUser = null;
-    renderMainUI();
-    typeSlogan();
-    checkReveal();
-    attachIdleEvents();
-    loadBgMusicFromStorage();
-  }
-  init();
+      async function loginUser() {
+        const username = document.getElementById("loginUser").value.trim();
+        const password = document.getElementById("loginPass").value;
+        const users = getUsers();
+        const user = users.find(
+          (u) => u.username === username && u.password === password,
+        );
+        if (!user)
+          return Swal.fire({
+            title: "Lỗi",
+            text: "Sai tên đăng nhập hoặc mật khẩu",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        currentUser = JSON.parse(JSON.stringify(user));
+        renderMainUI();
+        closeAuthModal();
+        canvasConfetti({ particleCount: 120, spread: 60 });
+        Swal.fire({
+          title: "Đăng nhập thành công",
+          text: `Chào ${username}`,
+          icon: "success",
+          timer: 500,
+          showConfirmButton: false,
+        });
+      }
+      async function registerUser() {
+        const username = document.getElementById("regUser").value.trim();
+        const password = document.getElementById("regPass").value;
+        const confirm = document.getElementById("regConfirmPass").value;
+        const email = document.getElementById("regEmailAddr").value;
+        const phone = document.getElementById("regPhone").value;
+        if (password !== confirm)
+          return Swal.fire({
+            title: "Lỗi",
+            text: "Mật khẩu không khớp",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        if (password.length < 4)
+          return Swal.fire({
+            title: "Lỗi",
+            text: "Mật khẩu tối thiểu 4 ký tự",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        const users = getUsers();
+        if (users.find((u) => u.username === username))
+          return Swal.fire({
+            title: "Lỗi",
+            text: "Tên đăng nhập đã tồn tại",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        const avatarDefault = `https://ui-avatars.com/api/?background=ff88bb&color=fff&rounded=true&size=100&fontsize=0.33&bold=true&name=${encodeURIComponent(username)}`;
+        const coverDefault =
+          "https://via.placeholder.com/900x200/1e1b3a/ff88bb?text=Cover+Image";
+        const newUser = {
+          username,
+          password,
+          email,
+          phone,
+          balance: 2000,
+          purchaseHistory: [],
+          isAdmin: false,
+          registeredDate: new Date().toISOString(),
+          avatar: avatarDefault,
+          coverPhoto: coverDefault,
+          verified: false,
+          musicUrl: "",
+        };
+        users.push(newUser);
+        saveUsers(users);
+        currentUser = JSON.parse(JSON.stringify(newUser));
+        renderMainUI();
+        closeAuthModal();
+        Swal.fire({
+          title: "Đăng ký thành công",
+          text: "Nhận 2000đ",
+          icon: "success",
+          timer: 500,
+          showConfirmButton: false,
+        });
+      }
+      function logout() {
+        currentUser = null;
+        if (adminIdleTimer) clearTimeout(adminIdleTimer);
+        renderMainUI();
+        Swal.fire({
+          title: "Đã đăng xuất",
+          text: "",
+          icon: "info",
+          timer: 500,
+          showConfirmButton: false,
+        });
+      }
+      function openBuyModal(productId) {
+        if (!currentUser) {
+          Swal.fire({
+            title: "Cần đăng nhập",
+            text: "",
+            icon: "warning",
+            timer: 500,
+            showConfirmButton: false,
+          });
+          openAuthModal();
+          return;
+        }
+        const prod = products.find((p) => p.id === productId);
+        if (prod) {
+          currentBuyingProduct = prod;
+          document.getElementById("buyProdName").innerText = prod.name;
+          document.getElementById("buyProdPrice").innerHTML =
+            prod.price.toLocaleString() + "đ";
+          document.getElementById("userBalanceShow").innerText =
+            currentUser.balance;
+          document.getElementById("buyModalWin").style.display = "flex";
+        }
+      }
+      async function confirmPurchase() {
+        if (!currentBuyingProduct) return;
+        if (currentUser.balance < currentBuyingProduct.price) {
+          Swal.fire({
+            title: "Lỗi",
+            text: "Số dư không đủ. Vui lòng nạp thêm!",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+          closeBuyModal();
+          return;
+        }
+        const users = getUsers();
+        const idx = users.findIndex((u) => u.username === currentUser.username);
+        if (idx === -1) return;
+        users[idx].balance -= currentBuyingProduct.price;
+        users[idx].purchaseHistory.push({
+          productName: currentBuyingProduct.name,
+          price: currentBuyingProduct.price,
+          date: new Date().toISOString(),
+          downloadLink: currentBuyingProduct.downloadLink,
+        });
+        saveUsers(users);
+        currentUser = JSON.parse(JSON.stringify(users[idx]));
+        renderMainUI();
+        canvasConfetti({
+          particleCount: 180,
+          spread: 80,
+          colors: ["#ff88bb", "#ff4d7a"],
+        });
+        Swal.fire({
+          title: "Mua thành công!",
+          html: `Bạn đã mua <strong>${currentBuyingProduct.name}</strong> với giá <strong>${currentBuyingProduct.price.toLocaleString()}đ</strong><br>Link tải sẽ có trong mục <strong>Lịch sử</strong>.`,
+          icon: "success",
+          timer: 500,
+          showConfirmButton: false,
+        });
+        closeBuyModal();
+        setTimeout(() => {
+          document
+            .getElementById("history")
+            .scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+      function closeBuyModal() {
+        document.getElementById("buyModalWin").style.display = "none";
+        currentBuyingProduct = null;
+      }
+      async function sendDepositReq() {
+        if (!currentUser)
+          return Swal.fire({
+            title: "Cần đăng nhập",
+            text: "",
+            icon: "warning",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        const amount = parseInt(
+          document.getElementById("depositAmountInput").value,
+        );
+        if (!amount || amount <= 0)
+          return Swal.fire({
+            title: "Số tiền không hợp lệ",
+            text: "",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        const transactionId =
+          "DEP_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+        const newDeposit = {
+          id: transactionId,
+          username: currentUser.username,
+          amount,
+          status: "pending",
+          createdAt: new Date().toISOString(),
+        };
+        const deposits = getDeposits();
+        deposits.push(newDeposit);
+        saveDeposits(deposits);
+        Swal.fire({
+          title: `Chuyển khoản ${amount.toLocaleString()}đ`,
+          html: `<img src="https://img.vietqr.io/image/BIDV-8826353645-compact.png" width="200"/><br/><strong>Mã GD: ${transactionId}</strong><br/>Nội dung: NAP ${transactionId}<br/><small>Admin sẽ xác nhận sau khi bạn chuyển khoản</small>`,
+          confirmButtonText: "Tôi đã chuyển",
+          allowOutsideClick: false,
+        }).then(() => {
+          Swal.fire({
+            title: "Đã gửi yêu cầu",
+            text: "Vui lòng chờ admin xác nhận",
+            icon: "info",
+            timer: 500,
+            showConfirmButton: false,
+          });
+          if (currentUser && currentUser.isAdmin) loadPendingDeposits();
+        });
+      }
+      async function confirmDeposit(transactionId) {
+        if (!currentUser || !currentUser.isAdmin) return;
+        const deposits = getDeposits();
+        const deposit = deposits.find(
+          (d) => d.id === transactionId && d.status === "pending",
+        );
+        if (!deposit)
+          return Swal.fire({
+            title: "Lỗi",
+            text: "Không tìm thấy giao dịch",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        const users = getUsers();
+        const userIdx = users.findIndex((u) => u.username === deposit.username);
+        if (userIdx === -1)
+          return Swal.fire({
+            title: "Lỗi",
+            text: "Không tìm thấy người dùng",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        users[userIdx].balance += deposit.amount;
+        saveUsers(users);
+        deposit.status = "completed";
+        saveDeposits(deposits);
+        Swal.fire({
+          title: "Thành công",
+          text: `Đã cộng ${deposit.amount.toLocaleString()}đ cho ${deposit.username}`,
+          icon: "success",
+          timer: 500,
+          showConfirmButton: false,
+        });
+        if (currentUser.username === deposit.username) {
+          currentUser = JSON.parse(JSON.stringify(users[userIdx]));
+          renderMainUI();
+        }
+        loadPendingDeposits();
+        renderUserManageList();
+      }
+      async function loadPendingDeposits() {
+        if (!currentUser || !currentUser.isAdmin) return;
+        const deposits = getDeposits();
+        const pending = deposits.filter((d) => d.status === "pending");
+        const container = document.getElementById("pendingDepositsList");
+        if (!container) return;
+        if (pending.length === 0) {
+          container.innerHTML =
+            '<div class="card-luxury" style="padding:1rem">✅ Không có giao dịch nào đang chờ.</div>';
+          return;
+        }
+        container.innerHTML = pending
+          .map(
+            (tx) =>
+              `<div class="card-luxury" style="padding:1rem; margin-bottom:1rem;"><div><strong>Người dùng:</strong> ${tx.username}</div><div><strong>Số tiền:</strong> ${tx.amount.toLocaleString()}đ</div><div><strong>Mã GD:</strong> ${tx.id}</div><div><strong>Ngày tạo:</strong> ${new Date(tx.createdAt).toLocaleString()}</div><button class="btn-gold" onclick="confirmDeposit('${tx.id}')" style="margin-top:0.5rem;">✅ Xác nhận đã nhận tiền</button></div>`,
+          )
+          .join("");
+      }
+      async function addNewProduct() {
+        if (!currentUser || !currentUser.isAdmin)
+          return Swal.fire({
+            title: "Cấm",
+            text: "Bạn không phải admin",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        const name = document.getElementById("prodName").value;
+        const price = parseInt(document.getElementById("prodPrice").value);
+        if (!name || !price)
+          return Swal.fire({
+            title: "Thiếu thông tin",
+            text: "",
+            icon: "warning",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        const newId = Date.now().toString();
+        const newProduct = {
+          id: newId,
+          name,
+          price,
+          category: document.getElementById("prodCategory").value,
+          icon: document.getElementById("prodIcon").value,
+          desc: document.getElementById("prodDesc").value,
+          downloadLink: document.getElementById("prodDownloadLink").value,
+          demoUrl: document.getElementById("prodDemoLink").value.trim(),
+        };
+        products.push(newProduct);
+        saveProducts();
+        const activeCat =
+          document.querySelector(".chip.active")?.getAttribute("data-cat") ||
+          "all";
+        const keyword = document.getElementById("searchInput").value;
+        renderProductsGrid(activeCat, keyword);
+        refreshAdminList();
+        Swal.fire({
+          title: "Thành công",
+          text: "Đã thêm sản phẩm",
+          icon: "success",
+          timer: 500,
+          showConfirmButton: false,
+        });
+        document.getElementById("prodName").value = "";
+        document.getElementById("prodPrice").value = "";
+        document.getElementById("prodDesc").value = "";
+        document.getElementById("prodDownloadLink").value = "";
+        document.getElementById("prodDemoLink").value = "";
+      }
+      async function refreshAdminList() {
+        if (!currentUser || !currentUser.isAdmin) return;
+        const container = document.getElementById("adminProductList");
+        if (container)
+          container.innerHTML = products
+            .map(
+              (p) =>
+                `<div class="card-luxury" style="padding:1rem"><b>${p.name}</b> - ${p.price}đ<br>Demo: ${p.demoUrl ? "✅" : "❌"}<br><button class="btn-glow" onclick="deleteProd('${p.id}')">Xóa</button></div>`,
+            )
+            .join("");
+      }
+      function searchProducts() {
+        const kw = document.getElementById("searchInput").value;
+        const activeCat =
+          document.querySelector(".chip.active")?.getAttribute("data-cat") ||
+          "all";
+        renderProductsGrid(activeCat, kw);
+      }
+      function setFilterCat(cat) {
+        document
+          .querySelectorAll(".chip")
+          .forEach((c) => c.classList.remove("active"));
+        const activeChip = document.querySelector(`.chip[data-cat="${cat}"]`);
+        if (activeChip) activeChip.classList.add("active");
+        renderProductsGrid(cat, document.getElementById("searchInput").value);
+      }
+      function showDemo(productId) {
+        const prod = products.find((p) => p.id === productId);
+        if (!prod || !prod.demoUrl || prod.demoUrl.trim() === "") {
+          Swal.fire({
+            title: "Thông báo",
+            text: "Sản phẩm này chưa có demo.",
+            icon: "info",
+            timer: 500,
+            showConfirmButton: false,
+          });
+          return;
+        }
+        const demoContainer = document.getElementById("demoModalContent");
+        let url = prod.demoUrl;
+        let html = "";
+        if (url.match(/\.(mp4|webm|ogg)$/i))
+          html = `<video controls src="${url}" style="max-width:100%; max-height:350px;"></video>`;
+        else if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i))
+          html = `<img src="${url}" alt="Demo" style="max-width:100%; max-height:350px;">`;
+        else if (
+          url.includes("youtube.com/watch?v=") ||
+          url.includes("youtu.be/")
+        ) {
+          let videoId = "";
+          if (url.includes("youtube.com/watch?v="))
+            videoId = url.split("v=")[1].split("&")[0];
+          else if (url.includes("youtu.be/"))
+            videoId = url.split("youtu.be/")[1].split("?")[0];
+          if (videoId)
+            html = `<iframe width="100%" height="350" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+          else
+            html = `<iframe src="${url}" style="width:100%; height:350px;"></iframe>`;
+        } else
+          html = `<iframe src="${url}" style="width:100%; height:400px;"></iframe>`;
+        demoContainer.innerHTML = html;
+        document.getElementById("demoModal").style.display = "flex";
+      }
+      function closeDemoModal() {
+        document.getElementById("demoModal").style.display = "none";
+      }
+      function genHeartQR() {
+        const text = document.getElementById("qrContent").value;
+        if (!text)
+          return Swal.fire({
+            title: "Lỗi",
+            text: "Nhập nội dung",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+        document.getElementById("qrCanvas").innerHTML = "";
+        new QRCode(document.getElementById("qrCanvas"), {
+          text,
+          width: 200,
+          height: 200,
+        });
+        document.getElementById("qrResult").style.display = "block";
+      }
+      function downloadQR() {
+        const canvas = document.querySelector("#qrCanvas canvas");
+        if (canvas) {
+          const a = document.createElement("a");
+          a.download = "heart_qr.png";
+          a.href = canvas.toDataURL();
+          a.click();
+        }
+      }
+      function downloadItem(link) {
+        if (link && link.trim() !== "") window.open(link, "_blank");
+        else
+          Swal.fire({
+            title: "Lỗi",
+            text: "Link tải không hợp lệ",
+            icon: "error",
+            timer: 500,
+            showConfirmButton: false,
+          });
+      }
 
-  // Expose functions
-  window.deleteProd = deleteProd;
-  window.confirmDeposit = confirmDeposit;
-  window.setFilterCat = setFilterCat;
-  window.searchProducts = searchProducts;
-  window.openBuyModal = openBuyModal;
-  window.confirmPurchase = confirmPurchase;
-  window.closeBuyModal = closeBuyModal;
-  window.showDemo = showDemo;
-  window.closeDemoModal = closeDemoModal;
-  window.genHeartQR = genHeartQR;
-  window.downloadQR = downloadQR;
-  window.downloadItem = downloadItem;
-  window.navigateWithFunnyLoader = navigateWithFunnyLoader;
-  window.openAuthModal = openAuthModal;
-  window.closeAuthModal = closeAuthModal;
-  window.switchAuth = switchAuth;
-  window.loginUser = loginUser;
-  window.registerUser = registerUser;
-  window.logout = logout;
-  window.addNewProduct = addNewProduct;
-  window.refreshAdminList = refreshAdminList;
-  window.sendDepositReq = sendDepositReq;
-  window.openProfileModal = openProfileModal;
-  window.closeProfileModal = closeProfileModal;
-  window.updatePhone = updatePhone;
-  window.updateUserBalance = updateUserBalance;
-  window.toggleUserVerify = toggleUserVerify;
-  window.uploadBackgroundMusic = uploadBackgroundMusic;
-  window.resetBackgroundMusic = resetBackgroundMusic;
-</script>
-</body>
+      // ======================== GAME SYSTEM ========================
+      let activeGameInterval = null;
+      function closeGameModal() {
+        if (activeGameInterval) clearInterval(activeGameInterval);
+        document.getElementById("gameModal").style.display = "none";
+        document.getElementById("gameContainer").innerHTML = "";
+      }
+      async function rewardCoins(amount, gameName) {
+        if (!currentUser) {
+          Swal.fire("Chưa đăng nhập", "Đăng nhập để nhận thưởng xu!", "info");
+          return false;
+        }
+        let users = getUsers();
+        let idx = users.findIndex((u) => u.username === currentUser.username);
+        if (idx !== -1) {
+          users[idx].balance += amount;
+          saveUsers(users);
+          currentUser = users[idx];
+          renderMainUI();
+          Swal.fire(
+            `🎉 Nhận thưởng ${amount}đ`,
+            `Thành tích ${gameName} xuất sắc!`,
+            "success",
+          );
+          canvasConfetti({ particleCount: 100, spread: 70 });
+          return true;
+        }
+        return false;
+      }
+      function openGame(gameId) {
+        document.getElementById("gameTitle").innerHTML =
+          gameId === "flappy"
+            ? "🐦 Flappy Bird"
+            : gameId === "clicker"
+              ? "⚡ Click Speed"
+              : gameId === "memory"
+                ? "🧠 Memory Cards"
+                : "🐍 Snake Game";
+        let container = document.getElementById("gameContainer");
+        container.innerHTML = "";
+        if (gameId === "flappy") initFlappy(container);
+        else if (gameId === "clicker") initClicker(container);
+        else if (gameId === "memory") initMemory(container);
+        else if (gameId === "snake") initSnake(container);
+        document.getElementById("gameModal").style.display = "flex";
+      }
+      function initFlappy(container) {
+        const canvas = document.createElement("canvas");
+        canvas.width = 400;
+        canvas.height = 500;
+        canvas.className = "game-canvas";
+        container.appendChild(canvas);
+        const ctx = canvas.getContext("2d");
+        let bird = {
+          x: 80,
+          y: 200,
+          radius: 12,
+          vy: 0,
+          gravity: 0.2,
+          jump: -4.5,
+        };
+        let pipes = [],
+          frame = 0,
+          score = 0,
+          gameOver = false;
+        let pipeGap = 130,
+          pipeWidth = 50,
+          pipeInterval = 90;
+        function addPipe() {
+          let topHeight = Math.random() * (canvas.height - pipeGap - 60) + 30;
+          pipes.push({
+            x: canvas.width,
+            top: topHeight,
+            bottom: topHeight + pipeGap,
+            counted: false,
+          });
+        }
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#1e2a3a";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#ffcc88";
+          ctx.beginPath();
+          ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#47c47c";
+          for (let p of pipes) {
+            ctx.fillRect(p.x, 0, pipeWidth, p.top);
+            ctx.fillRect(p.x, p.bottom, pipeWidth, canvas.height - p.bottom);
+          }
+          ctx.fillStyle = "white";
+          ctx.font = "bold 24px Inter";
+          ctx.fillText("Score: " + score, 20, 50);
+          if (gameOver) {
+            ctx.fillStyle = "red";
+            ctx.font = "bold 28px Inter";
+            ctx.fillText("GAME OVER", canvas.width / 2 - 90, canvas.height / 2);
+            ctx.fillStyle = "white";
+            ctx.font = "18px Inter";
+            ctx.fillText(
+              "Click để chơi lại",
+              canvas.width / 2 - 80,
+              canvas.height / 2 + 40,
+            );
+          }
+        }
+        function update() {
+          if (gameOver) return;
+          bird.vy += bird.gravity;
+          bird.y += bird.vy;
+          if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0)
+            gameOver = true;
+          for (let i = 0; i < pipes.length; i++) {
+            pipes[i].x -= 2.5;
+            if (!pipes[i].counted && pipes[i].x + pipeWidth < bird.x) {
+              pipes[i].counted = true;
+              score++;
+              if (score === 10 && !rewardedFlappy) {
+                rewardCoins(500, "Flappy Bird 10 điểm");
+                rewardedFlappy = true;
+              }
+            }
+            if (
+              bird.x + bird.radius > pipes[i].x &&
+              bird.x - bird.radius < pipes[i].x + pipeWidth &&
+              (bird.y - bird.radius < pipes[i].top ||
+                bird.y + bird.radius > pipes[i].bottom)
+            )
+              gameOver = true;
+          }
+          if (pipes.length && pipes[0].x + pipeWidth < 0) pipes.shift();
+          frame++;
+          if (frame % pipeInterval === 0) addPipe();
+          draw();
+        }
+        function jump() {
+          if (!gameOver) {
+            bird.vy = bird.jump;
+          } else {
+            reset();
+          }
+        }
+        function reset() {
+          bird.y = 200;
+          bird.vy = 0;
+          pipes = [];
+          score = 0;
+          frame = 0;
+          gameOver = false;
+          rewardedFlappy = false;
+          addPipe();
+          addPipe();
+        }
+        let rewardedFlappy = false;
+        addPipe();
+        addPipe();
+        let gameLoop = setInterval(() => {
+          update();
+        }, 20);
+        canvas.addEventListener("click", jump);
+        document.addEventListener("keydown", (e) => {
+          if (e.code === "Space") jump();
+        });
+        activeGameInterval = gameLoop;
+      }
+      function initClicker(container) {
+        const div = document.createElement("div");
+        div.style.textAlign = "center";
+        const timeLeftSpan = document.createElement("h2");
+        timeLeftSpan.innerText = "Thời gian: 5s";
+        const scoreSpan = document.createElement("h2");
+        scoreSpan.innerText = "Clicks: 0";
+        const btn = document.createElement("button");
+        btn.innerText = "Click here!";
+        btn.className = "btn-gold";
+        btn.style.fontSize = "1.8rem";
+        btn.style.padding = "1rem 2rem";
+        let clicks = 0,
+          time = 5,
+          active = true,
+          rewarded = false;
+        const countdown = setInterval(() => {
+          if (active) {
+            time--;
+            timeLeftSpan.innerText = `Thời gian: ${time}s`;
+            if (time <= 0) {
+              active = false;
+              btn.disabled = true;
+              if (clicks >= 20 && !rewarded) {
+                rewardCoins(300, "Click Speed 20+ clicks");
+                rewarded = true;
+              }
+              clearInterval(countdown);
+            }
+          }
+        }, 1000);
+        btn.onclick = () => {
+          if (active) clicks++;
+          scoreSpan.innerText = `Clicks: ${clicks}`;
+        };
+        div.appendChild(timeLeftSpan);
+        div.appendChild(scoreSpan);
+        div.appendChild(btn);
+        container.appendChild(div);
+        activeGameInterval = countdown;
+      }
+      function initMemory(container) {
+        const icons = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼"];
+        let cards = [...icons, ...icons];
+        for (let i = cards.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+        let opened = [],
+          matched = [],
+          lock = false,
+          gameCompleted = false;
+        const grid = document.createElement("div");
+        grid.style.display = "grid";
+        grid.style.gridTemplateColumns = "repeat(4,80px)";
+        grid.style.gap = "10px";
+        grid.style.justifyContent = "center";
+        function render() {
+          grid.innerHTML = "";
+          cards.forEach((c, i) => {
+            let card = document.createElement("div");
+            card.style.background = matched.includes(i)
+              ? "#2ecc71"
+              : opened.includes(i)
+                ? "#ff88bb"
+                : "#2c3e50";
+            card.style.height = "80px";
+            card.style.borderRadius = "1rem";
+            card.style.display = "flex";
+            card.style.alignItems = "center";
+            card.style.justifyContent = "center";
+            card.style.fontSize = "2rem";
+            card.style.cursor = "pointer";
+            card.style.transition = "0.2s";
+            if (opened.includes(i) || matched.includes(i)) card.innerText = c;
+            card.onclick = () => {
+              if (
+                lock ||
+                matched.includes(i) ||
+                opened.includes(i) ||
+                gameCompleted
+              )
+                return;
+              opened.push(i);
+              render();
+              if (opened.length === 2) {
+                lock = true;
+                setTimeout(() => {
+                  if (cards[opened[0]] === cards[opened[1]]) {
+                    matched.push(...opened);
+                    if (matched.length === cards.length && !gameCompleted) {
+                      gameCompleted = true;
+                      rewardCoins(400, "Memory Cards hoàn thành");
+                      closeGameModal();
+                    }
+                  }
+                  opened = [];
+                  render();
+                  lock = false;
+                }, 500);
+              }
+            };
+            grid.appendChild(card);
+          });
+        }
+        render();
+        container.appendChild(grid);
+        activeGameInterval = null;
+      }
+      function initSnake(container) {
+        const canvas = document.createElement("canvas");
+        canvas.width = 400;
+        canvas.height = 400;
+        canvas.className = "game-canvas";
+        container.appendChild(canvas);
+        const ctx = canvas.getContext("2d");
+        let snake = [{ x: 200, y: 200 }],
+          dir = "RIGHT",
+          food = { x: 100, y: 100 },
+          score = 0,
+          gameOver = false,
+          cell = 20,
+          rewarded = false;
+        function randomFood() {
+          food = {
+            x: Math.floor(Math.random() * (canvas.width / cell)) * cell,
+            y: Math.floor(Math.random() * (canvas.height / cell)) * cell,
+          };
+          if (snake.some((s) => s.x === food.x && s.y === food.y)) randomFood();
+        }
+        function draw() {
+          ctx.fillStyle = "#0a0c1a";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#ff88bb";
+          for (let s of snake) {
+            ctx.fillRect(s.x, s.y, cell - 2, cell - 2);
+          }
+          ctx.fillStyle = "#ffd966";
+          ctx.fillRect(food.x, food.y, cell - 2, cell - 2);
+          ctx.fillStyle = "white";
+          ctx.font = "20px Inter";
+          ctx.fillText("Điểm: " + score, 10, 30);
+          if (gameOver) {
+            ctx.fillStyle = "red";
+            ctx.font = "bold 28px Inter";
+            ctx.fillText("GAME OVER", canvas.width / 2 - 90, canvas.height / 2);
+          }
+        }
+        function update() {
+          if (gameOver) return;
+          let head = { ...snake[0] };
+          if (dir === "RIGHT") head.x += cell;
+          if (dir === "LEFT") head.x -= cell;
+          if (dir === "UP") head.y -= cell;
+          if (dir === "DOWN") head.y += cell;
+          if (
+            head.x < 0 ||
+            head.x >= canvas.width ||
+            head.y < 0 ||
+            head.y >= canvas.height ||
+            snake.some((s) => s.x === head.x && s.y === head.y)
+          ) {
+            gameOver = true;
+            if (score >= 5 && !rewarded) {
+              rewardCoins(500, "Snake đạt 5 điểm");
+              rewarded = true;
+            }
+            return;
+          }
+          snake.unshift(head);
+          if (head.x === food.x && head.y === food.y) {
+            score++;
+            randomFood();
+          } else snake.pop();
+          draw();
+        }
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight" && dir !== "LEFT") dir = "RIGHT";
+          if (e.key === "ArrowLeft" && dir !== "RIGHT") dir = "LEFT";
+          if (e.key === "ArrowUp" && dir !== "DOWN") dir = "UP";
+          if (e.key === "ArrowDown" && dir !== "UP") dir = "DOWN";
+        });
+        randomFood();
+        let loop = setInterval(() => {
+          update();
+        }, 120);
+        activeGameInterval = loop;
+      }
+
+      // Loader & UI
+      const funnyMessages = [
+        {
+          icon: "😂",
+          text: "Đang tải... chờ xíu cưng ơi!",
+          sub: "Tốc độ rùa bò =))",
+        },
+        {
+          icon: "🤣",
+          text: "Loading... đừng có gấp!",
+          sub: "Sắp xong rồi nha ba...",
+        },
+        {
+          icon: "😜",
+          text: "Trời ơi, đợi tí đi má!",
+          sub: "Mạng như con chuột chạy",
+        },
+      ];
+      async function navigateWithFunnyLoader(sectionId) {
+        const loader = document.getElementById("funnyLoader");
+        const iconEl = document.getElementById("loaderFunIcon");
+        const textEl = document.getElementById("loaderFunText");
+        const subEl = document.getElementById("loaderSubText");
+        const progressFill = document.getElementById("loaderProgressFill");
+        const randomMsg =
+          funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+        if (iconEl) iconEl.innerHTML = randomMsg.icon;
+        if (textEl) textEl.innerHTML = randomMsg.text;
+        if (subEl) subEl.innerHTML = randomMsg.sub;
+        if (loader) loader.classList.add("active");
+        let width = 0;
+        const interval = setInterval(() => {
+          width += 10;
+          if (progressFill) progressFill.style.width = width + "%";
+          if (width >= 100) clearInterval(interval);
+        }, 60);
+        await new Promise((resolve) => setTimeout(resolve, 650));
+        const target = document.getElementById(sectionId);
+        if (target)
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(() => {
+          if (loader) loader.classList.remove("active");
+          if (progressFill) progressFill.style.width = "0%";
+        }, 300);
+      }
+      function openAuthModal() {
+        document.getElementById("authModalWin").style.display = "flex";
+      }
+      function closeAuthModal() {
+        document.getElementById("authModalWin").style.display = "none";
+      }
+      function switchAuth(type) {
+        document.getElementById("loginFormDiv").style.display =
+          type === "login" ? "block" : "none";
+        document.getElementById("registerFormDiv").style.display =
+          type === "register" ? "block" : "none";
+      }
+
+      let logoClickCount = 0,
+        logoClickTimeout = null;
+      function setupSecretAdminTrigger() {
+        const logoElement = document.getElementById("secretAdminLogo");
+        if (!logoElement) return;
+        logoElement.addEventListener("click", (e) => {
+          e.stopPropagation();
+          logoClickCount++;
+          if (logoClickTimeout) clearTimeout(logoClickTimeout);
+          logoClickTimeout = setTimeout(() => {
+            logoClickCount = 0;
+          }, 2000);
+          if (logoClickCount >= 3) {
+            logoClickCount = 0;
+            Swal.fire({
+              title: "Xác thực Admin",
+              input: "password",
+              inputPlaceholder: "Nhập mật khẩu admin",
+              showCancelButton: true,
+              confirmButtonText: "Xác nhận",
+            }).then((result) => {
+              if (result.isConfirmed && result.value === "admin123") {
+                if (currentUser) currentUser.isAdmin = true;
+                else {
+                  const users = getUsers();
+                  const adminUser = users.find((u) => u.username === "admin");
+                  if (adminUser)
+                    currentUser = JSON.parse(JSON.stringify(adminUser));
+                }
+                renderMainUI();
+                Swal.fire({
+                  title: "Thành công",
+                  text: "Đã mở chế độ Admin!",
+                  icon: "success",
+                  timer: 500,
+                  showConfirmButton: false,
+                });
+                document
+                  .getElementById("adminPanel")
+                  .scrollIntoView({ behavior: "smooth" });
+              } else if (result.isConfirmed)
+                Swal.fire({
+                  title: "Sai mật khẩu",
+                  text: "",
+                  icon: "error",
+                  timer: 500,
+                  showConfirmButton: false,
+                });
+            });
+          }
+        });
+      }
+
+      function renderFilters() {
+        const cats = ["all", "python", "website", "love", "qrlove"];
+        const container = document.getElementById("filterChips");
+        if (container)
+          container.innerHTML = cats
+            .map(
+              (cat) =>
+                `<div class="chip ${cat === "all" ? "active" : ""}" data-cat="${cat}" onclick="setFilterCat('${cat}')">${cat.toUpperCase()}</div>`,
+            )
+            .join("");
+      }
+      const slogan =
+        "✦ Nơi hội tụ code xịn, nhận làm web, các sự kiện , code tình yêu theo yêu cầu ib ngay... ✦";
+      let idxChar = 0;
+      function typeSlogan() {
+        const sloganEl = document.getElementById("sloganText");
+        if (sloganEl && idxChar < slogan.length) {
+          sloganEl.innerHTML += slogan.charAt(idxChar);
+          idxChar++;
+          setTimeout(typeSlogan, 45);
+        }
+      }
+      const revealSections = document.querySelectorAll(".reveal-section");
+      const checkReveal = () => {
+        revealSections.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 100) el.classList.add("revealed");
+        });
+      };
+      for (let i = 0; i < 70; i++) {
+        let p = document.createElement("div");
+        p.classList.add("particle-3d");
+        let size = Math.random() * 6 + 2;
+        p.style.width = size + "px";
+        p.style.height = size + "px";
+        p.style.left = Math.random() * 100 + "%";
+        p.style.animationDuration = Math.random() * 12 + 6 + "s";
+        p.style.animationDelay = Math.random() * 8 + "s";
+        document.getElementById("particleContainer").appendChild(p);
+      }
+      setInterval(() => {
+        const type = Math.random() > 0.6 ? "heart" : "snow";
+        const el = document.createElement("i");
+        el.className =
+          type === "heart" ? "fas fa-heart heart" : "fas fa-snowflake snow";
+        el.style.left = Math.random() * 100 + "%";
+        el.style.fontSize = Math.random() * 20 + 10 + "px";
+        el.style.color = type === "heart" ? "#ff88bb" : "#bbddff";
+        el.style.animationDuration = Math.random() * 5 + 4 + "s";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }, 800);
+      window.addEventListener("scroll", () => {
+        const nav = document.getElementById("mainNav");
+        if (nav) nav.classList.toggle("scrolled", window.scrollY > 60);
+        checkReveal();
+      });
+      async function init() {
+        loadDataFromStorage();
+        renderFilters();
+        renderProductsGrid();
+        setupSecretAdminTrigger();
+        currentUser = null;
+        renderMainUI();
+        typeSlogan();
+        checkReveal();
+        attachIdleEvents();
+        loadBgMusicFromStorage();
+      }
+      init();
+
+      // Expose functions
+      window.deleteProd = deleteProd;
+      window.confirmDeposit = confirmDeposit;
+      window.setFilterCat = setFilterCat;
+      window.searchProducts = searchProducts;
+      window.openBuyModal = openBuyModal;
+      window.confirmPurchase = confirmPurchase;
+      window.closeBuyModal = closeBuyModal;
+      window.showDemo = showDemo;
+      window.closeDemoModal = closeDemoModal;
+      window.genHeartQR = genHeartQR;
+      window.downloadQR = downloadQR;
+      window.downloadItem = downloadItem;
+      window.navigateWithFunnyLoader = navigateWithFunnyLoader;
+      window.openAuthModal = openAuthModal;
+      window.closeAuthModal = closeAuthModal;
+      window.switchAuth = switchAuth;
+      window.loginUser = loginUser;
+      window.registerUser = registerUser;
+      window.logout = logout;
+      window.addNewProduct = addNewProduct;
+      window.refreshAdminList = refreshAdminList;
+      window.sendDepositReq = sendDepositReq;
+      window.openProfileModal = openProfileModal;
+      window.closeProfileModal = closeProfileModal;
+      window.updatePhone = updatePhone;
+      window.updateUserBalance = updateUserBalance;
+      window.toggleUserVerify = toggleUserVerify;
+      window.uploadBackgroundMusic = uploadBackgroundMusic;
+      window.resetBackgroundMusic = resetBackgroundMusic;
+      window.openGame = openGame;
+      window.closeGameModal = closeGameModal;
+    </script>
+    <!-- ========== CHATBOT AI THÔNG MINH ========== -->
+    <style>
+      .chatbot-container {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        z-index: 20000;
+        font-family: "Inter", sans-serif;
+      }
+      .chatbot-toggle {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #ff6a9e, #ff3d6c);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 5px 20px rgba(255, 61, 108, 0.5);
+        transition: 0.3s;
+        border: 2px solid #ffb7d2;
+      }
+      .chatbot-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(255, 61, 108, 0.8);
+      }
+      .chatbot-toggle i {
+        font-size: 2rem;
+        color: white;
+      }
+      .chatbot-window {
+        position: absolute;
+        bottom: 80px;
+        right: 0;
+        width: 350px;
+        height: 500px;
+        background: rgba(15, 18, 35, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        border: 1px solid #ff88bb;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+        transform-origin: bottom right;
+      }
+      .chatbot-window.hidden {
+        transform: scale(0);
+        opacity: 0;
+        visibility: hidden;
+      }
+      .chatbot-header {
+        background: rgba(255, 100, 150, 0.2);
+        padding: 12px 15px;
+        border-bottom: 1px solid #ff88bb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .chatbot-header h3 {
+        font-size: 1.1rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .chatbot-header h3 i {
+        color: #ff88bb;
+      }
+      .chatbot-header button {
+        background: none;
+        border: none;
+        color: #ff88bb;
+        font-size: 1.3rem;
+        cursor: pointer;
+      }
+      .chatbot-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .message {
+        max-width: 85%;
+        padding: 8px 12px;
+        border-radius: 18px;
+        font-size: 0.9rem;
+        word-wrap: break-word;
+        animation: fadeInMsg 0.2s ease;
+      }
+      @keyframes fadeInMsg {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .user-msg {
+        background: #ff6a9e;
+        color: white;
+        align-self: flex-end;
+        border-bottom-right-radius: 5px;
+      }
+      .bot-msg {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 136, 187, 0.5);
+        align-self: flex-start;
+        border-bottom-left-radius: 5px;
+      }
+      .chatbot-input-area {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ff88bb;
+        background: rgba(0, 0, 0, 0.3);
+        gap: 8px;
+      }
+      .chatbot-input-area input {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid #ff98bb;
+        border-radius: 2rem;
+        padding: 8px 15px;
+        color: white;
+        outline: none;
+      }
+      .chatbot-input-area button {
+        background: #ff6a9e;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        color: white;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .chatbot-input-area button:hover {
+        transform: scale(1.05);
+      }
+      @media (max-width: 500px) {
+        .chatbot-window {
+          width: 300px;
+          height: 450px;
+          right: -10px;
+        }
+      }
+    </style>
+
+    <div class="chatbot-container">
+      <div class="chatbot-toggle" id="chatbotToggle">
+        <i class="fas fa-comment-dots"></i>
+      </div>
+      <div class="chatbot-window hidden" id="chatbotWindow">
+        <div class="chatbot-header">
+          <h3><i class="fas fa-robot"></i> Trợ lý ảo HuuDat</h3>
+          <button id="closeChatbot"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+          <div class="message bot-msg">
+            Chào bạn! Mình là trợ lý AI của shop ❄️ Winter Cloud. Hãy hỏi mình
+            bất cứ điều gì về sản phẩm, game, nạp tiền, hướng dẫn nhé!
+          </div>
+        </div>
+        <div class="chatbot-input-area">
+          <input type="text" id="chatbotInput" placeholder="Nhập câu hỏi..." />
+          <button id="chatbotSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // Hàm xử lý câu hỏi và trả lời thông minh dựa trên từ khóa + ngữ cảnh
+        function smartBotReply(userMsg) {
+          let msg = userMsg
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, ""); // bỏ dấu
+          // Xử lý các câu hỏi thường gặp
+          if (
+            msg.includes("chao") ||
+            msg.includes("hi") ||
+            msg.includes("hello") ||
+            msg.includes("xin chào")
+          )
+            return "Chào bạn! Rất vui được gặp bạn. Cần mình giúp gì không ạ? 😊";
+          if (msg.includes("cam on") || msg.includes("cảm ơn"))
+            return "Không có gì đâu bạn! Nếu cần thêm gì cứ hỏi mình nhé ❤️";
+          if (msg.includes("ban la ai") || msg.includes("bạn là ai"))
+            return "Mình là trợ lý ảo của shop HuuDatDev - Winter Cloud. Mình có thể hướng dẫn bạn mua hàng, chơi game, nạp tiền, và mọi thứ về web này!";
+          if (
+            msg.includes("lam sao mua") ||
+            msg.includes("cach mua") ||
+            msg.includes("mua san pham") ||
+            msg.includes("mua hàng")
+          )
+            return "Để mua sản phẩm, bạn cần đăng nhập (hoặc đăng ký), sau đó vào mục Sản phẩm, chọn sản phẩm ưng ý và bấm 'Mua ngay'. Hệ thống sẽ trừ tiền trong ví và gửi link tải về lịch sử mua hàng. Nếu chưa đủ tiền, hãy nạp thêm nhé!";
+          if (
+            msg.includes("nap tien") ||
+            msg.includes("cách nạp") ||
+            msg.includes("nạp thẻ") ||
+            msg.includes("chuyển khoản")
+          )
+            return "Bạn vào mục 'Nạp tiền' trên menu, xem thông tin tài khoản BIDV của shop, chuyển khoản với nội dung NAP + mã giao dịch (hệ thống tự tạo). Sau đó admin sẽ xác nhận và cộng tiền vào ví. Số dư sẽ hiện trên thanh navbar.";
+          if (
+            msg.includes("game") ||
+            msg.includes("trò chơi") ||
+            msg.includes("chơi game") ||
+            msg.includes("nhận thưởng")
+          )
+            return "Shop có 4 game: Flappy Bird, Click Speed, Memory Cards, Snake Game. Vào mục 'Game Zone' để chơi. Khi đạt thành tích (Flappy 10 điểm, Click 20 lần, Memory hoàn thành, Snake 5 điểm) bạn sẽ được thưởng xu từ 300-500đ. Hãy đăng nhập để nhận thưởng nhé!";
+          if (msg.includes("dang nhap") || msg.includes("login"))
+            return "Nhấn nút 'Đăng nhập' ở góc phải trên cùng, nhập tên và mật khẩu. Nếu chưa có tài khoản, hãy đăng ký để được tặng 2000đ.";
+          if (
+            msg.includes("dang ky") ||
+            msg.includes("register") ||
+            msg.includes("tạo tài khoản")
+          )
+            return "Đăng ký rất đơn giản: bấm nút Đăng nhập -> chuyển sang tab Đăng ký, điền thông tin, mật khẩu tối thiểu 4 ký tự. Sau khi đăng ký thành công bạn nhận 2000đ vào ví.";
+          if (msg.includes("quen mat khau") || msg.includes("quên mật khẩu"))
+            return "Hiện tại hệ thống chưa có chức năng lấy lại mật khẩu. Bạn vui lòng liên hệ admin qua Facebook (Đinh Hữu Đạt) để được hỗ trợ nhé!";
+          if (
+            msg.includes("tik xanh") ||
+            msg.includes("verified") ||
+            msg.includes("xác minh")
+          )
+            return "Tik xanh là biểu tượng xác minh tài khoản. Chỉ Admin mới có quyền cấp tik xanh cho người dùng. Khi có tik xanh, bạn sẽ hiển thị dấu tích cạnh avatar trên thanh navbar và trong profile.";
+          if (msg.includes("admin") || msg.includes("quản trị"))
+            return "Admin là chủ shop - Đinh Hữu Đạt. Admin có thể thêm sửa xóa sản phẩm, xác nhận nạp tiền, cấp tik xanh, quản lý người dùng. Nếu bạn muốn trở thành admin, hãy liên hệ trực tiếp với chủ shop nhé.";
+          if (
+            msg.includes("doi avatar") ||
+            msg.includes("thay avatar") ||
+            msg.includes("ảnh đại diện")
+          )
+            return "Bạn vào Profile (bấm vào avatar trên navbar) -> chọn 'Đổi avatar' -> tải ảnh lên. Hệ thống sẽ tự cập nhật avatar mới ngay lập tức.";
+          if (
+            msg.includes("doi anh bia") ||
+            msg.includes("cover") ||
+            msg.includes("ảnh bìa")
+          )
+            return "Tương tự như đổi avatar, trong Profile có nút 'Đổi ảnh bìa'. Chọn file ảnh từ máy, ảnh bìa sẽ được cập nhật.";
+          if (
+            msg.includes("nhac nen") ||
+            msg.includes("background music") ||
+            msg.includes("thay nhạc")
+          )
+            return "Admin có thể thay đổi nhạc nền toàn bộ website bằng cách vào Admin Panel -> Quản lý nhạc nền -> upload file MP3. Người dùng thường có thể thay nhạc nền cá nhân trong Profile (mục Nhạc nền cá nhân).";
+          if (
+            msg.includes("lich su") ||
+            msg.includes("đơn hàng") ||
+            msg.includes("đã mua")
+          )
+            return "Bạn xem lịch sử mua hàng bằng cách bấm vào mục 'Lịch sử' trên navbar hoặc bấm vào số dư ví. Tại đó bạn có thể tải lại sản phẩm đã mua.";
+          if (
+            msg.includes("ho tro") ||
+            msg.includes("support") ||
+            msg.includes("liên hệ")
+          )
+            return "Mọi thắc mắc xin liên hệ Facebook: Đinh Hữu Đạt (có link trên trang chủ). Mình sẽ hỗ trợ nhiệt tình 24/7.";
+          if (
+            msg.includes("gia") ||
+            msg.includes("giá") ||
+            msg.includes("bao nhiêu tiền")
+          )
+            return "Mỗi sản phẩm đều hiển thị giá rõ ràng. Bạn có thể xem trong mục Sản phẩm. Giá từ 25.000đ đến 199.000đ tùy sản phẩm.";
+          if (msg.includes("demo") || msg.includes("xem trước"))
+            return "Với sản phẩm có hỗ trợ demo, bạn bấm nút 'Xem demo' trên thẻ sản phẩm để xem video hoặc ảnh minh họa.";
+          if (
+            msg.includes("qr") ||
+            msg.includes("mã qr") ||
+            msg.includes("tạo qr")
+          )
+            return "Mục QR Yêu cho phép bạn nhập link hoặc lời nhắn và tạo mã QR đáng yêu. Có thể tải về máy.";
+          if (msg.includes("cảm ơn") || msg.includes("thanks"))
+            return "Ủa ủi bạn! Chúc bạn có trải nghiệm vui vẻ tại Winter Cloud <3";
+          // Câu hỏi mở rộng
+          return "Mình chưa hiểu rõ câu hỏi của bạn lắm. Bạn có thể hỏi về: cách mua hàng, nạp tiền, chơi game, đổi avatar, tik xanh, hoặc liên hệ admin. Mình sẽ cố gắng trả lời chi tiết nhất!";
+        }
+
+        // DOM elements
+        const toggleBtn = document.getElementById("chatbotToggle");
+        const closeBtn = document.getElementById("closeChatbot");
+        const windowChat = document.getElementById("chatbotWindow");
+        const messagesDiv = document.getElementById("chatbotMessages");
+        const inputField = document.getElementById("chatbotInput");
+        const sendBtn = document.getElementById("chatbotSend");
+
+        function addMessage(text, isUser) {
+          const msgDiv = document.createElement("div");
+          msgDiv.className = `message ${isUser ? "user-msg" : "bot-msg"}`;
+          msgDiv.innerText = text;
+          messagesDiv.appendChild(msgDiv);
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function handleSend() {
+          let userText = inputField.value.trim();
+          if (userText === "") return;
+          addMessage(userText, true);
+          inputField.value = "";
+          setTimeout(() => {
+            const reply = smartBotReply(userText);
+            addMessage(reply, false);
+          }, 300);
+        }
+
+        toggleBtn.onclick = () => {
+          windowChat.classList.toggle("hidden");
+        };
+        closeBtn.onclick = () => {
+          windowChat.classList.add("hidden");
+        };
+        sendBtn.onclick = handleSend;
+        inputField.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") handleSend();
+        });
+      })();
+    </script>
+  </body>
 </html>
